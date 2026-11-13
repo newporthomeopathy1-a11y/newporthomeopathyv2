@@ -11,7 +11,7 @@ import { clinic, fees } from '../data/site';
 >
   <PageIntro
     h1="What to Expect at Your Consultation"
-    lead={`Your first consultation with ${clinic.practitioner} lasts ${fees.initial.duration} and costs £${fees.initial.price}. It is a detailed, private conversation about your health history, lifestyle and wellbeing, in Newport or online.`}
+    lead={`Your first appointment with ${clinic.practitioner} is a private, one-to-one conversation.`}
   />
   <section class="section-top-none">
     <div class="container prose">
@@ -20,13 +20,13 @@ import { clinic, fees } from '../data/site';
       <h2>How to prepare</h2>
       <ul>
         <li>A list of any medicines and supplements you take.</li>
-        <li>Allow up to 90 minutes.</li>
+        <li>The initial appointment lasts {fees.initial.duration}.</li>
       </ul>
       <h2>During and after</h2>
-      <p>Kavita asks about your health history, lifestyle and wellbeing. Follow-ups are usually {fees.followUp.interval} (£{fees.followUp.price}).</p>
+      <p>Kavita asks about your health history, lifestyle and wellbeing. Follow-ups are usually {fees.followUp.interval}.</p>
       <p>Please keep seeing your GP and do not stop or change prescribed medication without medical advice.</p>
       <p><a href="/homeopathy-consultations/">In person</a> · <a href="/online-homeopathy-consultation/">Online</a> · <a href="/consultation-fees/">Fees</a></p>
     </div>
   </section>
-  <CtaBlock />
+  <CtaBlock text="" />
 </Base>

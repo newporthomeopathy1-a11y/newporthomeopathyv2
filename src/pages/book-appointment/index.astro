@@ -1,8 +1,8 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageIntro from '../../components/PageIntro.astro';
-import Icon from '../../components/Icon.astro';
-import { clinic, fees } from '../../data/site';
+import CtaBlock from '../../components/CtaBlock.astro';
+import { fees } from '../../data/site';
 
 // Server-rendered so errors returned by /api/enquiry show even without JavaScript (spec Part 4).
 export const prerender = false;
@@ -37,13 +37,8 @@ const bookingEmbed = import.meta.env.PUBLIC_BOOKING_EMBED_URL ?? ''; // Setmore 
 >
   <PageIntro
     h1="Book a Consultation"
-    lead={`Initial consultation £${fees.initial.price}, follow-up £${fees.followUp.price}, free 15-minute chat. In Newport or online. We reply within one working day.`}
-  >
-    <div class="contact-options">
-      <a href={`tel:${clinic.phoneTel}`} class="contact-option" data-track="click_call" data-loc="page"><span class="card-icon"><Icon name="phone" /></span><span><strong>Call {clinic.phoneDisplay}</strong><small>{clinic.hoursShort}</small></span></a>
-      <a href={clinic.whatsapp} class="contact-option" rel="noopener" data-track="click_whatsapp" data-loc="page"><span class="card-icon"><Icon name="whatsapp" /></span><span><strong>WhatsApp</strong><small>Message any time, we reply within one working day</small></span></a>
-    </div>
-  </PageIntro>
+    lead="Request a consultation in person, online or by phone, or a free discovery chat. We reply within one working day."
+  />
 
   <section class="booking-form-section">
     <div class="container text-col">
@@ -136,4 +131,5 @@ const bookingEmbed = import.meta.env.PUBLIC_BOOKING_EMBED_URL ?? ''; // Setmore 
       )}
     </div>
   </section>
+  <CtaBlock text="" />
 </Base>

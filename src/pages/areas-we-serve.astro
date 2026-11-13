@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
-import { areas, addressLine } from '../data/site';
+import { areas } from '../data/site';
 ---
 <Base
   title="Homeopath near Telford & Shropshire | Newport Homeopathy"
@@ -11,25 +11,14 @@ import { areas, addressLine } from '../data/site';
 >
   <PageIntro
     h1="Areas We Serve"
-    lead={`Newport Homeopathy Clinic is at ${addressLine}, easy to reach from Telford and across east Shropshire and west Staffordshire. Online consultations are available anywhere in the UK.`}
+    lead="The Newport clinic serves nearby areas across east Shropshire and west Staffordshire. Online consultations are available anywhere in the UK."
   />
   <section class="section-top-none">
-    <div class="container">
-      <!-- TODO(open item 14): clinic to confirm drive times, parking and step-free access -->
-      <div class="grid-3">
-        {areas.map((a) => (
-          <article class="card area-card">
-            <h2 class="area-card-title">{a.name}</h2>
-            <p>{a.note}</p>
-          </article>
-        ))}
-        <article class="card area-card">
-          <h2 class="area-card-title">Anywhere in the UK</h2>
-          <p><a href="/online-homeopathy-consultation/">Online consultations</a> by video call.</p>
-        </article>
-      </div>
-      <p class="section-note">Drive times are approximate. <a href="/contact/">Directions</a> · <a href="/consultation-fees/">Fees</a></p>
+    <div class="container prose">
+      <h2>Nearby areas</h2>
+      <p>{areas.join(', ')}.</p>
+      <p><a href="/online-homeopathy-consultation/">Online consultations</a> · <a href="/contact/">Directions</a> · <a href="/consultation-fees/">Fees</a></p>
     </div>
   </section>
-  <CtaBlock />
+  <CtaBlock text="" />
 </Base>

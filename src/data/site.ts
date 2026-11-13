@@ -49,28 +49,20 @@ export const gpStatementShort =
 // Services the clinic offers. Describes the service only, never conditions or results (spec Part 3 / ASA).
 export const services = [
   {
-    icon: 'pin', title: 'In-person consultation', href: '/homeopathy-consultations/',
+    title: 'In-person consultation', href: '/homeopathy-consultations/',
     price: `£${fees.initial.price}`, meta: fees.initial.duration,
-    summary: 'One-to-one at the clinic on Forton Road, Newport.',
-    points: ['Private, confidential room', 'Detailed health and lifestyle history', 'Mon–Sat, 9am–6pm'],
   },
   {
-    icon: 'video', title: 'Online consultation', href: '/online-homeopathy-consultation/',
-    price: `£${fees.initial.price}`, meta: 'By video call',
-    summary: 'The same consultation from home, anywhere in the UK.',
-    points: ['Same format and fees as in person', 'Phone, tablet or computer', 'No travel needed'],
+    title: 'Online consultation', href: '/online-homeopathy-consultation/',
+    price: `£${fees.initial.price}`, meta: fees.initial.duration,
   },
   {
-    icon: 'calendar', title: 'Follow-up consultation', href: '/consultation-fees/',
+    title: 'Follow-up consultation', href: '/consultation-fees/',
     price: `£${fees.followUp.price}`, meta: fees.followUp.duration,
-    summary: `Usually ${fees.followUp.interval}, in person or online.`,
-    points: ['Review how you are getting on', 'In person or online', 'Book as you need'],
   },
   {
-    icon: 'chat', title: 'Free discovery chat', href: '/book-appointment/?type=discovery#enquiry',
+    title: 'Free discovery chat', href: '/book-appointment/?type=discovery#enquiry',
     price: 'Free', meta: fees.discovery.duration,
-    summary: 'Ask questions before you decide to book.',
-    points: ['By phone or WhatsApp', 'No obligation', 'Find out what to expect'],
   },
 ];
 
@@ -98,13 +90,13 @@ export const reviews: { quote: string; name: string; source?: string }[] = [];
 export const googleReviewUrl = '';
 
 export const areas = [
-  { name: 'Newport', note: 'On Forton Road, near the High Street.' },
-  { name: 'Telford', note: 'About 20 minutes by car.' },
-  { name: 'Edgmond', note: 'About 5 minutes by car.' },
-  { name: 'Gnosall', note: 'About 15 minutes by car.' },
-  { name: 'Market Drayton', note: 'About 25 minutes by car.' },
-  { name: 'Stafford', note: 'About 25 minutes by car.' },
-  { name: 'Shrewsbury', note: 'About 35 minutes by car.' },
+  'Newport',
+  'Telford',
+  'Edgmond',
+  'Gnosall',
+  'Market Drayton',
+  'Stafford',
+  'Shrewsbury',
 ];
 
 // One list renders both the visible FAQ and the FAQPage JSON-LD (spec Part 7).
@@ -112,7 +104,7 @@ export const areas = [
 export const faqs = [
   {
     q: 'How much does a homeopathy consultation cost?',
-    a: `An initial consultation costs £${fees.initial.price} and lasts ${fees.initial.duration}. Follow-up consultations cost £${fees.followUp.price}.`,
+    a: `An initial consultation costs £${fees.initial.price} and lasts ${fees.initial.duration}; a follow-up costs £${fees.followUp.price}.`,
     link: { href: '/consultation-fees/', label: 'See all fees' },
   },
   {
@@ -122,12 +114,12 @@ export const faqs = [
   },
   {
     q: 'Can I have a consultation online?',
-    a: 'Yes. Online consultations are available anywhere in the UK by video call, at the same fees as in-person appointments.',
+    a: 'Yes. Online consultations are available by video anywhere in the UK.',
     link: { href: '/online-homeopathy-consultation/', label: 'Online consultations' },
   },
   {
     q: 'What happens at the first consultation?',
-    a: `Kavita takes time to talk through your health history, lifestyle and wellbeing so that any advice is personal to you. The first appointment lasts ${fees.initial.duration}.`,
+    a: `Kavita asks about your health history, lifestyle and wellbeing during the first appointment, which lasts ${fees.initial.duration}.`,
     link: { href: '/what-to-expect/', label: 'What to expect' },
   },
   {
@@ -148,10 +140,11 @@ export const faqs = [
   {
     q: 'Should I keep seeing my GP?',
     a: gpStatement,
+    link: { href: '/what-to-expect/', label: 'What to expect' },
   },
   {
     q: 'Can I talk to someone before I book?',
-    a: `Yes. Book a free discovery chat (${fees.discovery.duration}) by phone or WhatsApp to ask questions and see whether a consultation is right for you. There's no obligation.`,
+    a: `Book a free discovery chat (${fees.discovery.duration}) by phone or WhatsApp; there is no obligation.`,
     link: { href: '/book-appointment/', label: 'Request a free chat' },
   },
 ];

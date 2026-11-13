@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
-import { clinic, fees } from '../data/site';
+import { clinic } from '../data/site';
 import { serviceSchema } from '../data/schema';
 ---
 <Base
@@ -14,7 +14,7 @@ import { serviceSchema } from '../data/schema';
 >
   <PageIntro
     h1="Online Homeopathy Consultations Across the UK"
-    lead={`Private online homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, by video call from anywhere in the UK. Initial consultation £${fees.initial.price} (${fees.initial.duration}); follow-ups £${fees.followUp.price}.`}
+    lead={`Private online consultations by video are available anywhere in the UK with ${clinic.practitioner}, ${clinic.qualification}.`}
   />
   <section class="section-top-none">
     <div class="container prose">
@@ -29,5 +29,5 @@ import { serviceSchema } from '../data/schema';
       <GpStatement />
     </div>
   </section>
-  <CtaBlock />
+  <CtaBlock text="" />
 </Base>

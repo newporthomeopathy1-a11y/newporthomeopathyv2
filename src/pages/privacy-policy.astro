@@ -7,22 +7,22 @@ import { clinic, addressLine } from '../data/site';
   <section>
     <div class="container prose">
       <h1>Privacy Policy</h1>
-      <p><em>Draft for the clinic to review. TODO(open item 16): confirm the data controller, ICO registration number and processors before launch.</em></p>
+      <p class="lead">This policy explains how the clinic handles personal information. Draft: confirm the controller details, ICO registration number and processors before launch.</p>
       <h2>Who we are</h2>
       <p>{clinic.name}, {addressLine} is the data controller for personal information collected through this website. Contact: <a href={`mailto:${clinic.email}`}>{clinic.email}</a>.</p>
       <h2>What we collect</h2>
-      <p>When you send an enquiry we collect your name, email address, phone number, your preferred consultation type, format, date and time, and any message you choose to send. Please don't include medical details in the form.</p>
+      <p>An enquiry collects your name, email, phone, consultation type and format, preferred date and time, and any message you send. Please don't include medical details.</p>
       <h2>Why we use it and our lawful basis</h2>
-      <p>We use these details only to reply to your enquiry and arrange your appointment. Our lawful basis is your consent and, once you book, steps taken at your request before entering into a contract.</p>
+      <p>We use these details to reply and arrange your appointment. Our lawful basis is your consent and, after booking, steps taken at your request before a contract.</p>
       <h2>Who we share it with</h2>
-      <p>Our email delivery provider and (once in use) our online booking provider process data on our behalf under contract. We never sell your data and do not use advertising pixels.</p>
+      <p>Our email provider and, once selected, online booking provider process data for us under contract. We never sell your data or use advertising pixels.</p>
       <h2>Analytics</h2>
-      <p>With your consent we use Google Analytics to count visits and clicks on buttons such as "Call" or "Book". We never send your name, email, phone number or message to analytics. See our <a href="/cookie-policy/">cookie policy</a>.</p>
+      <p>With consent, Google Analytics counts visits and button clicks. It never receives your name, email, phone or message. See our <a href="/cookie-policy/">cookie policy</a>.</p>
       <h2>How long we keep it</h2>
-      <p>Enquiries are deleted after 12 months unless you become a client, in which case records are kept in line with professional guidance.</p>
+      <p>We delete enquiries after 12 months unless you become a client. Client records follow professional guidance.</p>
       <h2>Your rights</h2>
-      <p>You can ask to see, correct or delete your information, or withdraw consent, by emailing us. If you're unhappy with how we handle your data you can complain to the Information Commissioner's Office at <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">ico.org.uk</a>.</p>
+      <p>Email us to access, correct or delete your information, or withdraw consent. You can complain to the Information Commissioner's Office at <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">ico.org.uk</a>.</p>
     </div>
   </section>
-  <CtaBlock />
+  <CtaBlock text="" />
 </Base>

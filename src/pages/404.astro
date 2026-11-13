@@ -1,16 +1,22 @@
 ---
 import Base from '../layouts/Base.astro';
+import CtaBlock from '../components/CtaBlock.astro';
 ---
-<Base title="Page Not Found | Newport Homeopathy Clinic" noindex>
+<Base
+  title="Page Not Found | Newport Homeopathy Clinic"
+  description="This page could not be found. Visit the home page or contact Newport Homeopathy Clinic."
+  noindex
+  breadcrumbs={[{ name: 'Page not found', href: '/404.html' }]}
+>
   <section>
     <div class="container text-col">
       <h1>Page not found</h1>
       <p class="lead">Sorry, we couldn't find that page.</p>
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/book-appointment/">Book a consultation</a></li>
         <li><a href="/contact/">Contact and directions</a></li>
       </ul>
     </div>
   </section>
+  <CtaBlock text="" />
 </Base>

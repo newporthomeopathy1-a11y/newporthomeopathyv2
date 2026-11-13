@@ -1,21 +1,11 @@
 ---
 // Service cards list what the clinic offers, never conditions or outcomes.
-import Icon from './Icon.astro';
 import { services } from '../data/site';
-interface Props { detailed?: boolean }
-const { detailed = false } = Astro.props;
 ---
 <div class="service-grid">
   {services.map((s) => (
-    <article class="card card-feature service-card">
-      <span class="card-icon"><Icon name={s.icon as any} /></span>
+    <article class="card service-card">
       <h3>{s.title}</h3>
-      <p>{s.summary}</p>
-      {detailed && (
-        <ul class="service-points">
-          {s.points.map((pt) => <li><Icon name="check" /> {pt}</li>)}
-        </ul>
-      )}
       <p class="price">{s.price} <span>{s.meta}</span></p>
       <a href={s.href} class="link-arrow">{s.title === 'Free discovery chat' ? 'Request a chat' : 'Find out more'}</a>
     </article>

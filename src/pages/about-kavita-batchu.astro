@@ -4,7 +4,6 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import kavitaPhoto from '../assets/kavita-about.jpg';
-import { clinic } from '../data/site';
 import { personSchema } from '../data/schema';
 ---
 <Base
@@ -15,7 +14,7 @@ import { personSchema } from '../data/schema';
 >
   <PageIntro
     h1="About Kavita Batchu, BHMS"
-    lead={`A homeopath with over ${clinic.years} years' experience, seeing clients in Newport, Shropshire and online across the UK.`}
+    lead="Kavita Batchu offers private consultations in Newport and online across the UK."
   />
   <section class="section-top-none">
     <div class="container grid-2 about-grid grid-start">
@@ -30,5 +29,5 @@ import { personSchema } from '../data/schema';
       </div>
     </div>
   </section>
-  <CtaBlock />
+  <CtaBlock text="" />
 </Base>

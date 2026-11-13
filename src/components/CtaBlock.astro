@@ -3,15 +3,12 @@
 import { clinic } from '../data/site';
 import Icon from './Icon.astro';
 interface Props { heading?: string; text?: string }
-const {
-  heading = 'Book a consultation',
-  text = `Book online, call or WhatsApp. A free 15-minute chat is available first.`,
-} = Astro.props;
+const { heading = 'Book a consultation', text = 'Book online, call or WhatsApp. A free 15-minute chat is available first.' } = Astro.props;
 ---
 <section class="cta-block">
   <div class="container">
     <h2>{heading}</h2>
-    <p>{text}</p>
+    {text && <p>{text}</p>}
     <div class="cta-actions">
       <a href="/book-appointment/" class="btn btn-primary" data-track="click_book" data-loc="page"><Icon name="calendar" /> Book a consultation</a>
       <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="page"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
