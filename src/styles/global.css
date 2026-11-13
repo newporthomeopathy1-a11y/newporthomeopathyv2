@@ -91,7 +91,7 @@ address { font-style: normal; }
 .topbar-hours { margin-left: auto; }
 .site-header { position: sticky; top: 0; z-index: 50; background: var(--white); border-bottom: 1px solid var(--grey-200); }
 .header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 72px; gap: 16px; }
-.logo img { width: 224px; height: auto; }
+.logo img { width: 224px; height: auto; max-width: 100%; }
 .site-nav { display: flex; align-items: center; gap: 28px; }
 .site-nav > ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; align-items: center; }
 .site-nav a, .site-nav summary { color: var(--ink); text-decoration: none; font-size: .975rem; cursor: pointer; }
@@ -114,7 +114,7 @@ address { font-style: normal; }
 @media (max-width: 991px) {
   .topbar { display: none; }
   .header-inner { min-height: 64px; }
-  .logo img { width: 180px; }
+  .logo img { width: 180px; height: auto; max-width: 100%; }
   .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
   .site-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; overflow-y: auto; background: var(--white); flex-direction: column; align-items: stretch; padding: 8px 16px 96px; }
   .site-nav.open { display: flex; }
@@ -292,7 +292,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .footer-heading { color: var(--black); font-weight: 600; margin-bottom: 12px; }
 .footer-grid p { margin: 0 0 6px; }
 .footer-logo { display: inline-block; margin-bottom: 18px; }
-.footer-logo img { width: 196px; height: auto; }
+.footer-logo img { width: 196px; height: auto; max-width: 100%; }
 .footer-line { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 10px; }
 .footer-line .icon { width: 18px; height: 18px; color: var(--blue-600); margin-top: 3px; }
 .footer-base { border-top: 1px solid var(--grey-200); margin-top: 36px; padding-top: 20px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: .85rem; }
@@ -304,10 +304,12 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 /* Mobile sticky action bar (spec Part 4: below 768px, safe-area padding) */
 .mobile-actions { display: none; }
 @media (max-width: 767px) {
-  .mobile-actions { display: grid; grid-template-columns: 1fr 1fr 1.2fr; gap: 8px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: var(--white); border-top: 1px solid var(--grey-200); padding: 6px 10px calc(6px + env(safe-area-inset-bottom)); }
-  .mobile-actions a { min-height: 46px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none; font-weight: 600; color: var(--blue-700); border-radius: var(--pill); border: 1.5px solid var(--blue-200); background: var(--white); }
+  .mobile-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; position: fixed; bottom: 0; left: 0; right: 0; z-index: 60; background: var(--white); border-top: 1px solid var(--grey-200); padding: 8px max(16px, env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-right)); box-shadow: 0 -4px 16px rgb(17 20 24 / .06); }
+  .mobile-actions a { min-height: 52px; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 6px 4px; text-decoration: none; font-size: .8125rem; font-weight: 600; line-height: 1.1; white-space: nowrap; color: var(--blue-700); border-radius: 14px; border: 1.5px solid var(--blue-200); background: var(--white); }
+  .mobile-actions a .icon { width: 20px; height: 20px; }
   .mobile-actions a:last-child { background: var(--blue-600); border-color: var(--blue-600); color: var(--white); }
-  body { padding-bottom: calc(60px + env(safe-area-inset-bottom)); }
+  .mobile-actions a:active { transform: scale(.98); }
+  body { padding-bottom: calc(76px + env(safe-area-inset-bottom)); }
 }
 
 /* Cookie banner */
@@ -315,7 +317,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .cookie-banner[hidden] { display: none; }
 .cookie-actions { display: flex; gap: 10px; }
 .cookie-actions .btn { flex: 1; }
-@media (max-width: 767px) { .cookie-banner { bottom: calc(68px + env(safe-area-inset-bottom)); } }
+@media (max-width: 767px) { .cookie-banner { bottom: calc(76px + env(safe-area-inset-bottom)); } }
 
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 

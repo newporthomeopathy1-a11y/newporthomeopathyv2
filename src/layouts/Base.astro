@@ -1,7 +1,5 @@
 ---
 import '../styles/global.css';
-import { Image } from 'astro:assets';
-import logo from '../assets/logo.png';
 import { SITE, clinic, nav, addressLine, gpStatementShort } from '../data/site';
 import { siteGraph, breadcrumbSchema } from '../data/schema';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
@@ -93,7 +91,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     <header class="site-header">
       <div class="container header-inner">
         <a href="/" class="logo">
-          <Image src={logo} alt={clinic.name} width={224} height={50} loading="eager" densities={[1, 2]} />
+          <img src="/logo.png" alt="Newport Homeopathy Clinic" width="224" height="50" loading="eager" decoding="async">
         </a>
         <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
           <Icon name="menu" class="icon-open" /><Icon name="close" class="icon-close" />
@@ -130,7 +128,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     <footer class="site-footer">
       <div class="container footer-grid">
         <div class="footer-about">
-          <a href="/" class="footer-logo"><Image src={logo} alt={clinic.name} width={196} height={44} loading="lazy" densities={[1, 2]} /></a>
+          <a href="/" class="footer-logo"><img src="/logo.png" alt="Newport Homeopathy Clinic" width="196" height="44" loading="lazy" decoding="async"></a>
           <p class="footer-line"><Icon name="user" /> <a href="/about-kavita-batchu/">{clinic.practitioner}, {clinic.qualification} · Homeopath</a></p>
           <address class="footer-line"><Icon name="pin" /> <a href={clinic.mapsUrl} rel="noopener" data-track="click_directions" data-loc="footer">{addressLine}</a></address>
           <p class="footer-line"><Icon name="phone" /> <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="footer">{clinic.phoneIntl}</a></p>
