@@ -2,6 +2,11 @@
   "trailingSlash": true,
   "redirects": [
     {
+      "source": "/services/",
+      "destination": "/homeopathy-consultations/",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "has": [
         {

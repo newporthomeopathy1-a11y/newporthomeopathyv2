@@ -12,11 +12,11 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   breadcrumbs={[{ name: 'Guides and articles', href: '/blog/' }]}
 >
   <PageIntro h1="Guides and Articles" lead="Practical guides on booking, fees, online appointments and what happens at a homeopathy consultation, reviewed by Kavita Batchu, BHMS." />
-  <section style="padding-top:0">
+  <section class="section-top-none">
     <div class="container text-col">
       {posts.map((p) => (
-        <article class="card" style="margin-bottom:16px">
-          <h2 style="font-size:1.3rem"><a href={`/blog/${p.id}/`}>{p.data.title}</a></h2>
+        <article class="card blog-card">
+          <h2><a href={`/blog/${p.id}/`}>{p.data.title}</a></h2>
           <p class="post-meta"><time datetime={p.data.published.toISOString().slice(0, 10)}>{fmt(p.data.published)}</time></p>
           <p>{p.data.description}</p>
         </article>

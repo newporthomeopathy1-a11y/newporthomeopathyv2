@@ -6,7 +6,6 @@ import { reviews, googleReviewUrl } from '../data/site';
   <section>
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Patient feedback</p>
         <h2>What clients say about their visit</h2>
       </div>
       <div class="grid-3">
@@ -17,7 +16,7 @@ import { reviews, googleReviewUrl } from '../data/site';
           </figure>
         ))}
       </div>
-      {googleReviewUrl && <p class="center" style="margin-top:20px"><a href={googleReviewUrl} rel="noopener" class="link-arrow">Read more reviews on Google</a></p>}
+      {googleReviewUrl && <p class="center review-link"><a href={googleReviewUrl} rel="noopener" class="link-arrow">Read more reviews on Google</a></p>}
     </div>
   </section>
 )}

@@ -46,6 +46,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-padding-top: 88px; }
 body { margin: 0; font-family: var(--font); font-size: 1.0625rem; font-weight: 400; line-height: 1.7; color: var(--ink); background: var(--white); }
+body { overflow-wrap: break-word; }
 body.nav-open { overflow: hidden; }
 img { max-width: 100%; height: auto; display: block; }
 a { color: var(--blue-600); text-underline-offset: 3px; }
@@ -66,9 +67,8 @@ address { font-style: normal; }
 .icon { flex: none; vertical-align: -4px; }
 .skip-link { position: absolute; left: -9999px; top: 8px; z-index: 100; background: var(--white); padding: 8px 12px; }
 .skip-link:focus { left: 8px; }
-.eyebrow { font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--blue-600); margin: 0 0 10px; }
 .section-head { margin: 0 0 28px; }
-.section-lead { font-size: 1.15rem; }
+.faq-links { margin-top: 20px; }
 .link-arrow { font-weight: 600; text-decoration: none; }
 .link-arrow::after { content: ' →'; }
 .link-arrow:hover { text-decoration: underline; }
@@ -131,10 +131,12 @@ address { font-style: normal; }
 
 /* Sections */
 section { padding: 72px 0; }
+.section-top-none { padding-top: 0; }
 .soft { background: var(--blue-50); }
 .page-intro { padding: 28px 0 24px; }
 .lead { font-size: 1.15rem; color: var(--grey-600); }
 .grid-2 { display: grid; gap: 48px; grid-template-columns: 1fr 1fr; align-items: center; }
+.grid-start { align-items: start; }
 .grid-3 { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 860px) { .grid-2, .grid-3 { grid-template-columns: 1fr; gap: 20px; } section { padding: 52px 0; } }
 .card { background: var(--white); border: 1px solid var(--grey-200); border-radius: var(--radius); padding: 26px; display: flex; flex-direction: column; }
@@ -151,6 +153,17 @@ section { padding: 72px 0; }
 .prose li { margin-bottom: .4em; }
 .prose h2 { margin-top: 1.6em; }
 .prose h2:first-child { margin-top: 0; }
+.section-note { margin-top: 24px; }
+.map-note { margin-top: 12px; }
+.fees-details { margin-top: 24px; }
+.area-card-title { font-size: 1.2rem; }
+.blog-card { margin-bottom: 16px; }
+.blog-card h2 { font-size: 1.3rem; }
+.article-content { padding-top: 24px; }
+.author-name, .author-description { margin: 0; }
+.review-link { margin-top: 20px; }
+.booking-form-section { padding-top: 8px; }
+.booking-embed { width: 100%; height: 760px; border: 0; }
 .info-line { display: flex; gap: 12px; align-items: flex-start; margin: 0 0 12px; }
 .info-line .icon { color: var(--blue-600); margin-top: 4px; }
 
@@ -160,7 +173,7 @@ section { padding: 72px 0; }
 .hero .hero-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 65% 55%; }
 .hero-grid { position: relative; z-index: 1; display: flex; align-items: center; min-height: 580px; padding-block: 56px; }
 .hero-copy { width: 100%; max-width: 580px; background: rgb(255 255 255 / .92); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); border: 1px solid rgb(255 255 255 / .7); border-radius: 28px; padding: 40px; box-shadow: 0 20px 50px rgb(17 20 24 / .12); }
-.hero h1 { margin-bottom: .45em; }
+.hero h1 { margin-bottom: .45em; overflow-wrap: break-word; }
 .hero-lead { font-size: 1.1rem; color: var(--grey-600); }
 .hero-contact { display: flex; flex-wrap: wrap; gap: 8px 24px; margin: 20px 0 0; }
 .hero-contact a { display: inline-flex; align-items: center; gap: 8px; color: var(--ink); text-decoration: none; font-weight: 600; }
@@ -175,6 +188,10 @@ section { padding: 72px 0; }
   .hero-grid { min-height: 0; padding-block: 0 36px; }
   .hero-copy { max-width: none; background: var(--white); border: 0; box-shadow: none; border-radius: 0; padding: 24px 0 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
   .hero .btn-lg { width: 100%; }
+}
+@media (max-width: 767px) {
+  .container { padding-right: 20px; padding-left: 20px; }
+  .hero h1 { font-size: clamp(1.65rem, 7vw, 2.2rem); }
 }
 
 .trust-strip { padding: 0; border-bottom: 1px solid var(--grey-200); background: var(--white); }
@@ -198,7 +215,10 @@ table.fees { width: 100%; border-collapse: separate; border-spacing: 0; backgrou
 .fees th { font-size: .85rem; font-weight: 600; color: var(--grey-600); background: var(--blue-50); }
 .fees td:last-child, .fees th:last-child { text-align: right; }
 .table-note { margin-top: 14px; color: var(--grey-600); font-size: .95rem; }
-@media (max-width: 520px) { .fees th, .fees td { padding: 12px; font-size: .95rem; } }
+@media (max-width: 520px) {
+  table.fees { table-layout: fixed; }
+  .fees th, .fees td { padding: 12px 6px; font-size: .85rem; overflow-wrap: break-word; }
+}
 
 .faq-list { background: var(--white); border: 1px solid var(--grey-200); border-radius: var(--radius); padding: 0 24px; }
 .faq-list details { border-bottom: 1px solid var(--grey-200); }
@@ -308,10 +328,3 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .service-points { list-style: none; padding: 0; margin: 0 0 16px; font-size: .925rem; }
 .service-points li { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 6px; }
 .service-points .icon { width: 18px; height: 18px; color: var(--blue-600); margin-top: 3px; }
-
-/* About homeopathy: four short points */
-.approach-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-.approach-list li { background: var(--white); border: 1px solid var(--grey-200); border-radius: var(--radius); padding: 22px; }
-.approach-list p { margin: 0; font-size: .975rem; }
-@media (max-width: 1023px) { .approach-list { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 600px) { .approach-list { grid-template-columns: 1fr; } }

@@ -7,13 +7,12 @@ import GpStatement from '../components/GpStatement.astro';
 import FaqList from '../components/FaqList.astro';
 import MapFacade from '../components/MapFacade.astro';
 import ServiceCards from '../components/ServiceCards.astro';
-import Reviews from '../components/Reviews.astro';
 import heroBg from '../assets/hero-remedies.jpg';
 import kavitaPhoto from '../assets/kavita-about.jpg';
 import { clinic, fees, faqs, addressLine } from '../data/site';
 import { faqSchema } from '../data/schema';
 
-// Pick the six most decision-relevant questions for the home page.
+// Pick five decision-relevant questions for the home page.
 const pick = ['How much does a homeopathy consultation cost?', 'Can I talk to someone before I book?', 'Can I have a consultation online?', 'What happens at the first consultation?', 'How do I book?'];
 const faqPreview = pick.map((q) => faqs.find((f) => f.q === q)!).filter(Boolean);
 
@@ -43,8 +42,8 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
     />
     <div class="container hero-grid">
       <div class="hero-copy">
-                <h1>Homeopathy Consultations in Newport, Shropshire</h1>
-        <p class="hero-lead">Private, one-to-one consultations with a {clinic.qualification}-qualified homeopath with over {clinic.years} years' experience. In Newport or online across the UK.</p>
+        <h1>Homeopathy Consultations in Newport, Shropshire</h1>
+        <p class="hero-lead">Private, one-to-one consultations with {clinic.practitioner}, {clinic.qualification}, a homeopath with over {clinic.years} years' experience. In person at {clinic.street}, {clinic.locality}, or online anywhere in the UK.</p>
         <div class="cta-actions">
           <a href="/book-appointment/" class="btn btn-primary btn-lg" data-track="click_book" data-loc="hero">Book a consultation</a>
           <a href="/book-appointment/?type=discovery#enquiry" class="btn btn-outline btn-lg" data-track="click_book" data-loc="hero_discovery">Free 15-minute chat</a>
@@ -63,24 +62,8 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
       <li><span class="trust-icon"><Icon name="award" /></span><span><strong>{clinic.years}+ years</strong> experience</span></li>
       <li><span class="trust-icon"><Icon name="pound" /></span><span><strong>£{fees.initial.price}</strong> initial consultation</span></li>
       <li><span class="trust-icon"><Icon name="video" /></span><span><strong>In person</strong> and online</span></li>
-      <li><span class="trust-icon"><Icon name="clock" /></span><span><strong>Mon–Sat</strong>, including Saturdays</span></li>
+      <li><span class="trust-icon"><Icon name="clock" /></span><span><strong>{clinic.hoursShort}</strong></span></li>
     </ul>
-  </section>
-
-  <!-- About homeopathy: short, compliant versions of the old site's four intro boxes -->
-  <section>
-    <div class="container">
-      <div class="section-head">
-        <p class="eyebrow">About homeopathy</p>
-        <h2>A whole-person approach</h2>
-      </div>
-      <ul class="approach-list">
-        <li><span class="card-icon"><Icon name="award" /></span><p>A system of complementary medicine developed over 200 years ago.</p></li>
-        <li><span class="card-icon"><Icon name="user" /></span><p>Mind and body are seen as one, so you are looked at as a whole person.</p></li>
-        <li><span class="card-icon"><Icon name="chat" /></span><p>Unsure if it suits you? Call or WhatsApp for advice before you book.</p></li>
-        <li><span class="card-icon"><Icon name="check" /></span><p>A complementary therapy: keep seeing your GP and taking prescribed medicines.</p></li>
-      </ul>
-    </div>
   </section>
 
   <!-- 3. Meet your practitioner -->
@@ -88,7 +71,6 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
     <div class="container grid-2 about-grid">
       <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Kavita Batchu, BHMS, homeopath at Newport Homeopathy Clinic" loading="lazy" class="about-banner" />
       <div>
-        <p class="eyebrow">Meet your homeopath</p>
         <h2>{clinic.practitioner}, {clinic.qualification}</h2>
         <p>Five-year BHMS degree and over {clinic.years} years' experience. Every first consultation starts with time to understand your health, lifestyle and wellbeing.</p>
         <p><a href="/about-kavita-batchu/" class="link-arrow">About Kavita</a></p>
@@ -100,12 +82,9 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
   <section class="soft">
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">Services</p>
         <h2>Our services</h2>
-        <p class="section-lead" style="color:var(--grey-600)">Private, confidential one-to-one consultations that look at your overall health and wellbeing. Unsure if homeopathy is right for you? Call us for advice.</p>
       </div>
       <ServiceCards />
-      <p style="margin-top:24px"><a href="/services/" class="link-arrow">All services</a></p>
     </div>
   </section>
 
@@ -113,7 +92,6 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
   <section>
     <div class="container">
       <div class="section-head">
-        <p class="eyebrow">How it works</p>
         <h2>What to expect</h2>
       </div>
       <ol class="steps">
@@ -129,7 +107,6 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
   <section class="soft">
     <div class="container narrow">
       <div class="section-head">
-        <p class="eyebrow">Clear pricing</p>
         <h2>Fees</h2>
       </div>
       <table class="fees">
@@ -144,26 +121,21 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
     </div>
   </section>
 
-  <!-- 7. Patient feedback (renders only once approved, experience-only reviews exist) -->
-  <Reviews />
-
-  <!-- 8. FAQ preview -->
+  <!-- 7. FAQ preview -->
   <section>
     <div class="container narrow">
       <div class="section-head">
-        <p class="eyebrow">Questions</p>
         <h2>FAQs</h2>
       </div>
       <FaqList items={faqPreview} />
-      <p style="margin-top:20px"><a href="/frequently-asked-questions/" class="link-arrow">All FAQs</a> &nbsp; <a href="/blog/" class="link-arrow">Guides</a></p>
+      <p class="faq-links"><a href="/frequently-asked-questions/" class="link-arrow">All FAQs</a> &nbsp; <a href="/blog/" class="link-arrow">Guides</a></p>
     </div>
   </section>
 
-  <!-- 9. Location and hours -->
+  <!-- 8. Location and hours -->
   <section class="soft">
     <div class="container grid-2">
       <div>
-        <p class="eyebrow">Visit us</p>
         <h2>Location and hours</h2>
         <address class="info-line"><Icon name="pin" /> <span>{addressLine}</span></address>
         <p class="info-line"><Icon name="clock" /> <span>{clinic.hoursText}</span></p>
@@ -174,7 +146,7 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
     </div>
   </section>
 
-  <!-- 10. Final CTA + GP statement -->
+  <!-- 9. Final CTA + GP statement -->
   <CtaBlock>
     <GpStatement />
   </CtaBlock>

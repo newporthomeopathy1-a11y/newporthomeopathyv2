@@ -13,22 +13,22 @@ import { areas, addressLine } from '../data/site';
     h1="Areas We Serve"
     lead={`Newport Homeopathy Clinic is at ${addressLine}, easy to reach from Telford and across east Shropshire and west Staffordshire. Online consultations are available anywhere in the UK.`}
   />
-  <section style="padding-top:0">
+  <section class="section-top-none">
     <div class="container">
       <!-- TODO(open item 14): clinic to confirm drive times, parking and step-free access -->
       <div class="grid-3">
         {areas.map((a) => (
-          <article class="card">
-            <h2 style="font-size:1.2rem">{a.name}</h2>
+          <article class="card area-card">
+            <h2 class="area-card-title">{a.name}</h2>
             <p>{a.note}</p>
           </article>
         ))}
-        <article class="card">
-          <h2 style="font-size:1.2rem">Anywhere in the UK</h2>
+        <article class="card area-card">
+          <h2 class="area-card-title">Anywhere in the UK</h2>
           <p><a href="/online-homeopathy-consultation/">Online consultations</a> by video call.</p>
         </article>
       </div>
-      <p style="margin-top:24px">Drive times are approximate. <a href="/contact/">Directions</a> · <a href="/consultation-fees/">Fees</a></p>
+      <p class="section-note">Drive times are approximate. <a href="/contact/">Directions</a> · <a href="/consultation-fees/">Fees</a></p>
     </div>
   </section>
   <CtaBlock />

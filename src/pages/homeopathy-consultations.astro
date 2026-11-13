@@ -17,13 +17,13 @@ import { serviceSchema } from '../data/schema';
     h1="Homeopathy Consultations at Our Newport Clinic"
     lead={`One-to-one homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, at ${addressLine}. The initial consultation costs £${fees.initial.price} and lasts ${fees.initial.duration}; follow-ups cost £${fees.followUp.price}.`}
   />
-  <section style="padding-top:0">
-    <div class="container grid-2" style="align-items:start">
+  <section class="section-top-none">
+    <div class="container grid-2 grid-start">
       <div class="prose">
         <h2>First consultation</h2>
-        <p>Homeopathy is a system of complementary medicine developed over 200 years ago. Your first consultation ({fees.initial.duration}) is a detailed conversation about your health history, lifestyle and wellbeing. <a href="/what-to-expect/">What to expect</a></p>
+        <p>Your first consultation ({fees.initial.duration}) is a detailed conversation about your health history, lifestyle and wellbeing. <a href="/what-to-expect/">What to expect</a></p>
         <h2>Follow-ups</h2>
-        <p>Usually {fees.followUp.interval}, £{fees.followUp.price}, in person or <a href="/online-homeopathy-consultation/">online</a>.</p>
+        <p>Usually {fees.followUp.interval}, in person or <a href="/online-homeopathy-consultation/">online</a>.</p>
         <h2>Hours</h2>
         <p>{clinic.hoursText}. <a href="/consultation-fees/">Fees</a></p>
         <GpStatement />
@@ -31,7 +31,7 @@ import { serviceSchema } from '../data/schema';
       <div>
         <h2>Finding the clinic</h2>
         <MapFacade />
-        <p style="margin-top:12px"><a href="/areas-we-serve/">Areas we serve</a></p>
+        <p class="map-note"><a href="/areas-we-serve/">Areas we serve</a></p>
       </div>
     </div>
   </section>

@@ -14,15 +14,13 @@ import { clinic, addressLine } from '../data/site';
     h1="Contact and Directions"
     lead={`Newport Homeopathy Clinic is at ${addressLine}. Call ${clinic.phoneDisplay}, WhatsApp or book online. Open ${clinic.hoursText}.`}
   />
-  <section style="padding-top:0">
-    <div class="container grid-2" style="align-items:start">
+  <section class="section-top-none">
+    <div class="container grid-2 grid-start">
       <div class="prose">
         <h2>Get in touch</h2>
         <p>Phone: <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="page">{clinic.phoneDisplay}</a></p>
         <p>WhatsApp: <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="page">Message us on WhatsApp</a></p>
         <p>Email: <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="page">{clinic.email}</a></p>
-        <h2>Address</h2>
-        <address>{clinic.name}<br />{addressLine}</address>
         <h2>Opening hours</h2>
         <p>{clinic.hoursText}</p>
         <h2>Parking and access</h2>
