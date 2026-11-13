@@ -18,6 +18,7 @@ import { clinic, addressLine } from '../data/site';
     <div class="container grid-2 grid-start">
       <div class="prose">
         <h2>Get in touch</h2>
+        <address><strong>{clinic.name}</strong><br />{addressLine}</address>
         <p>Phone: <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="page">{clinic.phoneDisplay}</a></p>
         <p>WhatsApp: <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="page">Message us on WhatsApp</a></p>
         <p>Email: <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="page">{clinic.email}</a></p>

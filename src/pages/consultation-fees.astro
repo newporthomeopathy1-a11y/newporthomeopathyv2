@@ -18,13 +18,14 @@ import { serviceSchema } from '../data/schema';
   <section class="section-top-none">
     <div class="container text-col">
       <table class="fees">
-        <thead><tr><th scope="col">Appointment</th><th scope="col">Length</th><th scope="col">In person</th><th scope="col">Online</th></tr></thead>
+        <thead><tr><th scope="col">Appointment</th><th scope="col">Length</th><th scope="col">Fee</th></tr></thead>
         <tbody>
-          <tr><td>{fees.discovery.label}</td><td>{fees.discovery.duration}</td><td>Free</td><td>Free</td></tr>
-          <tr><td>{fees.initial.label}</td><td>{fees.initial.duration}</td><td>£{fees.initial.price}</td><td>£{fees.initial.price}</td></tr>
-          <tr><td>{fees.followUp.label}</td><td>{fees.followUp.duration}</td><td>£{fees.followUp.price}</td><td>£{fees.followUp.price}</td></tr>
+          <tr><td>{fees.discovery.label}</td><td>{fees.discovery.duration}</td><td>Free</td></tr>
+          <tr><td>{fees.initial.label}</td><td>{fees.initial.duration}</td><td>£{fees.initial.price}</td></tr>
+          <tr><td>{fees.followUp.label}</td><td>{fees.followUp.duration}</td><td>£{fees.followUp.price}</td></tr>
         </tbody>
       </table>
+      <p class="table-note">Same fee in person and online</p>
       <div class="prose fees-details">
         <p>Payment: {clinic.payment}. Follow-ups are usually {fees.followUp.interval}. A free 15-minute chat is available before you book. <a href="/booking-terms/">Booking terms</a> · <a href="/what-to-expect/">What to expect</a></p>
       </div>
