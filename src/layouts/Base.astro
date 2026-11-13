@@ -35,6 +35,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large, max-snippet:-1'} />
@@ -99,12 +100,20 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
           <Icon name="menu" class="icon-open" /><Icon name="close" class="icon-close" />
         </button>
         <nav id="site-nav" class="site-nav" aria-label="Main">
+          <div class="mobile-menu-top">
+            <a href="/" class="mobile-menu-logo">
+              <img src="/logo.png" alt="Newport Homeopathy Clinic" width="150" height="34" loading="eager" decoding="async">
+            </a>
+            <button type="button" class="nav-close" aria-label="Close menu" aria-controls="site-nav">
+              <Icon name="close" />
+            </button>
+          </div>
           <ul>
-            {nav.map((item) =>
+            {nav.map((item, index) =>
               item.children ? (
-                <li class="has-sub">
+                <li class="has-sub" style={`--menu-index: ${index};`}>
                   <details>
-                    <summary>{item.label}</summary>
+                    <summary>{item.label}<Icon name="chevron" class="menu-chevron" /></summary>
                     <ul>
                       {item.children.map((c) => (
                         <li><a href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>{c.label}</a></li>
@@ -113,11 +122,18 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
                   </details>
                 </li>
               ) : (
-                <li><a href={item.href} aria-current={isActive(item.href!) ? 'page' : undefined}>{item.label}</a></li>
+                <li style={`--menu-index: ${index};`}><a href={item.href} aria-current={isActive(item.href!) ? 'page' : undefined}>{item.label}</a></li>
               )
             )}
           </ul>
-          <a href="/book-appointment/" class="btn btn-primary" data-track="click_book" data-loc="header">Book a consultation</a>
+          <div class="mobile-menu-actions">
+            <a href="/book-appointment/" class="btn btn-primary" data-track="click_book" data-loc="header">Book a consultation</a>
+            <div class="mobile-menu-contacts">
+              <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="header"><Icon name="phone" /> Call</a>
+              <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener" data-track="click_whatsapp" data-loc="header"><Icon name="whatsapp" /> WhatsApp</a>
+            </div>
+            <p class="mobile-menu-gp">{gpStatementShort}</p>
+          </div>
         </nav>
       </div>
     </header>

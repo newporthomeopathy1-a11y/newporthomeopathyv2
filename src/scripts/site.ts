@@ -1,31 +1,69 @@
 // Progressive enhancement only. Every page's content works without this file.
 
 // ---------- Mobile menu: button toggle, focus trap, Esc to close ----------
+document.documentElement.classList.add('js');
 const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
 const navEl = document.getElementById('site-nav');
 if (toggle && navEl) {
+  const closeButton = navEl.querySelector<HTMLButtonElement>('.nav-close');
+  let scrollPosition = 0;
   const focusables = () =>
-    Array.from(navEl.querySelectorAll<HTMLElement>('a, summary, button')).filter((el) => el.offsetParent !== null);
+    Array.from(navEl.querySelectorAll<HTMLElement>('a, summary, button')).filter((el) =>
+      el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden' && !el.hasAttribute('disabled')
+    );
   const setOpen = (open: boolean) => {
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     navEl.classList.toggle('open', open);
-    document.body.classList.toggle('nav-open', open);
-    if (open) focusables()[0]?.focus();
+    if (open) {
+      scrollPosition = window.scrollY;
+      document.body.style.setProperty('--nav-scroll-offset', `${-scrollPosition}px`);
+      document.body.style.setProperty('--nav-body-width', `${document.body.clientWidth}px`);
+      document.body.classList.add('nav-open');
+    } else {
+      document.body.classList.remove('nav-open');
+      document.body.style.removeProperty('--nav-scroll-offset');
+      document.body.style.removeProperty('--nav-body-width');
+      const scrollBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, scrollPosition);
+      document.documentElement.style.scrollBehavior = scrollBehavior;
+    }
+    if (open) (closeButton ?? focusables()[0])?.focus();
   };
   toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  closeButton?.addEventListener('click', () => {
+    setOpen(false);
+    toggle.focus({ preventScroll: true });
+  });
+  navEl.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) setOpen(false);
+  });
   document.addEventListener('keydown', (e) => {
     if (!navEl.classList.contains('open')) return;
     if (e.key === 'Escape') {
       setOpen(false);
-      toggle.focus();
+      toggle.focus({ preventScroll: true });
     } else if (e.key === 'Tab') {
-      const items = [toggle, ...focusables()];
+      const items = focusables();
+      if (!items.length) return;
       const first = items[0];
       const last = items[items.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      if (!navEl.contains(document.activeElement)) {
+        e.preventDefault();
+        (e.shiftKey ? last : first).focus();
+      } else if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     }
+  });
+  const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
+  window.addEventListener('resize', () => {
+    if (desktopBreakpoint.matches && navEl.classList.contains('open')) setOpen(false);
   });
 }
 
