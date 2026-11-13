@@ -3,8 +3,133 @@
   "redirects": [
     {
       "source": "/services/",
+      "has": [
+        {
+          "type": "host",
+          "value": "newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/homeopathy-consultations/",
+      "statusCode": 301
+    },
+    {
+      "source": "/services/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/homeopathy-consultations/",
+      "statusCode": 301
+    },
+    {
+      "source": "/services/",
       "destination": "/homeopathy-consultations/",
-      "permanent": true
+      "statusCode": 301
+    },
+    {
+      "source": "/services",
+      "has": [
+        {
+          "type": "host",
+          "value": "newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/homeopathy-consultations/",
+      "statusCode": 301
+    },
+    {
+      "source": "/services",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/homeopathy-consultations/",
+      "statusCode": 301
+    },
+    {
+      "source": "/services",
+      "destination": "/homeopathy-consultations/",
+      "statusCode": 301
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "host",
+          "value": "newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/",
+      "statusCode": 301
+    },
+    {
+      "source": "/index.html",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/",
+      "statusCode": 301
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/inner-page.html",
+      "has": [
+        {
+          "type": "host",
+          "value": "newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/",
+      "statusCode": 301
+    },
+    {
+      "source": "/inner-page.html",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/",
+      "statusCode": 301
+    },
+    {
+      "source": "/inner-page.html",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/:path((?!api/)(?!.*\\.).*[^/])",
+      "has": [
+        {
+          "type": "host",
+          "value": "newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/:path/",
+      "statusCode": 301
+    },
+    {
+      "source": "/:path((?!api/)(?!.*\\.).*[^/])",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/:path/",
+      "statusCode": 301
     },
     {
       "source": "/(.*)",
@@ -15,22 +140,23 @@
         }
       ],
       "destination": "https://newporthomeopathy.com/$1",
-      "permanent": true
+      "statusCode": 301
     },
     {
-      "source": "/index.html",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/inner-page.html",
-      "destination": "/",
-      "permanent": true
-    },
-    {
-      "source": "/sitemap.xml",
-      "destination": "/sitemap-index.xml",
-      "permanent": true
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "newporthomeopathy.com"
+        },
+        {
+          "type": "header",
+          "key": "x-forwarded-proto",
+          "value": "http"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/$1",
+      "statusCode": 301
     }
   ],
   "headers": [
@@ -55,7 +181,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com https://maps.gstatic.com https://*.googleapis.com; frame-src https://www.google.com https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline'; form-action 'self'; base-uri 'self'; object-src 'none'"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://challenges.cloudflare.com; connect-src 'self' https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com; img-src 'self' data: https://*.google-analytics.com https://*.googletagmanager.com https://maps.gstatic.com https://*.googleapis.com; frame-src https://www.google.com https://challenges.cloudflare.com https://*.setmore.com https://*.calendly.com https://*.cliniko.com; style-src 'self' 'unsafe-inline'; form-action 'self'; base-uri 'self'; object-src 'none'"
         }
       ]
     },

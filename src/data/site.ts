@@ -77,7 +77,7 @@ export const services = [
 export const nav = [
   { href: '/', label: 'Home' },
   {
-    label: 'Services',
+    label: 'Consultations',
     children: [
       { href: '/homeopathy-consultations/', label: 'In person (Newport)' },
       { href: '/online-homeopathy-consultation/', label: 'Online (UK-wide)' },

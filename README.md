@@ -75,7 +75,6 @@ To preview the production build locally, serve the static output: `python3 -m ht
 | URL | File |
 |---|---|
 | `/` | `pages/index.astro` |
-| `/services/` | `pages/services.astro` |
 | `/homeopathy-consultations/` | `pages/homeopathy-consultations.astro` |
 | `/online-homeopathy-consultation/` | `pages/online-homeopathy-consultation.astro` |
 | `/consultation-fees/` | `pages/consultation-fees.astro` |

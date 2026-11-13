@@ -5,6 +5,7 @@ import Icon from '../components/Icon.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
 import FaqList from '../components/FaqList.astro';
+import Reviews from '../components/Reviews.astro';
 import MapFacade from '../components/MapFacade.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import heroBg from '../assets/hero-remedies.jpg';
@@ -121,6 +122,8 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
       <p class="table-note">{clinic.payment}. Same fees online. <a href="/consultation-fees/">Fees and payment</a></p>
     </div>
   </section>
+
+  <Reviews />
 
   <!-- 7. FAQ preview -->
   <section>

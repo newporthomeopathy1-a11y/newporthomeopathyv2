@@ -10,7 +10,7 @@ Everything repeated across pages lives in this one file, so it can't drift out o
 |---|---|
 | Phone, WhatsApp, email, address, hours, payment methods | `clinic` |
 | Fees and durations (incl. the free chat) | `fees` |
-| The four service cards (home + `/services/`) | `services` |
+| The four service cards on the home page | `services` |
 | Menu items | `nav` |
 | FAQ questions and answers | `faqs` (each can link to a page) |
 | Towns on "Areas we serve" | `areas` |

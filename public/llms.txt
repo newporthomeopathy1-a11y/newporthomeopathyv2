@@ -10,7 +10,7 @@
 
 ## Pages
 
-- [Services](https://newporthomeopathy.com/services/)
+- [Consultations](https://newporthomeopathy.com/homeopathy-consultations/)
 - [In-person consultations](https://newporthomeopathy.com/homeopathy-consultations/)
 - [Online consultations](https://newporthomeopathy.com/online-homeopathy-consultation/)
 - [Fees](https://newporthomeopathy.com/consultation-fees/)

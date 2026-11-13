@@ -1,24 +1,35 @@
 // POST /api/enquiry — server-side handler for the booking form (spec Part 4).
 // Runs as a Vercel function in production and inside `astro dev` locally.
 // Env vars: RESEND_API_KEY (required to send), CLINIC_INBOX (optional, defaults to the clinic email),
-// TURNSTILE_SECRET_KEY (optional until Turnstile is set up).
+// TURNSTILE_SECRET_KEY (optional until Turnstile is set up), and Upstash Redis REST credentials.
 // Never logs form contents.
 import type { APIRoute } from 'astro';
+import { createHash } from 'node:crypto';
+import { Redis } from '@upstash/redis';
 import { clinic, fees, gpStatement } from '../../data/site';
 
 export const prerender = false;
 
 const FROM = 'Newport Homeopathy Clinic <noreply@newporthomeopathy.com>';
 const INBOX = import.meta.env.CLINIC_INBOX || clinic.email;
+const redisUrl = import.meta.env.UPSTASH_REDIS_REST_URL;
+const redisToken = import.meta.env.UPSTASH_REDIS_REST_TOKEN;
+const redis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : undefined;
 
-// Best-effort in-memory rate limit (per warm instance). For a hard 5/hour/IP limit use Vercel KV / Upstash.
-const hits = new Map<string, number[]>();
-function limited(ip: string) {
-  const now = Date.now();
-  const arr = (hits.get(ip) ?? []).filter((t) => now - t < 3_600_000);
-  arr.push(now);
-  hits.set(ip, arr);
-  return arr.length > 5;
+const RATE_LIMIT_SCRIPT = `
+local count = redis.call("INCR", KEYS[1])
+if count == 1 then redis.call("EXPIRE", KEYS[1], ARGV[1]) end
+return count
+`;
+
+async function limited(ip: string) {
+  if (!redis) {
+    if (import.meta.env.DEV) return false;
+    throw new Error('Upstash Redis REST credentials are required for enquiry rate limiting.');
+  }
+  const ipHash = createHash('sha256').update(ip).digest('hex');
+  const count = await redis.eval<[number], number>(RATE_LIMIT_SCRIPT, [`enquiry:rate-limit:${ipHash}`], [3600]);
+  return count > 5;
 }
 
 const esc = (s: string) =>
@@ -81,11 +92,15 @@ const FORMAT_LABEL: Record<string, string> = { in_person: 'In person (Newport)',
 
 export const POST: APIRoute = async (ctx) => {
   const { request, redirect } = ctx;
-  let ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 'unknown';
-  try { ip = ctx.clientAddress || ip; } catch { /* not available in some runtimes */ }
+  const ip = ctx.clientAddress || request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
   const back = (code: string) => redirect(`/book-appointment/?error=${code}#enquiry`, 303);
 
-  if (limited(ip)) return back('rate');
+  try {
+    if (await limited(ip)) return back('rate');
+  } catch (error) {
+    console.error('[enquiry] rate-limit check failed', error);
+    return new Response('Enquiry rate limiting is temporarily unavailable. Please try again later or contact the clinic.', { status: 503 });
+  }
   const form = await request.formData();
   if (oneLine(form.get('company'))) return redirect('/book-appointment/thank-you/', 303); // honeypot: silently drop
   if (!(await verifyTurnstile(oneLine(form.get('cf-turnstile-response')), ip))) return back('captcha');

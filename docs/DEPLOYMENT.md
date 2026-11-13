@@ -5,12 +5,14 @@
 1. Push this repository to GitHub and import it in Vercel. The framework preset is detected as **Astro**.
 2. Build command `npm run build`. Output is handled by the `@astrojs/vercel` adapter.
 3. Add the environment variables below (Project → Settings → Environment Variables).
-4. Add both domains, `newporthomeopathy.com` and `www.newporthomeopathy.com`. `vercel.json` 301-redirects `www` to the apex domain.
+4. Add both domains, `newporthomeopathy.com` and `www.newporthomeopathy.com`. `vercel.json` redirects noncanonical host, protocol and page-path requests to the HTTPS apex URL in one 301.
 
 `vercel.json` also sets:
-- **Redirects:** `/index.html` and `/inner-page.html` go to `/`, and `/sitemap.xml` goes to `/sitemap-index.xml`. Trailing slashes are added.
-- **Security headers:** HSTS, nosniff, Referrer-Policy, Permissions-Policy and a Content-Security-Policy (allows Google Analytics, Cloudflare Turnstile and the Google Maps embed only).
+- **Redirects:** `/index.html` and `/inner-page.html` go to `/`; trailing slashes are added. The sitemap is served directly from `/sitemap.xml`.
+- **Security headers:** HSTS, nosniff, Referrer-Policy, Permissions-Policy and a Content-Security-Policy (allows Google Analytics, Cloudflare Turnstile, Google Maps and the Setmore, Calendly and Cliniko booking embeds).
 - **Caching:** `/_astro/*` and `/fonts/*` cache for 1 year (immutable). Icons and the OG image cache for 1 week.
+
+The booking embed frame policy currently allows Setmore, Calendly and Cliniko. Remove the unused provider origins after the booking tool is chosen.
 
 The old PHP files (`ajax.php`, `assets/forms/*.php`) don't exist in this build, so they return 404.
 
@@ -21,6 +23,7 @@ The old PHP files (`ajax.php`, `assets/forms/*.php`) don't exist in this build, 
 | `RESEND_API_KEY` | To send email | Booking-form emails via [Resend](https://resend.com). Without it, production shows "couldn't send, please call". In `npm run dev` the form still completes but sends nothing. |
 | `CLINIC_INBOX` | No | Where enquiries go. Defaults to the clinic email in `site.ts` (cavitasuresh@yahoo.com). |
 | `TURNSTILE_SECRET_KEY` + `PUBLIC_TURNSTILE_SITE_KEY` | Recommended | Cloudflare Turnstile spam check on the form. |
+| `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Required in production | Upstash Redis REST credentials for the five-per-hour enquiry limit per IP. Local development allows submissions when these are absent. |
 | `PUBLIC_GA_ID` | Optional | GA4 measurement ID. The cookie banner appears only when this is set, and GA loads only after Accept. |
 | `PUBLIC_BOOKING_EMBED_URL` | Optional | Setmore / Calendly / Cliniko embed URL. When set, it replaces the enquiry form on `/book-appointment/`. |
 
@@ -34,10 +37,22 @@ A template is in `.env.example`. Copy it to `.env` for local development (`.env`
 
 ## After launch
 
-- **Google Search Console:** verify the domain by DNS TXT record, submit `https://newporthomeopathy.com/sitemap-index.xml`, and request indexing of the home page.
+- **Google Search Console:** verify the domain by DNS TXT record, submit `https://newporthomeopathy.com/sitemap.xml`, and request indexing of the home page.
 - **Bing Webmaster Tools:** import the property from Search Console.
 - **Google Business Profile:** the name, address and phone must match the site exactly. Website link: `https://newporthomeopathy.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp`.
 - **GA4:** mark `click_call`, `click_whatsapp`, `click_email`, `generate_lead` and `click_book` as key events. Exclude internal traffic. Add an "AI assistants" channel group matching `chatgpt\.com|chat\.openai\.com|perplexity\.ai|copilot\.microsoft\.com|gemini\.google\.com|claude\.ai`.
 - **Validate:** run the Schema Markup Validator and the Rich Results Test on the live URLs. Run Lighthouse on mobile for Home, a consultation page, Book and a blog post. Aim for 90+ in all categories.
 
 Full status of every requirement: [LAUNCH-CHECKLIST.md](LAUNCH-CHECKLIST.md).
+
+## Redirect and sitemap verification
+
+After deployment, each noncanonical URL below should return one 301 to the HTTPS apex URL with a trailing slash. The `--max-redirs 1` command fails if the request needs more than one redirect. The canonical URL and sitemap should return 200 without redirecting.
+
+```sh
+curl -I http://newporthomeopathy.com/about-kavita-batchu
+curl -I https://www.newporthomeopathy.com/about-kavita-batchu
+curl -I -L --max-redirs 1 http://www.newporthomeopathy.com/about-kavita-batchu
+curl -I https://newporthomeopathy.com/about-kavita-batchu/
+curl -I https://newporthomeopathy.com/sitemap.xml
+```

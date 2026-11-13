@@ -69,6 +69,27 @@ document.querySelector('[data-cookie-settings]')?.addEventListener('click', () =
   if (banner && window.__GA_ID) banner.hidden = false;
 });
 
+// TODO: Add the selected booking provider's exact origin after its message contract is confirmed.
+const BOOKING_MESSAGE_ORIGINS: string[] = [];
+const bookingValues = {
+  consultation_type: ['discovery', 'initial', 'follow_up'],
+  format: ['in_person', 'online', 'phone'],
+};
+window.addEventListener('message', (event: MessageEvent<unknown>) => {
+  if (!BOOKING_MESSAGE_ORIGINS.includes(event.origin)) return;
+  if (!event.data || typeof event.data !== 'object' || Array.isArray(event.data)) return;
+
+  const data = event.data as Record<string, unknown>;
+  if (data.type !== 'booking_complete') return;
+
+  const allowed = (value: unknown, options: string[]) =>
+    typeof value === 'string' && options.includes(value) ? value : 'unknown';
+  window.gtag('event', 'booking_complete', {
+    consultation_type: allowed(data.consultation_type, bookingValues.consultation_type),
+    format: allowed(data.format, bookingValues.format),
+  });
+});
+
 // ---------- Delegated click tracking on [data-track] (no personal data) ----------
 document.addEventListener('click', (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>('[data-track]');

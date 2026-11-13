@@ -51,7 +51,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 ## Part 5: Site architecture
 | Item | Status |
 |---|---|
-| All 15 pages with the spec URLs (plus a /services/ overview listing services, never conditions), H1s, titles (≤60) and descriptions (≤155) | ✅ Checked automatically |
+| All current pages with the spec URLs, H1s, titles (≤60) and descriptions (≤155) | ✅ Checked automatically |
 | Header: logo, Home, Consultations dropdown, Fees, About, FAQs, Contact, Book button | ✅ |
 | Desktop top bar (phone, WhatsApp, email); `aria-current` | ✅ |
 | Footer: NAP, hours, links, policies, GP line, © year | ✅ |
@@ -65,9 +65,9 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 ## Part 6: Technical SEO
 | Item | Status |
 |---|---|
-| 301s: www → apex, `/index.html`, `/inner-page.html`, trailing slash | ✅ `vercel.json` · 🟡 preferred host (open item 9) |
+| Single-hop 301s: HTTP → HTTPS, www → apex, missing trailing slash, legacy URLs | ✅ `vercel.json` |
 | robots.txt with AI search crawlers allowed | ✅ |
-| XML sitemap without thank-you/404 | ✅ `/sitemap-index.xml` (`/sitemap.xml` redirects) |
+| XML sitemap without thank-you/404 | ✅ Direct `/sitemap.xml` with real `<lastmod>` values |
 | Canonical, Open Graph, Twitter card, theme-color on every page | ✅ |
 | OG image 1200×630 < 200 KB | ✅ Logo + portrait, no stock photo |
 | Real 404 status | ✅ (Vercel serves 404.html with 404) |
