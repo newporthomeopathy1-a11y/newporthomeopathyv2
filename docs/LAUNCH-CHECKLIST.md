@@ -40,7 +40,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 | Enquiry form fields, labels, required in text, max lengths, honeypot, consent | ✅ Adds a free discovery chat option and a phone format |
 | Works without JavaScript | ✅ Booking page is server-rendered and shows errors returned by the server |
 | Server validation, CR/LF stripping, HTML escaping | ✅ `src/pages/api/enquiry.ts` |
-| Turnstile | ✅ Activates when `PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` are set |
+| Turnstile | ✅ Both keys required in production; local development allows the secret key to be absent |
 | Rate limit 5/IP/hour | ✅ Best effort per instance · ⬜ use Upstash/Vercel KV for a hard limit |
 | Send via Resend from noreply@, Reply-To patient, acknowledgement email | ✅ · ⬜ create the Resend account, verify the domain, set `RESEND_API_KEY`, `CLINIC_INBOX` |
 | Redirect to `/book-appointment/thank-you/` (noindex) | ✅ |

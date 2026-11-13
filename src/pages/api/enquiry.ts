@@ -1,7 +1,7 @@
 // POST /api/enquiry — server-side handler for the booking form (spec Part 4).
 // Runs as a Vercel function in production and inside `astro dev` locally.
 // Env vars: RESEND_API_KEY (required to send), CLINIC_INBOX (optional, defaults to the clinic email),
-// TURNSTILE_SECRET_KEY (optional until Turnstile is set up), and Upstash Redis REST credentials.
+// TURNSTILE_SECRET_KEY (required in production; optional in dev), and Upstash Redis REST credentials.
 // Never logs form contents.
 import type { APIRoute } from 'astro';
 import { createHash } from 'node:crypto';
@@ -66,7 +66,10 @@ function validate(f: FormData) {
 
 async function verifyTurnstile(token: string, ip: string) {
   const secret = import.meta.env.TURNSTILE_SECRET_KEY;
-  if (!secret) return true; // not configured yet
+  if (!secret) {
+    if (import.meta.env.PROD) throw new Error('TURNSTILE_SECRET_KEY is required in production.');
+    return import.meta.env.DEV;
+  }
   const r = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
     method: 'POST',
     body: new URLSearchParams({ secret, response: token, remoteip: ip }),

@@ -22,7 +22,7 @@ The old PHP files (`ajax.php`, `assets/forms/*.php`) don't exist in this build, 
 |---|---|---|
 | `RESEND_API_KEY` | To send email | Booking-form emails via [Resend](https://resend.com). Without it, production shows "couldn't send, please call". In `npm run dev` the form still completes but sends nothing. |
 | `CLINIC_INBOX` | No | Where enquiries go. Defaults to the clinic email in `site.ts` (cavitasuresh@yahoo.com). |
-| `TURNSTILE_SECRET_KEY` + `PUBLIC_TURNSTILE_SITE_KEY` | Recommended | Cloudflare Turnstile spam check on the form. |
+| `TURNSTILE_SECRET_KEY` + `PUBLIC_TURNSTILE_SITE_KEY` | Required in production | Cloudflare Turnstile spam check on the form. Local development allows the secret key to be absent. |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Required in production | Upstash Redis REST credentials for the five-per-hour enquiry limit per IP. Local development allows submissions when these are absent. |
 | `PUBLIC_GA_ID` | Optional | GA4 measurement ID. The cookie banner appears only when this is set, and GA loads only after Accept. |
 | `PUBLIC_BOOKING_EMBED_URL` | Optional | Setmore / Calendly / Cliniko embed URL. When set, it replaces the enquiry form on `/book-appointment/`. |
