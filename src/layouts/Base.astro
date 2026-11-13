@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import { SITE, clinic, nav, addressLine, gpStatementShort } from '../data/site';
 import { siteGraph, breadcrumbSchema } from '../data/schema';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
+import BackLink from '../components/BackLink.astro';
 import Icon from '../components/Icon.astro';
 
 interface Props {
@@ -24,6 +24,8 @@ const ogImageAlt = `${clinic.name}: homeopathy consultations in Newport, Shropsh
 const path = Astro.url.pathname;
 const canonical = `${SITE}${path}`;
 const allSchema = [siteGraph(), ...(breadcrumbs?.length ? [breadcrumbSchema(breadcrumbs)] : []), ...schema];
+const showBackLink = Boolean(breadcrumbs?.length) && path !== '/' && path !== '/404/';
+const backHref = path.startsWith('/blog/') && path !== '/blog/' ? '/blog/' : '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 const year = new Date().getFullYear();
 const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
@@ -121,7 +123,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     </header>
 
     <main id="main">
-      {breadcrumbs?.length && <Breadcrumbs items={breadcrumbs} />}
+      {showBackLink && <div class="container"><BackLink href={backHref} /></div>}
       <slot />
     </main>
 
