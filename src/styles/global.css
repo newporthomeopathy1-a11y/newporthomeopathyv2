@@ -359,22 +359,29 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 /* Footer */
 .site-footer { border-top: 1px solid var(--grey-200); padding: 52px 0 28px; font-size: .925rem; color: var(--grey-600); }
 .site-footer a { color: var(--ink); text-decoration: none; }
-.site-footer a:not(.footer-logo) { display: flex; align-items: center; min-height: 44px; }
 .site-footer a:hover { color: var(--blue-600); text-decoration: underline; }
 .footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 32px; }
 .footer-grid ul { list-style: none; padding: 0; margin: 0; }
-.footer-grid li { margin-bottom: 8px; }
+.footer-grid li { margin-bottom: 4px; }
 .footer-heading { color: var(--black); font-weight: 600; margin-bottom: 12px; }
 .footer-grid p { margin: 0 0 6px; }
-.footer-logo { display: inline-flex; align-items: center; min-height: 44px; margin-bottom: 18px; }
+.footer-logo { display: inline-block; margin-bottom: 18px; }
 .footer-logo img { width: 196px; height: auto; max-width: 100%; }
-.footer-line { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 10px; }
+.footer-grid .footer-line { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 4px; }
 .footer-line .icon { width: 18px; height: 18px; color: var(--blue-600); margin-top: 3px; }
 .footer-base { border-top: 1px solid var(--grey-200); margin-top: 36px; padding-top: 20px; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; font-size: .85rem; }
 .footer-base p { margin: 0; }
-.site-footer .link-button { display: inline-flex; align-items: center; min-height: 44px; color: var(--ink); text-decoration: none; }
-@media (max-width: 860px) { .footer-grid { grid-template-columns: 1fr; } }
-@media (max-width: 520px) { .footer-grid { grid-template-columns: 1fr; } }
+.site-footer .link-button { color: var(--ink); text-decoration: none; }
+@media (max-width: 860px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .site-footer a:not(.footer-logo), .site-footer .link-button { display: flex; align-items: center; min-height: 44px; }
+  .footer-grid .footer-line { align-items: center; min-height: 44px; }
+  .footer-line .icon { margin-top: 0; }
+}
+@media (max-width: 520px) {
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-grid li, .footer-grid .footer-line { margin-bottom: 0; }
+}
 
 /* Mobile sticky action bar (spec Part 4: below 768px, safe-area padding) */
 .mobile-actions { display: none; }
