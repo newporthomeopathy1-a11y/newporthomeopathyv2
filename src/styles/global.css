@@ -133,7 +133,7 @@ html.js .has-sub:not(.open) .consultations-panel { display: none; }
   .topbar { display: none; }
   .header-inner { min-height: 64px; flex-wrap: wrap; }
   .logo { display: inline-flex; align-items: center; min-height: 44px; }
-  .logo img { width: 160px; height: auto; max-width: 100%; }
+  .logo img { width: 200px; height: auto; max-width: 100%; }
   .nav-toggle { display: none; }
   html.js .nav-toggle { display: inline-flex; align-items: center; justify-content: center; }
   .site-nav { display: flex; flex: 1 0 100%; width: 100%; position: static; overflow: visible; background: var(--white); flex-direction: column; align-items: stretch; padding: 0 0 16px; }
@@ -306,7 +306,7 @@ section { padding: var(--space-6) 0; }
 @media (max-width: 860px) {
   .hero { background: var(--white); }
   .hero picture { position: static; display: block; }
-  .hero .hero-bg { position: static; height: 160px; object-position: 72% 60%; }
+  .hero .hero-bg { position: static; height: clamp(200px, 56vw, 280px); object-fit: cover; object-position: 80% 55%; }
   .hero-grid { min-height: 0; padding-block: 0 var(--space-4); }
   .hero-copy { max-width: none; background: var(--white); border: 0; box-shadow: none; border-radius: 0; padding: 24px 0 0; -webkit-backdrop-filter: none; backdrop-filter: none; }
   .hero .btn-lg { width: 100%; }
@@ -429,7 +429,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   .footer-grid { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 767px) {
-  .site-footer a:not(.footer-logo), .site-footer .link-button { min-height: 40px; }
+  .site-footer a:not(.footer-logo), .site-footer .link-button { min-height: 44px; }
 }
 @media (max-width: 600px) {
   .footer-grid { grid-template-columns: 1fr; gap: 24px; }

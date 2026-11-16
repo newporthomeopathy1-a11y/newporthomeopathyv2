@@ -82,7 +82,7 @@ export default defineConfig({
       { hostname: 'newporthomeopathyv2.vercel.app', protocol: 'https' },
     ],
   },
-  build: { format: 'directory', inlineStylesheets: 'always' },
+  build: { format: 'directory', inlineStylesheets: 'auto' },
   integrations: [
     sitemap({
       // /book-appointment/ is server-rendered (shows form errors without JS), so list it explicitly.

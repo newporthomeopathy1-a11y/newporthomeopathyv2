@@ -6,6 +6,7 @@
 2. Build command `npm run build`. Output is handled by the `@astrojs/vercel` adapter.
 3. Add the environment variables below (Project → Settings → Environment Variables).
 4. Add both domains, `newporthomeopathy.com` and `www.newporthomeopathy.com`. `vercel.json` redirects noncanonical host, protocol and page-path requests to the HTTPS apex URL in one 301.
+5. Keep `/book-appointment/` server-rendered so enquiry errors and the no-JavaScript form fallback continue to work. In Project Settings → Functions → Function Region, select London (`lhr1`) to reduce latency for UK visitors.
 
 `vercel.json` also sets:
 - **Redirects:** `/index.html` and `/inner-page.html` go to `/`; trailing slashes are added. The sitemap is served directly from `/sitemap.xml`.

@@ -51,7 +51,7 @@ The file name becomes the URL: `first-homeopathy-consultation-guide.md` becomes 
 | Logo | `src/assets/logo.png` | Transparent PNG ≥ 1000 px wide (or SVG) |
 
 Replace a file with the same name and run `npm run build`. Astro creates AVIF and WebP versions in several sizes automatically.
-After changing the logo or portrait, run `npm run icons` to rebuild the favicons and the social preview image.
+After changing the logo, run `node scripts/make-logo.mjs` to regenerate its responsive variants and structured-data image. Run `npm run icons` after changing the logo or portrait to rebuild the favicons and social preview image.
 
 ## 5. Copy rules (UK ASA / CAP Code): must follow
 

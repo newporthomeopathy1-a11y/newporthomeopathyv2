@@ -52,6 +52,7 @@ To preview the production build locally, serve the static output: `python3 -m ht
 │   ├── robots.txt, llms.txt
 ├── scripts/
 │   ├── check-copy.mjs      Build gate: banned health claims, condition names, template leftovers
+│   ├── make-logo.mjs       Generates responsive AVIF/WebP logo variants
 │   └── make-icons.mjs      Generates icons + OG image
 └── src/
     ├── data/
