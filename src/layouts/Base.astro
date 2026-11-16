@@ -12,13 +12,14 @@ interface Props {
   schema?: object[];
   noindex?: boolean;
   ogType?: 'website' | 'article';
+  preconnects?: string[];
   /** Blog posts: ISO dates for article:published_time / modified_time. */
   published?: Date;
   updated?: Date;
   /** Largest-contentful-paint image to preload (responsive srcset). */
   lcpImage?: { srcset: string; sizes: string; type: string };
 }
-const { title, description, breadcrumbs, schema = [], noindex = false, ogType = 'website', published, updated, lcpImage } = Astro.props;
+const { title, description, breadcrumbs, schema = [], noindex = false, ogType = 'website', preconnects = [], published, updated, lcpImage } = Astro.props;
 const ogImage = `${SITE}/og-image.jpg`;
 const ogImageAlt = `${clinic.title} at ${clinic.name}`;
 const path = Astro.url.pathname;
@@ -42,6 +43,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     <link rel="canonical" href={canonical} />
     <meta name="theme-color" content="#ffffff" />
     <link rel="preload" href="/fonts/open-sans-latin.woff2" as="font" type="font/woff2" crossorigin />
+    {preconnects.map((origin) => <link rel="preconnect" href={origin} crossorigin />)}
     {lcpImage && <link rel="preload" as="image" imagesrcset={lcpImage.srcset} imagesizes={lcpImage.sizes} type={lcpImage.type} fetchpriority="high" />}
 
     <meta property="og:type" content={ogType} />
@@ -118,7 +120,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
             {nav.map((item, index) =>
               item.children ? (
                 <li class="has-sub" style={`--menu-index: ${index};`}>
-                  <a class="consultations-fallback" href={item.children[0].href}>
+                  <a class="consultations-fallback" href={item.children[0].href} data-astro-prefetch>
                     {item.label}<Icon name="chevron" class="menu-chevron" />
                   </a>
                   <button
@@ -131,19 +133,19 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
                   </button>
                   <div class="consultations-panel" id={`consultations-panel-${index}`}>
                     {item.children.slice(0, 2).map((c, childIndex) => (
-                      <a class="consultation-option" href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>
+                      <a class="consultation-option" href={c.href} data-astro-prefetch aria-current={isActive(c.href) ? 'page' : undefined}>
                         <span class="consultation-option-title">{childIndex === 0 ? 'In person' : 'Online'}</span>
                       </a>
                     ))}
                   </div>
                 </li>
               ) : (
-                <li style={`--menu-index: ${index};`}><a href={item.href} aria-current={isActive(item.href!) ? 'page' : undefined}>{item.label}</a></li>
+                <li style={`--menu-index: ${index};`}><a href={item.href} data-astro-prefetch aria-current={isActive(item.href!) ? 'page' : undefined}>{item.label}</a></li>
               )
             )}
           </ul>
           <div class="mobile-menu-actions">
-            <a href="/book-appointment/" class="btn btn-primary" data-track="click_book" data-loc="header">Book a consultation</a>
+            <a href="/book-appointment/" class="btn btn-primary" data-astro-prefetch="tap" data-track="click_book" data-loc="header">Book a consultation</a>
             <div class="mobile-menu-contacts">
               <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="header"><Icon name="phone" /> Call</a>
               <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener" data-track="click_whatsapp" data-loc="header"><Icon name="whatsapp" /> WhatsApp</a>
@@ -218,7 +220,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     <nav class="mobile-actions" aria-label="Quick contact">
       <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="sticky_bar"><Icon name="phone" /> Call</a>
       <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="sticky_bar"><Icon name="whatsapp" /> WhatsApp</a>
-      <a href="/book-appointment/" data-track="click_book" data-loc="sticky_bar"><Icon name="calendar" /> Book</a>
+      <a href="/book-appointment/" data-astro-prefetch="tap" data-track="click_book" data-loc="sticky_bar"><Icon name="calendar" /> Book</a>
     </nav>
 
     <div class="cookie-banner" role="region" aria-label="Cookie consent" hidden>

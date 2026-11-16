@@ -36,6 +36,16 @@ const followUpBookingUrl = import.meta.env.PUBLIC_BOOKING_FOLLOWUP_URL
   || import.meta.env.PUBLIC_BOOKING_EMBED_URL_FOLLOWUP
   || legacyBookingUrl;
 const bookingFlowEnabled = Boolean(initialBookingUrl && followUpBookingUrl);
+const bookingPreconnects = bookingFlowEnabled
+  ? [...new Set([initialBookingUrl, followUpBookingUrl].flatMap((value) => {
+    try {
+      const url = new URL(value);
+      return url.protocol === 'https:' ? [url.origin] : [];
+    } catch {
+      return [];
+    }
+  }))]
+  : [];
 const durationLabel = (duration: string) => {
   const values = duration.match(/\d+/g);
   return values ? `${values[values.length - 1]} min` : duration;
@@ -45,6 +55,7 @@ const durationLabel = (duration: string) => {
   title="Book with Cavita Batchu, BHMS – Homeopath | Newport Homeopathy Clinic"
   description="Book an in-person consultation in Newport, Shropshire or an online consultation with Cavita Batchu, BHMS – Homeopath. Initial consultation £50. Call, WhatsApp or book online."
   breadcrumbs={[{ name: 'Book a consultation', href: '/book-appointment/' }]}
+  preconnects={bookingPreconnects}
 >
   <PageIntro
     h1="Book a Consultation with Cavita Batchu, BHMS – Homeopath"
@@ -375,10 +386,7 @@ const durationLabel = (duration: string) => {
               <p id="consent-error" class="error" aria-live="polite">{fieldErr('consent')}</p>
             </div>
             {turnstileKey && (
-              <>
-                <div class="cf-turnstile" data-sitekey={turnstileKey}></div>
-                <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-              </>
+              <div class="cf-turnstile" data-sitekey={turnstileKey}></div>
             )}
             <div>
               <button type="submit" class="btn btn-primary btn-lg">Send enquiry</button>

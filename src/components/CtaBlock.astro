@@ -10,7 +10,7 @@ const { heading = 'Book a consultation', text = 'Book online, call or WhatsApp. 
     <h2>{heading}</h2>
     {text && <p>{text}</p>}
     <div class="cta-actions">
-      <a href="/book-appointment/" class="btn btn-primary" data-track="click_book" data-loc="page"><Icon name="calendar" /> Book a consultation</a>
+      <a href="/book-appointment/" class="btn btn-primary" data-astro-prefetch="tap" data-track="click_book" data-loc="page"><Icon name="calendar" /> Book a consultation</a>
       <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="page"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
       <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener" data-track="click_whatsapp" data-loc="page"><Icon name="whatsapp" /> WhatsApp</a>
     </div>

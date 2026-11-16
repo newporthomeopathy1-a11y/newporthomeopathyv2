@@ -18,7 +18,7 @@ import { personSchema } from '../data/schema';
   />
   <section class="section-top-none">
     <div class="container grid-2 about-grid grid-start">
-      <Picture src={cavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Cavita Batchu, BHMS" loading="lazy" class="about-banner" />
+      <Picture src={cavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Cavita Batchu, BHMS" loading="lazy" decoding="async" class="about-banner" />
       <div class="prose">
         <h2>Training</h2>
         <p>I hold a five-year Bachelor of Homeopathic Medicine and Surgery (BHMS) degree from India and have over 15 years of experience as a homeopath.</p>

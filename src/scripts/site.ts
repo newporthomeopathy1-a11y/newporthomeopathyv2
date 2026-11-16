@@ -106,7 +106,51 @@ if (toggle && navEl) {
   window.addEventListener('resize', () => {
     if (desktopBreakpoint.matches && navEl.classList.contains('open')) setOpen(false);
   });
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    const wasLocked = document.body.classList.contains('nav-open');
+    const restoreY = wasLocked ? scrollPosition : window.scrollY;
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+    navEl.classList.remove('open');
+    setSubmenuOpen(false);
+    openedByHover = false;
+    document.body.classList.remove('nav-open');
+    document.body.style.removeProperty('--nav-scroll-offset');
+    document.body.style.removeProperty('--nav-body-width');
+    if (wasLocked) {
+      const scrollBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, restoreY);
+      document.documentElement.style.scrollBehavior = scrollBehavior;
+    }
+  });
 }
+
+// ---------- Map facade: keep third-party map code off the initial load ----------
+document.querySelectorAll<HTMLElement>('.map-facade[data-map-src]').forEach((facade) => {
+  const button = facade.querySelector<HTMLButtonElement>('.map-load');
+  const frame = facade.querySelector<HTMLElement>('.map-frame');
+  if (!button || !frame) return;
+
+  let started = false;
+  const loadMap = () => {
+    const src = facade.dataset.mapSrc;
+    if (started || !src) return;
+    started = true;
+
+    const iframe = document.createElement('iframe');
+    iframe.title = facade.dataset.mapTitle ?? '';
+    iframe.loading = 'lazy';
+    iframe.referrerPolicy = 'no-referrer-when-downgrade';
+    iframe.allowFullscreen = true;
+    iframe.addEventListener('load', () => facade.classList.add('map-loaded'), { once: true });
+    iframe.src = src;
+    frame.append(iframe);
+  };
+
+  button.addEventListener('click', loadMap);
+});
 
 // ---------- Consent + GA4 (spec Part 9) ----------
 declare global {
@@ -118,6 +162,7 @@ const readConsent = () => { try { return localStorage.getItem(CONSENT_KEY); } ca
 const writeConsent = (v: string) => { try { localStorage.setItem(CONSENT_KEY, v); } catch { /* private mode */ } };
 
 let gaLoaded = false;
+let gaScheduled = false;
 function loadGa() {
   const id = window.__GA_ID;
   if (!id || gaLoaded) return;
@@ -131,22 +176,49 @@ function loadGa() {
   window.gtag('config', id);
 }
 
+function scheduleGa() {
+  if (!window.__GA_ID || gaLoaded || gaScheduled) return;
+  gaScheduled = true;
+  const run = () => {
+    gaScheduled = false;
+    if (document.visibilityState === 'visible') loadGa();
+  };
+  if ('requestIdleCallback' in window) window.requestIdleCallback(run, { timeout: 2000 });
+  else globalThis.setTimeout(run, 1000);
+}
+
+function setBannerVisible(visible: boolean) {
+  if (!banner) return;
+  banner.hidden = !visible;
+  document.body.classList.toggle('cookie-visible', visible);
+}
+
+function syncConsentBanner() {
+  if (!window.__GA_ID || !banner) {
+    setBannerVisible(false);
+    return;
+  }
+  const consent = readConsent();
+  setBannerVisible(!consent);
+  if (consent === 'accept') scheduleGa();
+}
+
 // Only show the banner when analytics is actually configured.
 if (window.__GA_ID && banner) {
-  const c = readConsent();
-  if (c === 'accept') loadGa();
-  else if (!c) banner.hidden = false;
+  syncConsentBanner();
   banner.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-consent]');
     if (!btn) return;
     writeConsent(btn.dataset.consent!);
-    banner.hidden = true;
-    if (btn.dataset.consent === 'accept') loadGa();
+    setBannerVisible(false);
+    if (btn.dataset.consent === 'accept') scheduleGa();
   });
 }
 document.querySelector('[data-cookie-settings]')?.addEventListener('click', () => {
-  if (banner && window.__GA_ID) banner.hidden = false;
+  if (banner && window.__GA_ID) setBannerVisible(true);
 });
+
+window.addEventListener('pageshow', syncConsentBanner);
 
 // TODO: Add the selected booking provider's exact origin after its message contract is confirmed.
 const BOOKING_MESSAGE_ORIGINS: string[] = [];
@@ -190,6 +262,30 @@ if (lead) {
 // ---------- Enquiry form: client-side hints (server re-validates everything) ----------
 const form = document.querySelector<HTMLFormElement>('form.enquiry-form');
 if (form) {
+  const turnstile = form.querySelector<HTMLElement>('.cf-turnstile');
+  if (turnstile) {
+    let turnstileRequested = false;
+    let turnstileObserver: IntersectionObserver | undefined;
+    const loadTurnstile = () => {
+      if (turnstileRequested) return;
+      turnstileRequested = true;
+      turnstileObserver?.disconnect();
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      script.async = true;
+      script.defer = true;
+      document.head.append(script);
+    };
+
+    form.addEventListener('focusin', loadTurnstile, { once: true });
+    if ('IntersectionObserver' in window) {
+      turnstileObserver = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) loadTurnstile();
+      }, { rootMargin: '200px' });
+      turnstileObserver.observe(turnstile);
+    }
+  }
+
   const date = form.querySelector<HTMLInputElement>('input[type="date"]');
   if (date) {
     date.min = new Date().toISOString().slice(0, 10);

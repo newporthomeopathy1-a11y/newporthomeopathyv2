@@ -1,7 +1,17 @@
 ---
 import { clinic, addressLine } from '../data/site';
-const embed = `https://www.google.com/maps?q=${encodeURIComponent(`${clinic.name}, ${addressLine}`)}&output=embed`;
+const mapQuery = `${clinic.name}, ${addressLine}`;
+const embed = `https://www.google.com/maps?q=${encodeURIComponent(mapQuery)}&output=embed`;
+const directions = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapQuery)}`;
+const title = 'Map showing Newport Homeopathy Clinic, 75 Forton Road, Newport TF10 8BU';
 ---
-<div class="map-facade">
-  <iframe src={embed} title="Map showing Newport Homeopathy Clinic, 75 Forton Road, Newport TF10 8BU" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+<div class="map-facade" data-map-src={embed} data-map-title={title}>
+  <div class="map-frame">
+    <div class="map-placeholder">
+      <strong>{clinic.name}</strong>
+      <span>{addressLine}</span>
+      <button type="button" class="btn btn-primary map-load">View map</button>
+    </div>
+  </div>
+  <a class="map-external-link" href={directions} target="_blank" rel="noopener noreferrer">Open in Google Maps</a>
 </div>

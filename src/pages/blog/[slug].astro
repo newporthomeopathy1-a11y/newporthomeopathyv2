@@ -34,7 +34,7 @@ const fmt = (x: Date) => x.toLocaleDateString('en-GB', { day: 'numeric', month: 
     </p>
     <Content />
     <aside class="author-box">
-      <Image src={portrait} alt="Cavita Batchu, BHMS" width={128} height={128} loading="lazy" />
+      <Image src={portrait} alt="Cavita Batchu, BHMS" width={128} height={128} format="webp" quality={70} loading="lazy" decoding="async" />
       <div>
         <p class="author-name"><strong><a href="/about-cavita-batchu/">{clinic.title}</a></strong></p>
         <p class="author-description">Homeopath with over {clinic.years} years' experience, offering consultations in Newport, Shropshire and online.</p>

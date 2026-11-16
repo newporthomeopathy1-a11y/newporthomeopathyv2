@@ -45,7 +45,7 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
         <h1>Homeopathy Consultations in Newport, Shropshire</h1>
         <p class="hero-lead">Private, one-to-one consultations with {clinic.practitioner}, {clinic.qualification}, a homeopath with over {clinic.years} years' experience. In person at {clinic.street}, {clinic.locality}, or online anywhere in the UK.</p>
         <div class="cta-actions">
-          <a href="/book-appointment/" class="btn btn-primary btn-lg" data-track="click_book" data-loc="hero">Book a consultation</a>
+          <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-track="click_book" data-loc="hero">Book a consultation</a>
           <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline btn-lg" data-track="click_call" data-loc="hero"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
           <a href={clinic.whatsapp} class="btn btn-outline btn-lg" rel="noopener" data-track="click_whatsapp" data-loc="hero"><Icon name="whatsapp" /> WhatsApp</a>
         </div>
@@ -66,7 +66,7 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
   <!-- 3. Meet your practitioner -->
   <section>
     <div class="container grid-2 about-grid">
-      <Picture src={cavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Cavita Batchu, BHMS" loading="lazy" class="about-banner" />
+      <Picture src={cavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Cavita Batchu, BHMS" loading="lazy" decoding="async" class="about-banner" />
       <div>
         <h2>{clinic.title}</h2>
         <p>Cavita has a five-year BHMS degree and over {clinic.years} years' experience.</p>
