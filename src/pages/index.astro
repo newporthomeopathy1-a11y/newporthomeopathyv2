@@ -9,7 +9,7 @@ import Reviews from '../components/Reviews.astro';
 import MapFacade from '../components/MapFacade.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import heroBg from '../assets/hero-remedies.jpg';
-import kavitaPhoto from '../assets/kavita-about.jpg';
+import cavitaPhoto from '../assets/cavita-about.jpg';
 import { clinic, fees, faqs, addressLine } from '../data/site';
 import { faqSchema } from '../data/schema';
 
@@ -23,8 +23,8 @@ const heroAvif = await getImage({ src: heroBg, format: 'avif', widths: HERO_WIDT
 const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'image/avif' };
 ---
 <Base
-  title="Homeopath in Newport, Shropshire | Newport Homeopathy Clinic"
-  description="Private homeopathy consultations with Kavita Batchu, BHMS, in Newport, Shropshire or online across the UK. Initial consultation £50. Book today."
+  title="Cavita Batchu, BHMS – Homeopath | Newport Homeopathy Clinic"
+  description="Private homeopathy consultations with Cavita Batchu, BHMS – Homeopath, in Newport, Shropshire or online across the UK. Initial consultation £50. Book today."
   schema={[faqSchema(faqPreview)]}
   lcpImage={lcpImage}
 >
@@ -67,12 +67,12 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
   <!-- 3. Meet your practitioner -->
   <section>
     <div class="container grid-2 about-grid">
-      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Kavita Batchu, BHMS, homeopath at Newport Homeopathy Clinic" loading="lazy" class="about-banner" />
+      <Picture src={cavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Cavita Batchu, BHMS" loading="lazy" class="about-banner" />
       <div>
-        <h2>{clinic.practitioner}, {clinic.qualification}</h2>
-        <p>Kavita has a five-year BHMS degree and over {clinic.years} years' experience.</p>
+        <h2>{clinic.title}</h2>
+        <p>Cavita has a five-year BHMS degree and over {clinic.years} years' experience.</p>
         <p>Homeopathy is a system of complementary medicine developed over 200 years ago.</p>
-        <p><a href="/about-kavita-batchu/" class="link-arrow">About Kavita</a></p>
+        <p class="section-link"><a href="/about-cavita-batchu/" class="link-arrow">About Cavita</a></p>
       </div>
     </div>
   </section>
@@ -98,7 +98,7 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
         <li><h3>First consultation</h3><p>A private, one-to-one conversation about your health history, lifestyle and wellbeing.</p></li>
         <li><h3>Follow-ups</h3><p>Usually {fees.followUp.interval}, in person or online.</p></li>
       </ol>
-      <p><a href="/what-to-expect/" class="link-arrow">What to expect</a></p>
+      <p class="section-link"><a href="/what-to-expect/" class="link-arrow">What to expect</a></p>
     </div>
   </section>
 

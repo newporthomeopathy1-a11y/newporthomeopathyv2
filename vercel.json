@@ -56,6 +56,60 @@
       "statusCode": 301
     },
     {
+      "source": "/about-kavita-batchu/",
+      "has": [
+        {
+          "type": "host",
+          "value": "newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "statusCode": 301
+    },
+    {
+      "source": "/about-kavita-batchu/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "statusCode": 301
+    },
+    {
+      "source": "/about-kavita-batchu",
+      "has": [
+        {
+          "type": "host",
+          "value": "newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "statusCode": 301
+    },
+    {
+      "source": "/about-kavita-batchu",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.newporthomeopathy.com"
+        }
+      ],
+      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "statusCode": 301
+    },
+    {
+      "source": "/about-kavita-batchu/",
+      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "statusCode": 301
+    },
+    {
+      "source": "/about-kavita-batchu",
+      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "statusCode": 301
+    },
+    {
       "source": "/index.html",
       "has": [
         {

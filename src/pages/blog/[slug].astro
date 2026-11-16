@@ -3,7 +3,7 @@ import { getCollection, render } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import CtaBlock from '../../components/CtaBlock.astro';
 import { Image } from 'astro:assets';
-import portrait from '../../assets/kavita-portrait.jpg';
+import portrait from '../../assets/cavita-portrait.jpg';
 import { clinic } from '../../data/site';
 import { blogPostingSchema } from '../../data/schema';
 
@@ -30,13 +30,13 @@ const fmt = (x: Date) => x.toLocaleDateString('en-GB', { day: 'numeric', month: 
     <p class="post-meta">
       Published <time datetime={d.published.toISOString().slice(0, 10)}>{fmt(d.published)}</time>
       {d.updated && <> · Updated <time datetime={d.updated.toISOString().slice(0, 10)}>{fmt(d.updated)}</time></>}
-      · Reviewed by <a href="/about-kavita-batchu/">{clinic.practitioner}, {clinic.qualification}</a>
+      · Reviewed by <a href="/about-cavita-batchu/">{clinic.title}</a>
     </p>
     <Content />
     <aside class="author-box">
-      <Image src={portrait} alt="Kavita Batchu" width={128} height={128} loading="lazy" />
+      <Image src={portrait} alt="Cavita Batchu, BHMS" width={128} height={128} loading="lazy" />
       <div>
-        <p class="author-name"><strong><a href="/about-kavita-batchu/">{clinic.practitioner}, {clinic.qualification}</a></strong></p>
+        <p class="author-name"><strong><a href="/about-cavita-batchu/">{clinic.title}</a></strong></p>
         <p class="author-description">Homeopath with over {clinic.years} years' experience, offering consultations in Newport, Shropshire and online.</p>
       </div>
     </aside>

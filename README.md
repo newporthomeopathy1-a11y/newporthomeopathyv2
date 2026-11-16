@@ -46,7 +46,7 @@ To preview the production build locally, serve the static output: `python3 -m ht
 │   └── LAUNCH-CHECKLIST.md  Every spec item → done / needs clinic input / at launch
 ├── public/                 Served as-is
 │   ├── fonts/              open-sans-latin.woff2
-│   ├── assets/img/         logo.png, kavita-batchu.jpg (referenced by structured data)
+│   ├── assets/img/         logo.png, cavita-batchu.jpg (referenced by structured data)
 │   ├── favicon.ico, icon.svg, icon-192/512.png, apple-touch-icon.png, site.webmanifest
 │   ├── og-image.jpg        1200×630 social preview
 │   ├── robots.txt, llms.txt
@@ -79,7 +79,7 @@ To preview the production build locally, serve the static output: `python3 -m ht
 | `/online-homeopathy-consultation/` | `pages/online-homeopathy-consultation.astro` |
 | `/consultation-fees/` | `pages/consultation-fees.astro` |
 | `/what-to-expect/` | `pages/what-to-expect.astro` |
-| `/about-kavita-batchu/` | `pages/about-kavita-batchu.astro` |
+| `/about-cavita-batchu/` | `pages/about-cavita-batchu.astro` |
 | `/areas-we-serve/` | `pages/areas-we-serve.astro` |
 | `/frequently-asked-questions/` | `pages/frequently-asked-questions.astro` |
 | `/blog/`, `/blog/<slug>/` | `pages/blog/index.astro`, `pages/blog/[slug].astro` |

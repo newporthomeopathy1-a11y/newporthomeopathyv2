@@ -1,7 +1,7 @@
 import { SITE, clinic, fees, faqs } from './site';
 
 const clinicId = `${SITE}/#clinic`;
-const personId = `${SITE}/about-kavita-batchu/#person`;
+const personId = `${SITE}/about-cavita-batchu/#person`;
 
 // Site-wide graph (spec Part 7). No Physician/MedicalClinic/medicalSpecialty, no "Dr".
 export function siteGraph() {
@@ -66,10 +66,10 @@ export function personSchema() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     '@id': personId,
-    name: clinic.practitioner,
+    name: clinic.title,
     jobTitle: 'Homeopath',
-    url: `${SITE}/about-kavita-batchu/`,
-    image: `${SITE}/assets/img/kavita-batchu.jpg`,
+    url: `${SITE}/about-cavita-batchu/`,
+    image: `${SITE}/assets/img/cavita-batchu.jpg`,
     hasCredential: {
       '@type': 'EducationalOccupationalCredential',
       credentialCategory: 'degree',

@@ -6,8 +6,8 @@ export const SITE = 'https://newporthomeopathy.com';
 
 export const clinic = {
   name: 'Newport Homeopathy Clinic',
-  practitioner: 'Kavita Batchu',
-  title: 'Kavita Batchu, BHMS – Homeopath', // TODO(open item 2): clinic to approve
+  practitioner: 'Cavita Batchu',
+  title: 'Cavita Batchu, BHMS – Homeopath',
   qualification: 'BHMS',
   qualificationFull: 'Bachelor of Homoeopathic Medicine and Surgery (BHMS)',
   years: '15',
@@ -77,7 +77,7 @@ export const nav = [
     ],
   },
   { href: '/consultation-fees/', label: 'Fees' },
-  { href: '/about-kavita-batchu/', label: 'About' },
+  { href: '/about-cavita-batchu/', label: 'About' },
   { href: '/frequently-asked-questions/', label: 'FAQs' },
   { href: '/contact/', label: 'Contact' },
 ];
@@ -119,7 +119,7 @@ export const faqs = [
   },
   {
     q: 'What happens at the first consultation?',
-    a: `Kavita asks about your health history, lifestyle and wellbeing during the first appointment, which lasts ${fees.initial.duration}.`,
+    a: `Cavita asks about your health history, lifestyle and wellbeing during the first appointment, which lasts ${fees.initial.duration}.`,
     link: { href: '/what-to-expect/', label: 'What to expect' },
   },
   {

@@ -7,7 +7,9 @@ import { services } from '../data/site';
     <article class="card service-card">
       <h3>{s.title}</h3>
       <p class="price">{s.price} <span>{s.meta}</span></p>
-      <a href={s.href} class="link-arrow">{s.title === 'Free discovery chat' ? 'Request a chat' : 'Find out more'}</a>
+      <a href={s.href} class="link-arrow">
+        {s.title === 'Free discovery chat' ? 'Request a chat' : <>Find out more<span class="visually-hidden"> about {s.title.toLowerCase()}</span></>}
+      </a>
     </article>
   ))}
 </div>

@@ -57,9 +57,9 @@ Full status of every requirement: [LAUNCH-CHECKLIST.md](LAUNCH-CHECKLIST.md).
 After deployment, each noncanonical URL below should return one 301 to the HTTPS apex URL with a trailing slash. The `--max-redirs 1` command fails if the request needs more than one redirect. The canonical URL and sitemap should return 200 without redirecting.
 
 ```sh
-curl -I http://newporthomeopathy.com/about-kavita-batchu
-curl -I https://www.newporthomeopathy.com/about-kavita-batchu
-curl -I -L --max-redirs 1 http://www.newporthomeopathy.com/about-kavita-batchu
-curl -I https://newporthomeopathy.com/about-kavita-batchu/
+curl -I http://newporthomeopathy.com/about-cavita-batchu
+curl -I https://www.newporthomeopathy.com/about-cavita-batchu
+curl -I -L --max-redirs 1 http://www.newporthomeopathy.com/about-cavita-batchu
+curl -I https://newporthomeopathy.com/about-cavita-batchu/
 curl -I https://newporthomeopathy.com/sitemap.xml
 ```

@@ -20,7 +20,7 @@ interface Props {
 }
 const { title, description, breadcrumbs, schema = [], noindex = false, ogType = 'website', published, updated, lcpImage } = Astro.props;
 const ogImage = `${SITE}/og-image.jpg`;
-const ogImageAlt = `${clinic.name}: homeopathy consultations in Newport, Shropshire and online`;
+const ogImageAlt = `${clinic.title} at ${clinic.name}`;
 const path = Astro.url.pathname;
 const canonical = `${SITE}${path}`;
 const allSchema = [siteGraph(), ...(breadcrumbs?.length ? [breadcrumbSchema(breadcrumbs)] : []), ...schema];
@@ -94,7 +94,10 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     <header class="site-header">
       <div class="container header-inner">
         <a href="/" class="logo">
-          <img src="/logo.png" alt="Newport Homeopathy Clinic" width="224" height="50" loading="eager" decoding="async">
+          <picture>
+            <source type="image/avif" srcset="/assets/img/clinic-logo-160.avif 160w, /assets/img/clinic-logo-320.avif 320w, /assets/img/clinic-logo-448.avif 448w" sizes="(max-width: 991px) 160px, 224px" />
+            <img src="/assets/img/clinic-logo-320.webp" srcset="/assets/img/clinic-logo-160.webp 160w, /assets/img/clinic-logo-320.webp 320w, /assets/img/clinic-logo-448.webp 448w" sizes="(max-width: 991px) 160px, 224px" alt="Newport Homeopathy Clinic" width="448" height="100" loading="eager" decoding="async">
+          </picture>
         </a>
         <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
           <Icon name="menu" class="icon-open" /><Icon name="close" class="icon-close" />
@@ -102,7 +105,10 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
         <nav id="site-nav" class="site-nav" aria-label="Main">
           <div class="mobile-menu-top">
             <a href="/" class="mobile-menu-logo">
-              <img src="/logo.png" alt="Newport Homeopathy Clinic" width="150" height="34" loading="eager" decoding="async">
+              <picture>
+                <source type="image/avif" srcset="/assets/img/clinic-logo-160.avif 160w, /assets/img/clinic-logo-320.avif 320w, /assets/img/clinic-logo-448.avif 448w" sizes="150px" />
+                <img src="/assets/img/clinic-logo-320.webp" srcset="/assets/img/clinic-logo-160.webp 160w, /assets/img/clinic-logo-320.webp 320w, /assets/img/clinic-logo-448.webp 448w" sizes="150px" alt="Newport Homeopathy Clinic" width="448" height="100" loading="lazy" decoding="async">
+              </picture>
             </a>
             <button type="button" class="nav-close" aria-label="Close menu" aria-controls="site-nav">
               <Icon name="close" />
@@ -112,14 +118,27 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
             {nav.map((item, index) =>
               item.children ? (
                 <li class="has-sub" style={`--menu-index: ${index};`}>
-                  <details>
-                    <summary>{item.label}<Icon name="chevron" class="menu-chevron" /></summary>
-                    <ul>
-                      {item.children.map((c) => (
-                        <li><a href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>{c.label}</a></li>
-                      ))}
-                    </ul>
-                  </details>
+                  <a class="consultations-fallback" href={item.children[0].href}>
+                    {item.label}<Icon name="chevron" class="menu-chevron" />
+                  </a>
+                  <button
+                    type="button"
+                    class="consultations-toggle"
+                    aria-expanded="false"
+                    aria-controls={`consultations-panel-${index}`}
+                  >
+                    {item.label}<Icon name="chevron" class="menu-chevron" />
+                  </button>
+                  <div class="consultations-panel" id={`consultations-panel-${index}`}>
+                    {item.children.slice(0, 2).map((c, childIndex) => (
+                      <a class="consultation-option" href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>
+                        <span class="consultation-option-title">{c.label}</span>
+                        <span class="consultation-option-description">
+                          {childIndex === 0 ? `At ${addressLine}` : 'Available by video anywhere in the UK.'}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
                 </li>
               ) : (
                 <li style={`--menu-index: ${index};`}><a href={item.href} aria-current={isActive(item.href!) ? 'page' : undefined}>{item.label}</a></li>
@@ -146,13 +165,20 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     <footer class="site-footer">
       <div class="container footer-grid">
         <div class="footer-about">
-          <a href="/" class="footer-logo"><img src="/logo.png" alt="Newport Homeopathy Clinic" width="196" height="44" loading="lazy" decoding="async"></a>
-          <p class="footer-line"><Icon name="user" /> <a href="/about-kavita-batchu/">{clinic.practitioner}, {clinic.qualification} · Homeopath</a></p>
-          <address class="footer-line"><Icon name="pin" /> <a href={clinic.mapsUrl} rel="noopener" data-track="click_directions" data-loc="footer">{addressLine}</a></address>
-          <p class="footer-line"><Icon name="phone" /> <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="footer">{clinic.phoneIntl}</a></p>
-          <p class="footer-line"><Icon name="whatsapp" /> <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="footer">WhatsApp</a></p>
-          <p class="footer-line"><Icon name="mail" /> <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="footer">{clinic.email}</a></p>
-          <p class="footer-line"><Icon name="clock" /> <span>{clinic.hoursText}</span></p>
+          <a href="/" class="footer-logo">
+            <picture>
+              <source type="image/avif" srcset="/assets/img/clinic-logo-160.avif 160w, /assets/img/clinic-logo-320.avif 320w, /assets/img/clinic-logo-448.avif 448w" sizes="196px" />
+              <img src="/assets/img/clinic-logo-320.webp" srcset="/assets/img/clinic-logo-160.webp 160w, /assets/img/clinic-logo-320.webp 320w, /assets/img/clinic-logo-448.webp 448w" sizes="196px" alt="Newport Homeopathy Clinic" width="448" height="100" loading="lazy" decoding="async">
+            </picture>
+          </a>
+          <ul class="footer-contact-list">
+            <li class="footer-line"><Icon name="user" /> <a href="/about-cavita-batchu/">{clinic.title}</a></li>
+            <li class="footer-line"><Icon name="pin" /> <a href={clinic.mapsUrl} rel="noopener" data-track="click_directions" data-loc="footer">{addressLine}</a></li>
+            <li class="footer-line"><Icon name="phone" /> <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="footer">{clinic.phoneIntl}</a></li>
+            <li class="footer-line"><Icon name="whatsapp" /> <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="footer">WhatsApp</a></li>
+            <li class="footer-line"><Icon name="mail" /> <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="footer">{clinic.email}</a></li>
+            <li class="footer-line"><Icon name="clock" /> <span>{clinic.hoursText}</span></li>
+          </ul>
         </div>
         <div>
           <p class="footer-heading">Services</p>
@@ -168,7 +194,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
         <div>
           <p class="footer-heading">Clinic</p>
           <ul>
-            <li><a href="/about-kavita-batchu/">About Kavita Batchu</a></li>
+            <li><a href="/about-cavita-batchu/">About Cavita Batchu</a></li>
             <li><a href="/frequently-asked-questions/">FAQs</a></li>
             <li><a href="/blog/">Guides and articles</a></li>
             <li><a href="/contact/">Contact and directions</a></li>

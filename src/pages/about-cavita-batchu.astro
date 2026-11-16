@@ -3,22 +3,22 @@ import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
-import kavitaPhoto from '../assets/kavita-about.jpg';
+import cavitaPhoto from '../assets/cavita-about.jpg';
 import { personSchema } from '../data/schema';
 ---
 <Base
-  title="Kavita Batchu, BHMS – Homeopath in Newport, Shropshire"
-  description="Meet Kavita Batchu, BHMS, a homeopath with over 15 years' experience offering private consultations in Newport, Shropshire and online."
-  breadcrumbs={[{ name: 'About Kavita Batchu', href: '/about-kavita-batchu/' }]}
+  title="Cavita Batchu, BHMS – Homeopath in Newport, Shropshire"
+  description="Meet Cavita Batchu, BHMS – Homeopath, with over 15 years' experience offering private consultations in Newport, Shropshire and online."
+  breadcrumbs={[{ name: 'About Cavita Batchu', href: '/about-cavita-batchu/' }]}
   schema={[personSchema()]}
 >
   <PageIntro
-    h1="About Kavita Batchu, BHMS"
-    lead="Kavita Batchu offers private consultations in Newport and online across the UK."
+    h1="About Cavita Batchu, BHMS – Homeopath"
+    lead="Cavita Batchu offers private consultations in Newport and online across the UK."
   />
   <section class="section-top-none">
     <div class="container grid-2 about-grid grid-start">
-      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Kavita Batchu, BHMS, homeopath at Newport Homeopathy Clinic" loading="eager" class="about-banner" />
+      <Picture src={cavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Cavita Batchu, BHMS" loading="lazy" class="about-banner" />
       <div class="prose">
         <h2>Training</h2>
         <p>I hold a five-year Bachelor of Homeopathic Medicine and Surgery (BHMS) degree from India and have over 15 years of experience as a homeopath.</p>
