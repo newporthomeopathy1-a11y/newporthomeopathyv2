@@ -26,16 +26,23 @@ The old PHP files (`ajax.php`, `assets/forms/*.php`) don't exist in this build, 
 | `TURNSTILE_SECRET_KEY` + `PUBLIC_TURNSTILE_SITE_KEY` | Required in production | Cloudflare Turnstile spam check on the form. Local development allows the secret key to be absent. |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Required in production | Upstash Redis REST credentials for the five-per-hour enquiry limit per IP. Local development allows submissions when these are absent. |
 | `PUBLIC_GA_ID` | Optional | GA4 measurement ID. The cookie banner appears only when this is set, and GA loads only after Accept. |
-| `PUBLIC_BOOKING_EMBED_URL` | Optional | Setmore / Calendly / Cliniko / Cal.com embed URL. When set, it replaces the enquiry form on `/book-appointment/`. |
+| `PUBLIC_BOOKING_INITIAL_URL` | Optional | Cal.com initial-consultation event URL, e.g. `https://cal.com/newport-homeopathy/initial-consultation`. Set this and the follow-up URL to enable booking tabs. |
+| `PUBLIC_BOOKING_FOLLOWUP_URL` | Optional | Cal.com follow-up event URL, e.g. `https://cal.com/newport-homeopathy/follow-up-consultation`. |
+| `PUBLIC_BOOKING_EMBED_URL` | Legacy fallback | When the new event URLs are unset, this URL is used for both booking tabs. |
+| `PUBLIC_BOOKING_EMBED_URL_INITIAL` + `PUBLIC_BOOKING_EMBED_URL_FOLLOWUP` | Legacy fallback | Existing deployments may use these per-event variables instead of the new names. |
 
 A template is in `.env.example`. Copy it to `.env` for local development (`.env` is git-ignored).
 
 ## Cal.com booking embed
 
 1. Create the clinic's Cal.com account and configure the consultation event types and availability.
-2. Copy the booking URL for the event to embed (the `https://cal.com/...` or `https://app.cal.com/...` URL).
-3. Set `PUBLIC_BOOKING_EMBED_URL` to that URL in Vercel's Environment Variables for the environments where bookings should be enabled. For local testing, add it to `.env`.
-4. Redeploy after changing the variable. The Book page displays the embedded booking form instead of the enquiry form when it is set; Call and WhatsApp links remain available below it.
+2. Copy the initial and follow-up event URLs:
+   - `https://cal.com/newport-homeopathy/initial-consultation`
+   - `https://cal.com/newport-homeopathy/follow-up-consultation`
+3. Set `PUBLIC_BOOKING_INITIAL_URL` and `PUBLIC_BOOKING_FOLLOWUP_URL` in Vercel's Environment Variables for the environments where bookings should be enabled. For local testing, add them to `.env`.
+4. Redeploy after changing the variables. The Book page shows tabs for both events when both URLs are set; otherwise, it keeps the enquiry form unless the legacy fallback is configured.
+
+Existing deployments can continue to use `PUBLIC_BOOKING_EMBED_URL_INITIAL` and `PUBLIC_BOOKING_EMBED_URL_FOLLOWUP`. The legacy `PUBLIC_BOOKING_EMBED_URL` is used as the fallback URL for both tabs.
 
 ## Email sending (Resend)
 

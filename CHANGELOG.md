@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 3.0.3 (16 November 2026)
+
+- Simplified the Consultations dropdown to compact, title-only options.
+- Aligned the desktop hero actions in one row and left-aligned the About link.
+- Removed the Free discovery chat card and FAQ preview from the home page.
+
 ## Version 3.0.2 (16 November 2026)
 
 - Map now loads directly on Home, Contact and In-person consultations pages; click-to-load removed.

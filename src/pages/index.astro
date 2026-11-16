@@ -4,7 +4,6 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
-import FaqList from '../components/FaqList.astro';
 import Reviews from '../components/Reviews.astro';
 import MapFacade from '../components/MapFacade.astro';
 import ServiceCards from '../components/ServiceCards.astro';
@@ -122,18 +121,7 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
   <!-- 7. Reviews -->
   <Reviews />
 
-  <!-- 8. FAQ preview -->
-  <section>
-    <div class="container narrow">
-      <div class="section-head">
-        <h2>FAQs</h2>
-      </div>
-      <FaqList items={faqPreview} />
-      <p class="faq-links"><a href="/frequently-asked-questions/" class="link-arrow">All FAQs</a> &nbsp; <a href="/blog/" class="link-arrow">Guides</a></p>
-    </div>
-  </section>
-
-  <!-- 9. Location and hours -->
+  <!-- 8. Location and hours -->
   <section class="soft">
     <div class="container grid-2">
       <div>
@@ -146,7 +134,7 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
     </div>
   </section>
 
-  <!-- 10. Final CTA + GP statement -->
+  <!-- 9. Final CTA + GP statement -->
   <CtaBlock text="">
     <GpStatement />
   </CtaBlock>

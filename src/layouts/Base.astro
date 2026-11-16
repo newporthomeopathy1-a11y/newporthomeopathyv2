@@ -132,10 +132,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
                   <div class="consultations-panel" id={`consultations-panel-${index}`}>
                     {item.children.slice(0, 2).map((c, childIndex) => (
                       <a class="consultation-option" href={c.href} aria-current={isActive(c.href) ? 'page' : undefined}>
-                        <span class="consultation-option-title">{c.label}</span>
-                        <span class="consultation-option-description">
-                          {childIndex === 0 ? `At ${addressLine}` : 'Available by video anywhere in the UK.'}
-                        </span>
+                        <span class="consultation-option-title">{childIndex === 0 ? 'In person' : 'Online'}</span>
                       </a>
                     ))}
                   </div>

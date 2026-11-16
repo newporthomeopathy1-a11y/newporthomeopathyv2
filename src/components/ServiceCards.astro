@@ -3,7 +3,7 @@
 import { services } from '../data/site';
 ---
 <div class="service-grid">
-  {services.map((s) => (
+  {services.slice(0, 3).map((s) => (
     <article class="card service-card">
       <h3>{s.title}</h3>
       <p class="price">{s.price} <span>{s.meta}</span></p>

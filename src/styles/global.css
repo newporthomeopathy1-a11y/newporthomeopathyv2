@@ -112,17 +112,16 @@ main p:not(.section-link):not(.faq-links):not(.review-link):not(.map-note) a:not
 .mobile-menu-actions { display: contents; }
 .has-sub { position: relative; }
 .has-sub > .consultations-fallback { display: flex; min-width: 44px; min-height: 44px; align-items: center; }
-.has-sub > .consultations-toggle { display: none; justify-content: space-between; width: 100%; padding: 0; border: 0; background: none; font: inherit; }
+.has-sub > .consultations-toggle { display: none; justify-content: space-between; width: 100%; padding: 0; border: 0; background: none; font: inherit; font-size: .975rem; font-weight: 400; }
 html.js .has-sub > .consultations-fallback { display: none; }
 html.js .has-sub > .consultations-toggle { display: flex; }
 .menu-chevron { display: block; width: 16px; height: 16px; margin-left: 8px; transition: transform .2s ease-out; }
 .has-sub.open .menu-chevron { transform: rotate(180deg); }
-.consultations-panel { position: absolute; top: calc(100% + var(--space-1)); left: -14px; z-index: 80; width: min(340px, calc(100vw - 32px)); padding: var(--space-1); border: 1px solid var(--grey-200); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+.consultations-panel { position: absolute; top: calc(100% + var(--space-1)); left: -14px; z-index: 80; width: min(220px, calc(100vw - 32px)); padding: 6px; border: 1px solid var(--grey-200); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
 html.js .has-sub:not(.open) .consultations-panel { display: none; }
-.consultation-option { display: grid; gap: 2px; min-height: 64px; padding: var(--space-1) var(--space-2); border-radius: 10px; }
+.consultation-option { display: flex; align-items: center; min-height: 44px; padding: 6px 10px; border-radius: 10px; }
 .consultation-option:hover { background: var(--blue-50); }
 .consultation-option-title { font-weight: 600; }
-.consultation-option-description { color: var(--grey-600); font-size: .875rem; line-height: 1.4; }
 .nav-toggle { display: none; background: none; border: 0; width: 48px; height: 48px; color: var(--ink); cursor: pointer; border-radius: var(--pill); }
 .nav-toggle:hover { background: var(--blue-50); }
 .nav-toggle .icon { width: 26px; height: 26px; }
@@ -140,8 +139,7 @@ html.js .has-sub:not(.open) .consultations-panel { display: none; }
   .site-nav > ul { width: 100%; flex-direction: column; align-items: stretch; gap: 0; }
   .site-nav > ul > li > a, .has-sub > .consultations-toggle, .has-sub > .consultations-fallback { display: flex; align-items: center; justify-content: space-between; min-height: 48px; padding: var(--space-1); border-bottom: 1px solid var(--grey-200); font-size: 1.05rem; }
   .consultations-panel { position: static; width: 100%; max-width: none; padding: 0 0 0 var(--space-2); border: 0; border-radius: 0; box-shadow: none; }
-  .consultation-option { min-height: 48px; padding: var(--space-1); }
-  .consultation-option-description { font-size: .825rem; }
+  .consultation-option { min-height: 48px; padding: 6px var(--space-1); }
   .mobile-menu-actions { display: flex; flex-direction: column; gap: var(--space-2); margin-top: auto; }
   .site-nav .mobile-menu-actions > .btn { min-height: 48px; margin-top: var(--space-2); }
   html.js .site-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; bottom: 0; z-index: 100; overflow-y: auto; padding: 16px 20px calc(16px + env(safe-area-inset-bottom)); }
@@ -268,6 +266,10 @@ section { padding: var(--space-6) 0; }
 .booking-type-option:focus-within { outline: 3px solid var(--blue-600); outline-offset: 2px; }
 .booking-type-option input { flex: none; width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--blue-600); }
 .booking-type-copy { min-width: 0; }
+.booking-type-tabs { display: grid; width: 100%; max-width: 640px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-1); margin-inline: auto; }
+.booking-tab { min-width: 0; min-height: 48px; padding: 8px 12px; border: 1px solid var(--grey-300); border-radius: var(--radius); background: var(--white); color: var(--blue-700); font: inherit; font-weight: 600; cursor: pointer; }
+.booking-tab[aria-selected="true"] { border-color: var(--blue-600); background: var(--blue-50); color: var(--black); }
+.booking-tab:focus-visible { outline: 3px solid var(--blue-600); outline-offset: 2px; }
 .booking-consent { display: flex; align-items: flex-start; gap: var(--space-1); min-height: 44px; font-weight: 400; cursor: pointer; }
 .booking-consent input { flex: none; width: 18px; height: 18px; margin: 5px 0 0; accent-color: var(--blue-600); }
 .booking-continue { align-self: stretch; width: 100%; }
@@ -276,12 +278,16 @@ section { padding: var(--space-6) 0; }
 .booking-time-step h2 { text-align: center; }
 .booking-frame-wrap { position: relative; width: 100%; max-width: 960px; min-height: 760px; margin-inline: auto; overflow: hidden; border: 1px solid var(--grey-200); border-radius: var(--radius); background: var(--grey-50); }
 .booking-frame-wrap .booking-embed { width: 100%; height: 760px; min-height: 760px; }
+.booking-frame-panel { width: 100%; }
 .booking-loading { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; margin: 0; color: var(--grey-600); background: var(--grey-50); }
 .booking-loading[hidden] { display: none; }
 .booking-unavailable { margin: 0; color: var(--black); }
 .booking-direct-link { font-size: .9rem; }
 .booking-direct-link a { font-weight: 600; }
+.booking-medical-note { margin: 0; color: var(--grey-600); font-size: .9rem; text-align: center; }
 .booking-time-step > .btn { justify-self: center; }
+.booking-event + .booking-event { margin-top: var(--space-4); }
+.booking-event h2 { margin: 0 0 var(--space-2); text-align: center; }
 .booking-noscript .booking-embed { width: 100%; height: 760px; min-height: 760px; }
 .booking-noscript .cta-actions { margin-top: var(--space-2); }
 @media (max-width: 767px) {
@@ -302,6 +308,14 @@ section { padding: var(--space-6) 0; }
 .hero h1 { margin-bottom: .45em; overflow-wrap: break-word; }
 .hero-lead { font-size: 1.1rem; color: var(--grey-600); }
 .cta-actions { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-1); }
+@media (min-width: 1024px) {
+  .hero .cta-actions { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-1); }
+  .hero .cta-actions .btn-lg { width: 100%; height: 54px; min-height: 54px; padding: 8px 10px; font-size: .9rem; white-space: nowrap; }
+}
+@media (max-width: 1023px) {
+  .hero .cta-actions { display: grid; grid-template-columns: 1fr; }
+  .hero .cta-actions .btn-lg { width: 100%; height: 54px; min-height: 54px; }
+}
 /* Mobile: photo shown in full as a band on top, text below on white — nothing covers the image. */
 @media (max-width: 860px) {
   .hero { background: var(--white); }
@@ -324,6 +338,7 @@ section { padding: var(--space-6) 0; }
 @media (max-width: 860px) { .trust-strip ul { grid-template-columns: 1fr 1fr; } }
 
 .about-grid { grid-template-columns: 1.1fr .9fr; }
+.about-grid .section-link { text-align: left; }
 .about-banner, .about-grid img { width: 100%; border-radius: 24px; }
 @media (max-width: 860px) { .about-grid { grid-template-columns: 1fr; } }
 
