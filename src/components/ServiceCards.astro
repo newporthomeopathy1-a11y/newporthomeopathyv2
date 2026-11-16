@@ -2,8 +2,8 @@
 // Service cards list what the clinic offers, never conditions or outcomes.
 import { services } from '../data/site';
 ---
-<div class="service-grid">
-  {services.slice(0, 3).map((s) => (
+<div class="service-grid" style={`--service-count: ${services.length};`}>
+  {services.map((s) => (
     <article class="card service-card">
       <h3>{s.title}</h3>
       <p class="price">{s.price} <span>{s.meta}</span></p>
