@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import CtaBlock from '../../components/CtaBlock.astro';
-import { fees } from '../../data/site';
+import { clinic, fees } from '../../data/site';
 
 // Server-rendered so errors returned by /api/enquiry show even without JavaScript (spec Part 4).
 export const prerender = false;
@@ -28,7 +28,13 @@ const globalMsg = errorCodes.map((c) => GLOBAL_MSG[c]).find(Boolean)
   ?? (errorCodes.length ? 'Please check the fields marked below.' : '');
 const presetType = params.get('type') ?? '';
 const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
-const bookingEmbed = import.meta.env.PUBLIC_BOOKING_EMBED_URL ?? '';
+const initialBookingUrl = import.meta.env.PUBLIC_BOOKING_EMBED_URL_INITIAL ?? '';
+const followUpBookingUrl = import.meta.env.PUBLIC_BOOKING_EMBED_URL_FOLLOWUP ?? '';
+const bookingFlowEnabled = Boolean(initialBookingUrl && followUpBookingUrl);
+const durationLabel = (duration: string) => {
+  const values = duration.match(/\d+/g);
+  return values ? `${values[values.length - 1]} min` : duration;
+};
 ---
 <Base
   title="Book a Homeopathy Consultation | Newport Homeopathy Clinic"
@@ -37,15 +43,178 @@ const bookingEmbed = import.meta.env.PUBLIC_BOOKING_EMBED_URL ?? '';
 >
   <PageIntro
     h1="Book a Consultation"
-    lead="Request a consultation in person, online or by phone, or a free discovery chat. We reply within one working day."
+    lead="Tell us a little about yourself, then choose a time that suits you. You'll receive a confirmation by email."
   />
 
   <section class="booking-form-section">
     <div class="container text-col">
-      {bookingEmbed ? (
+      {bookingFlowEnabled ? (
         <>
-          <iframe src={bookingEmbed} title="Online booking" class="booking-embed" loading="lazy"></iframe>
-          <p class="hint">Please don't include medical details when booking.</p>
+          <div class="booking-flow" id="booking-flow" hidden>
+            <section class="card booking-step booking-details-card" id="booking-details" aria-labelledby="booking-details-heading">
+              <h2 id="booking-details-heading" tabindex="-1">Your details</h2>
+              <p class="hint">Please don't include medical details.</p>
+
+              <div class="field">
+                <label for="booking-name">Full name <span class="req">(required)</span></label>
+                <input id="booking-name" type="text" autocomplete="name" maxlength="80" required aria-describedby="booking-name-error" />
+                <p id="booking-name-error" class="error" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="booking-email">Email <span class="req">(required)</span></label>
+                <input id="booking-email" type="email" autocomplete="email" maxlength="120" required aria-describedby="booking-email-error" />
+                <p id="booking-email-error" class="error" aria-live="polite"></p>
+              </div>
+              <div class="field">
+                <label for="booking-phone">Phone <span class="req">(required)</span></label>
+                <input id="booking-phone" type="tel" autocomplete="tel" pattern="^(\+44\s?|0)[0-9\s]{9,13}$" required aria-describedby="booking-phone-hint booking-phone-error" />
+                <p id="booking-phone-hint" class="hint">A UK number, for example 07700 900123.</p>
+                <p id="booking-phone-error" class="error" aria-live="polite"></p>
+              </div>
+              <fieldset class="field booking-type-fieldset" aria-describedby="booking-type-error">
+                <legend>Consultation type <span class="req">(required)</span></legend>
+                <div class="booking-type-options">
+                  <label class="booking-type-option">
+                    <input type="radio" name="booking-type" value="initial" required />
+                    <span class="booking-type-copy">
+                      <strong>{fees.initial.label}, £{fees.initial.price}, {durationLabel(fees.initial.duration)}</strong>
+                    </span>
+                  </label>
+                  <label class="booking-type-option">
+                    <input type="radio" name="booking-type" value="follow_up" required />
+                    <span class="booking-type-copy">
+                      <strong>{fees.followUp.label}, £{fees.followUp.price}, {durationLabel(fees.followUp.duration)}</strong>
+                    </span>
+                  </label>
+                </div>
+                <p id="booking-type-error" class="error" aria-live="polite"></p>
+              </fieldset>
+              <div class="field booking-consent-field">
+                <label class="booking-consent" for="booking-consent">
+                  <input id="booking-consent" type="checkbox" required aria-describedby="booking-consent-error" />
+                  <span>I agree to be contacted about my booking. See our <a href="/privacy-policy/">privacy policy</a>.</span>
+                </label>
+                <p id="booking-consent-error" class="error" aria-live="polite"></p>
+              </div>
+              <button type="button" class="btn btn-primary btn-lg booking-continue" id="booking-continue">Continue to choose a time</button>
+            </section>
+
+            <section class="booking-step booking-time-step" id="booking-time-step" aria-labelledby="booking-time-heading" hidden>
+              <h2 id="booking-time-heading" tabindex="-1">Choose a time</h2>
+              <div class="booking-frame-wrap" id="booking-frame-wrap">
+                <p class="booking-loading" id="booking-loading" role="status" aria-live="polite">Loading available times…</p>
+                <div id="booking-frame"></div>
+              </div>
+              <p class="booking-unavailable" id="booking-unavailable" role="alert" hidden>Booking is unavailable. Please call or WhatsApp us.</p>
+              <button type="button" class="btn btn-outline" id="booking-back">Back / Edit my details</button>
+              <p class="booking-direct-link">Having trouble? <a id="booking-direct-link" target="_blank" rel="noopener noreferrer">Open the booking page directly</a></p>
+            </section>
+          </div>
+          <noscript>
+            <div class="booking-noscript">
+              <iframe src={initialBookingUrl} title="Book an initial consultation with Cal.com" class="booking-embed" loading="lazy"></iframe>
+              <div class="cta-actions">
+                <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline">Call {clinic.phoneDisplay}</a>
+                <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener">WhatsApp</a>
+              </div>
+            </div>
+          </noscript>
+          <script is:inline define:vars={{ initialBookingUrl, followUpBookingUrl }}>
+            (() => {
+              const flow = document.getElementById('booking-flow');
+              if (!flow) return;
+
+              const detailsStep = document.getElementById('booking-details');
+              const timeStep = document.getElementById('booking-time-step');
+              const continueButton = document.getElementById('booking-continue');
+              const backButton = document.getElementById('booking-back');
+              const nameInput = document.getElementById('booking-name');
+              const emailInput = document.getElementById('booking-email');
+              const phoneInput = document.getElementById('booking-phone');
+              const consentInput = document.getElementById('booking-consent');
+              const typeInputs = [...document.querySelectorAll('input[name="booking-type"]')];
+              const frameWrap = document.getElementById('booking-frame-wrap');
+              const frameContainer = document.getElementById('booking-frame');
+              const loading = document.getElementById('booking-loading');
+              const unavailable = document.getElementById('booking-unavailable');
+              const directLink = document.getElementById('booking-direct-link');
+
+              flow.hidden = false;
+
+              const setError = (input, errorId, message) => {
+                const error = document.getElementById(errorId);
+                error.textContent = message;
+                input.setAttribute('aria-invalid', String(Boolean(message)));
+              };
+
+              continueButton.addEventListener('click', () => {
+                let firstInvalid = null;
+                const flagInvalid = (input, errorId, message) => {
+                  setError(input, errorId, message);
+                  if (message && !firstInvalid) firstInvalid = input;
+                };
+                const nameValid = nameInput.value.trim().length > 0;
+                flagInvalid(nameInput, 'booking-name-error', nameValid ? '' : 'Enter your full name.');
+                flagInvalid(emailInput, 'booking-email-error', emailInput.checkValidity() ? '' : 'Enter a valid email address.');
+                flagInvalid(phoneInput, 'booking-phone-error', phoneInput.checkValidity() ? '' : 'Enter a valid UK phone number, for example 07700 900123.');
+
+                const selectedType = typeInputs.find((input) => input.checked);
+                const typeError = document.getElementById('booking-type-error');
+                typeError.textContent = selectedType ? '' : 'Choose a consultation type.';
+                typeInputs.forEach((input) => input.setAttribute('aria-invalid', String(!selectedType)));
+                if (!selectedType && !firstInvalid) firstInvalid = typeInputs[0];
+
+                flagInvalid(consentInput, 'booking-consent-error', consentInput.checked ? '' : 'Please agree to be contacted about your booking.');
+                if (firstInvalid) {
+                  firstInvalid.focus();
+                  return;
+                }
+
+                const eventUrl = selectedType.value === 'initial' ? initialBookingUrl : followUpBookingUrl;
+                let directUrl;
+                let embedUrl;
+                try {
+                  directUrl = new URL(eventUrl);
+                  embedUrl = new URL(eventUrl);
+                } catch {
+                  frameWrap.hidden = true;
+                  detailsStep.hidden = true;
+                  timeStep.hidden = false;
+                  unavailable.hidden = false;
+                  document.getElementById('booking-time-heading').focus();
+                  return;
+                }
+                embedUrl.searchParams.set('name', nameInput.value.trim());
+                embedUrl.searchParams.set('email', emailInput.value.trim());
+                embedUrl.searchParams.set('attendeePhoneNumber', phoneInput.value.trim());
+
+                const iframe = document.createElement('iframe');
+                iframe.title = 'Choose an appointment time with Cal.com';
+                iframe.className = 'booking-embed';
+                iframe.loading = 'eager';
+                iframe.referrerPolicy = 'no-referrer-when-downgrade';
+                iframe.addEventListener('load', () => { loading.hidden = true; }, { once: true });
+                iframe.src = embedUrl.toString();
+                frameContainer.replaceChildren(iframe);
+                directLink.href = directUrl.toString();
+                unavailable.hidden = true;
+                detailsStep.hidden = true;
+                timeStep.hidden = false;
+                document.getElementById('booking-time-heading').focus();
+              });
+
+              backButton.addEventListener('click', () => {
+                frameContainer.replaceChildren();
+                frameWrap.hidden = false;
+                loading.hidden = false;
+                unavailable.hidden = true;
+                directLink.removeAttribute('href');
+                timeStep.hidden = true;
+                detailsStep.hidden = false;
+                document.getElementById('booking-details-heading').focus();
+              });
+            })();
+          </script>
         </>
       ) : (
         <>
