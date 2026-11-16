@@ -4,7 +4,7 @@ interface Props { h1: string; lead: string }
 const { h1, lead } = Astro.props;
 ---
 <section class="page-intro">
-  <div class="container text-col">
+  <div class="container text-col page-intro-content">
     <h1>{h1}</h1>
     <p class="lead">{lead}</p>
     <slot />

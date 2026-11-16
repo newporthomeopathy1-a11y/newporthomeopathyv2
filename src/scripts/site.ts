@@ -6,6 +6,8 @@ const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
 const navEl = document.getElementById('site-nav');
 if (toggle && navEl) {
   const closeButton = navEl.querySelector<HTMLButtonElement>('.nav-close');
+  const submenu = navEl.querySelector<HTMLDetailsElement>('.has-sub details');
+  const submenuSummary = submenu?.querySelector<HTMLElement>('summary');
   let scrollPosition = 0;
   const focusables = () =>
     Array.from(navEl.querySelectorAll<HTMLElement>('a, summary, button')).filter((el) =>
@@ -39,7 +41,16 @@ if (toggle && navEl) {
   navEl.addEventListener('click', (e) => {
     if ((e.target as HTMLElement).closest('a')) setOpen(false);
   });
+  document.addEventListener('click', (e) => {
+    if (submenu?.open && !submenu.contains(e.target as Node)) submenu.open = false;
+  });
   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && submenu?.open) {
+      submenu.open = false;
+      submenuSummary?.focus({ preventScroll: true });
+      e.preventDefault();
+      return;
+    }
     if (!navEl.classList.contains('open')) return;
     if (e.key === 'Escape') {
       setOpen(false);

@@ -51,6 +51,7 @@ const durationLabel = (duration: string) => {
       {bookingFlowEnabled ? (
         <>
           <div class="booking-flow" id="booking-flow" hidden>
+            <p class="booking-step-indicator" id="booking-step-indicator" aria-live="polite">Step 1 of 2: Your details</p>
             <section class="card booking-step booking-details-card" id="booking-details" aria-labelledby="booking-details-heading">
               <h2 id="booking-details-heading" tabindex="-1">Your details</h2>
               <p class="hint">Please don't include medical details.</p>
@@ -138,6 +139,7 @@ const durationLabel = (duration: string) => {
               const loading = document.getElementById('booking-loading');
               const unavailable = document.getElementById('booking-unavailable');
               const directLink = document.getElementById('booking-direct-link');
+              const stepIndicator = document.getElementById('booking-step-indicator');
 
               flow.hidden = false;
 
@@ -170,6 +172,7 @@ const durationLabel = (duration: string) => {
                   return;
                 }
 
+                stepIndicator.textContent = 'Step 2 of 2: Choose a time';
                 const eventUrl = selectedType.value === 'initial' ? initialBookingUrl : followUpBookingUrl;
                 let directUrl;
                 let embedUrl;
@@ -209,6 +212,7 @@ const durationLabel = (duration: string) => {
                 loading.hidden = false;
                 unavailable.hidden = true;
                 directLink.removeAttribute('href');
+                stepIndicator.textContent = 'Step 1 of 2: Your details';
                 timeStep.hidden = true;
                 detailsStep.hidden = false;
                 document.getElementById('booking-details-heading').focus();
