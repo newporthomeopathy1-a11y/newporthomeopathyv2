@@ -60,7 +60,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 | Blog template: author box with photo, reviewed-by line, dates, related posts | ✅ |
 | Custom 404 | ✅ |
 | Internal linking rules | ✅ |
-| Real photos | ✅ Studio portrait of Cavita supplied and used (hero, About, blog author, OG image, Person schema) · 🟡 clinic room photos (open item 12) |
+| Real photos | ✅ Studio portrait of Kavita supplied and used (hero, About, blog author, OG image, Person schema) · 🟡 clinic room photos (open item 12) |
 
 ## Part 6: Technical SEO
 | Item | Status |

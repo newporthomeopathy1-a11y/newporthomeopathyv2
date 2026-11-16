@@ -56,57 +56,57 @@
       "statusCode": 301
     },
     {
-      "source": "/about-kavita-batchu/",
+      "source": "/about-cavita-batchu/",
       "has": [
         {
           "type": "host",
           "value": "newporthomeopathy.com"
         }
       ],
-      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "destination": "https://newporthomeopathy.com/about-kavita-batchu/",
       "statusCode": 301
     },
     {
-      "source": "/about-kavita-batchu/",
+      "source": "/about-cavita-batchu/",
       "has": [
         {
           "type": "host",
           "value": "www.newporthomeopathy.com"
         }
       ],
-      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "destination": "https://newporthomeopathy.com/about-kavita-batchu/",
       "statusCode": 301
     },
     {
-      "source": "/about-kavita-batchu",
+      "source": "/about-cavita-batchu",
       "has": [
         {
           "type": "host",
           "value": "newporthomeopathy.com"
         }
       ],
-      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "destination": "https://newporthomeopathy.com/about-kavita-batchu/",
       "statusCode": 301
     },
     {
-      "source": "/about-kavita-batchu",
+      "source": "/about-cavita-batchu",
       "has": [
         {
           "type": "host",
           "value": "www.newporthomeopathy.com"
         }
       ],
-      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "destination": "https://newporthomeopathy.com/about-kavita-batchu/",
       "statusCode": 301
     },
     {
-      "source": "/about-kavita-batchu/",
-      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "source": "/about-cavita-batchu/",
+      "destination": "https://newporthomeopathy.com/about-kavita-batchu/",
       "statusCode": 301
     },
     {
-      "source": "/about-kavita-batchu",
-      "destination": "https://newporthomeopathy.com/about-cavita-batchu/",
+      "source": "/about-cavita-batchu",
+      "destination": "https://newporthomeopathy.com/about-kavita-batchu/",
       "statusCode": 301
     },
     {

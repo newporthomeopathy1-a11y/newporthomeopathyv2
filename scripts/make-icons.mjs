@@ -24,7 +24,7 @@ header.writeUInt8(32, 6); header.writeUInt8(32, 7); header.writeUInt8(0, 8); hea
 header.writeUInt16LE(1, 10); header.writeUInt16LE(32, 12); header.writeUInt32LE(png32.length, 14); header.writeUInt32LE(22, 18);
 await import('node:fs/promises').then((fs) => fs.writeFile('public/favicon.ico', Buffer.concat([header, png32])));
 // OG image (1200x630): white card, logo, clinic name/location, practitioner portrait. No stock photography.
-const portrait = await sharp('src/assets/cavita-portrait.jpg').resize(380, 520, { fit: 'cover', position: 'top' }).toBuffer();
+const portrait = await sharp('src/assets/kavita-portrait.jpg').resize(380, 520, { fit: 'cover', position: 'top' }).toBuffer();
 const logoImg = await sharp(logo).resize(420).toBuffer();
 const text = `<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
 <style>.t{font-family:'Open Sans',Arial,sans-serif}</style>

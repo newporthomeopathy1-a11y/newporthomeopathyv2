@@ -46,8 +46,8 @@ The file name becomes the URL: `first-homeopathy-consultation-guide.md` becomes 
 | Image | File | Recommended source size |
 |---|---|---|
 | Home hero background | `src/assets/hero-remedies.jpg` | ≥ 1600 px wide, landscape |
-| About photo (home + About page) | `src/assets/cavita-about.jpg` | ≥ 1448 × 1086 (4:3) |
-| Portrait (blog author) | `src/assets/cavita-portrait.jpg` | ≥ 1200 × 1500 (4:5) |
+| About photo (home + About page) | `src/assets/kavita-about.jpg` | ≥ 1448 × 1086 (4:3) |
+| Portrait (blog author) | `src/assets/kavita-portrait.jpg` | ≥ 1200 × 1500 (4:5) |
 | Logo | `src/assets/logo.png` | Transparent PNG ≥ 1000 px wide (or SVG) |
 
 Replace a file with the same name and run `npm run build`. Astro creates AVIF and WebP versions in several sizes automatically.

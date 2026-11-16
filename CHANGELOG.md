@@ -16,7 +16,7 @@
 
 ## Version 3.0.0 (12 November 2026)
 
-- New photo of Cavita Batchu in the "Meet your homeopath" section on the home page and on the About page. It replaces the earlier banner.
+- New photo of Kavita Batchu in the "Meet your homeopath" section on the home page and on the About page. It replaces the earlier banner.
 
 ## Version 2.0.0 (12 November 2026)
 
