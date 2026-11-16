@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 3.0.2 (16 November 2026)
+
+- Map now loads directly on Home, Contact and In-person consultations pages; click-to-load removed.
+
+## Version 3.0.1 (16 November 2026)
+
+- Fixed mobile page-bottom clearance so the cookie banner does not cover footer links or the final content above the sticky action bar.
+
 ## Version 3.0.0 (12 November 2026)
 
 - New photo of Kavita Batchu in the "Meet your homeopath" section on the home page and on the About page. It replaces the earlier banner.

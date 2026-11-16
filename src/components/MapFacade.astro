@@ -1,13 +1,7 @@
 ---
-// Click-to-load map (spec Part 8). Without JS it is a plain link to Google Maps.
 import { clinic, addressLine } from '../data/site';
-import Icon from './Icon.astro';
 const embed = `https://www.google.com/maps?q=${encodeURIComponent(`${clinic.name}, ${addressLine}`)}&output=embed`;
 ---
-<div class="map-facade" data-map-src={embed}>
-  <a href={clinic.mapsUrl} rel="noopener" data-track="click_directions" data-loc="page" class="map-link">
-    <Icon name="pin" />
-    <span class="map-cta">Open in Google Maps</span>
-  </a>
-  <button type="button" class="btn btn-outline map-load">Show interactive map</button>
+<div class="map-facade">
+  <iframe src={embed} title="Map showing Newport Homeopathy Clinic, 75 Forton Road, Newport TF10 8BU" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
 </div>

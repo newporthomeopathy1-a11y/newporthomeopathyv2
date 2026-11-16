@@ -146,18 +146,6 @@ if (lead) {
   });
 }
 
-// ---------- Click-to-load map ----------
-document.querySelectorAll<HTMLElement>('.map-facade').forEach((wrap) => {
-  wrap.querySelector('.map-load')?.addEventListener('click', () => {
-    const iframe = document.createElement('iframe');
-    iframe.src = wrap.dataset.mapSrc!;
-    iframe.title = 'Map showing Newport Homeopathy Clinic, 75 Forton Road, Newport TF10 8BU';
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    wrap.replaceChildren(iframe);
-  });
-});
-
 // ---------- Enquiry form: client-side hints (server re-validates everything) ----------
 const form = document.querySelector<HTMLFormElement>('form.enquiry-form');
 if (form) {
