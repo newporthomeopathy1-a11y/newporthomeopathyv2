@@ -28,7 +28,7 @@ const globalMsg = errorCodes.map((c) => GLOBAL_MSG[c]).find(Boolean)
   ?? (errorCodes.length ? 'Please check the fields marked below.' : '');
 const presetType = params.get('type') ?? '';
 const turnstileKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY ?? '';
-const bookingEmbed = import.meta.env.PUBLIC_BOOKING_EMBED_URL ?? ''; // Setmore / Calendly / Cliniko, once chosen
+const bookingEmbed = import.meta.env.PUBLIC_BOOKING_EMBED_URL ?? '';
 ---
 <Base
   title="Book a Homeopathy Consultation | Newport Homeopathy Clinic"
@@ -43,7 +43,10 @@ const bookingEmbed = import.meta.env.PUBLIC_BOOKING_EMBED_URL ?? ''; // Setmore 
   <section class="booking-form-section">
     <div class="container text-col">
       {bookingEmbed ? (
-        <iframe src={bookingEmbed} title="Online booking" class="booking-embed" loading="lazy"></iframe>
+        <>
+          <iframe src={bookingEmbed} title="Online booking" class="booking-embed" loading="lazy"></iframe>
+          <p class="hint">Please don't include medical details when booking.</p>
+        </>
       ) : (
         <>
           <h2 id="enquiry">Or send an enquiry</h2>

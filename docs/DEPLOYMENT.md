@@ -9,10 +9,10 @@
 
 `vercel.json` also sets:
 - **Redirects:** `/index.html` and `/inner-page.html` go to `/`; trailing slashes are added. The sitemap is served directly from `/sitemap.xml`.
-- **Security headers:** HSTS, nosniff, Referrer-Policy, Permissions-Policy and a Content-Security-Policy (allows Google Analytics, Cloudflare Turnstile, Google Maps and the Setmore, Calendly and Cliniko booking embeds).
+- **Security headers:** HSTS, nosniff, Referrer-Policy, Permissions-Policy and a Content-Security-Policy (allows Google Analytics, Cloudflare Turnstile, Google Maps and the Setmore, Calendly, Cliniko and Cal.com booking embeds).
 - **Caching:** `/_astro/*` and `/fonts/*` cache for 1 year (immutable). Icons and the OG image cache for 1 week.
 
-The booking embed frame policy currently allows Setmore, Calendly and Cliniko. Remove the unused provider origins after the booking tool is chosen.
+The booking embed frame policy allows Setmore, Calendly, Cliniko and Cal.com. Remove unused provider origins after the booking tool is chosen.
 
 The old PHP files (`ajax.php`, `assets/forms/*.php`) don't exist in this build, so they return 404.
 
@@ -25,9 +25,16 @@ The old PHP files (`ajax.php`, `assets/forms/*.php`) don't exist in this build, 
 | `TURNSTILE_SECRET_KEY` + `PUBLIC_TURNSTILE_SITE_KEY` | Required in production | Cloudflare Turnstile spam check on the form. Local development allows the secret key to be absent. |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Required in production | Upstash Redis REST credentials for the five-per-hour enquiry limit per IP. Local development allows submissions when these are absent. |
 | `PUBLIC_GA_ID` | Optional | GA4 measurement ID. The cookie banner appears only when this is set, and GA loads only after Accept. |
-| `PUBLIC_BOOKING_EMBED_URL` | Optional | Setmore / Calendly / Cliniko embed URL. When set, it replaces the enquiry form on `/book-appointment/`. |
+| `PUBLIC_BOOKING_EMBED_URL` | Optional | Setmore / Calendly / Cliniko / Cal.com embed URL. When set, it replaces the enquiry form on `/book-appointment/`. |
 
 A template is in `.env.example`. Copy it to `.env` for local development (`.env` is git-ignored).
+
+## Cal.com booking embed
+
+1. Create the clinic's Cal.com account and configure the consultation event types and availability.
+2. Copy the booking URL for the event to embed (the `https://cal.com/...` or `https://app.cal.com/...` URL).
+3. Set `PUBLIC_BOOKING_EMBED_URL` to that URL in Vercel's Environment Variables for the environments where bookings should be enabled. For local testing, add it to `.env`.
+4. Redeploy after changing the variable. The Book page displays the embedded booking form instead of the enquiry form when it is set; Call and WhatsApp links remain available below it.
 
 ## Email sending (Resend)
 
