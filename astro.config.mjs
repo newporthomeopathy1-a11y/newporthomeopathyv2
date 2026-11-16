@@ -75,6 +75,13 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   trailingSlash: 'ignore', // pages use trailing slashes; /api/enquiry must not redirect a POST
+  security: {
+    allowedDomains: [
+      { hostname: 'newporthomeopathy.com', protocol: 'https' },
+      { hostname: 'www.newporthomeopathy.com', protocol: 'https' },
+      { hostname: 'newporthomeopathyv2.vercel.app', protocol: 'https' },
+    ],
+  },
   build: { format: 'directory', inlineStylesheets: 'always' },
   integrations: [
     sitemap({
