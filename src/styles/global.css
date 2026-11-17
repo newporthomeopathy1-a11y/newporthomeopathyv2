@@ -623,8 +623,22 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .ds-prose li { margin-bottom: var(--ds-gap-heading); }
 .ds-prose > :last-child { margin-bottom: 0; }
 
-.ds-section-wide-copy > .ds-container { max-width: 1600px; }
-.ds-section-wide-copy .ds-prose { max-width: none; }
+.ds-section-wide-copy > .ds-container {
+  width: 100%;
+  max-width: 1600px;
+  padding-inline: 0;
+  box-sizing: border-box;
+}
+.ds-section-wide-copy .ds-prose {
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
+  padding-inline: 34px;
+  box-sizing: border-box;
+}
+@media (max-width: 767px) {
+  .ds-section-wide-copy .ds-prose { padding-inline: 20px; }
+}
 
 .ds-hero {
   position: relative;
