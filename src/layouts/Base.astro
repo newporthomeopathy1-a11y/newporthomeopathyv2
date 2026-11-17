@@ -31,7 +31,7 @@ const backHref = path.startsWith('/blog/') && path !== '/blog/' ? '/blog/' : '/'
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 const year = new Date().getFullYear();
 const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
-const topbarEmail = 'cavitasuresh@yahoo.com';
+const topbarEmail = clinic.email;
 ---
 <!doctype html>
 <html lang="en-GB">
