@@ -4,7 +4,7 @@ How to change what the website says. After any change, run `npm run build`. It f
 
 ## 1. Clinic details, fees, hours, services, FAQs: `src/data/site.ts`
 
-Everything repeated across pages lives in this one file, so it can't drift out of sync. That includes the header, footer, contact page, fees table, structured data for Google, the FAQ page and the FAQ preview.
+Everything repeated across pages lives in this one file, so it can't drift out of sync. That includes the header, footer, contact page, fees table, structured data for Google and the FAQ page.
 
 | To change | Edit in `site.ts` |
 |---|---|
@@ -25,6 +25,7 @@ Current clinic email: **cavitasuresh@yahoo.com**. It's shown on the site and als
 Each page starts with a `<Base title="…" description="…">` block:
 - **title:** 60 characters or fewer, unique per page.
 - **description:** 155 characters or fewer, unique per page.
+- These limits are enforced by `npm run check:meta`.
 - Each page has exactly one `<h1>` (set through `PageIntro` on inner pages), followed by a one- or two-sentence summary that gives the key facts first.
 
 ## 3. Blog posts: `src/content/blog/<slug>.md`

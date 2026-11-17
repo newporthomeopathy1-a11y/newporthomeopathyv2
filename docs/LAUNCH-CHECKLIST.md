@@ -36,7 +36,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 |---|---|
 | Book / Call / WhatsApp on every page | ✅ Header, sticky mobile bar, CTA block at the end of every page |
 | Mobile sticky bar (<768px, 56px, safe-area) | ✅ |
-| Booking tool embed | ✅ Set `PUBLIC_BOOKING_EMBED_URL` · 🟡 choose tool (open item 7) |
+| Booking tool embed | ✅ Cal.com two-step flow and enquiry form display together when both event URLs are set; form and fallback work without JavaScript |
 | Enquiry form fields, labels, required in text, max lengths, honeypot, consent | ✅ Adds a free discovery chat option and a phone format |
 | Works without JavaScript | ✅ Booking page is server-rendered and shows errors returned by the server |
 | Server validation, CR/LF stripping, HTML escaping | ✅ `src/pages/api/enquiry.ts` |
@@ -51,11 +51,11 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 ## Part 5: Site architecture
 | Item | Status |
 |---|---|
-| All current pages with the spec URLs, H1s, titles (≤60) and descriptions (≤155) | ✅ Checked automatically |
+| All current pages with the spec URLs, H1s, titles (≤60) and descriptions (≤155) | ✅ Enforced by `npm run check:meta` |
 | Header: logo, Home, Consultations dropdown, Fees, About, FAQs, Contact, Book button | ✅ |
 | Desktop top bar (phone, WhatsApp, email); `aria-current` | ✅ |
 | Footer: NAP, hours, links, policies, GP line, © year | ✅ |
-| Homepage section order 1–10 | ✅ Reviews section hidden until approved reviews exist |
+| Homepage section order 1–10 | ✅ Reviews section hidden until approved reviews exist; home FAQ preview intentionally removed at the client's request for minimal content, with no FAQPage schema on Home |
 | Answer-first intro, CTA block at the end, breadcrumbs (not on Home) | ✅ |
 | Blog template: author box with photo, reviewed-by line, dates, related posts | ✅ |
 | Custom 404 | ✅ |
@@ -99,8 +99,13 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 |---|---|
 | GA4 behind Consent Mode v2 banner, Accept/Reject equal | ✅ Set `PUBLIC_GA_ID` to enable |
 | Events: click_call, click_whatsapp, click_email, click_book, click_directions, generate_lead | ✅ Delegated `[data-track]` listener; no personal data |
-| booking_complete | 🟡 Wire to the booking tool's callback once chosen |
+| booking_complete | ✅ Wired through the same-origin Cal.com redirect; add the redirect URL to both event types |
 | Key events, internal traffic filter, AI-assistants channel group, UTM links for GBP/social | ⬜ GA4 admin settings at launch |
+
+## Needs clinic input
+
+- Confirm controller details and the ICO fee for the privacy policy.
+- Confirm the cancellation policy for the booking terms.
 
 ## Open items needed from the clinic (spec table)
 1 Professional body · 2 Approved title · 3 Copy approval · 4 Fees, payment, cancellation · 5 Hours · 6 Online platform · 7 Booking tool + inbox · 8 Domain email · 9 www or not · 10 Access (DNS, hosting, GBP, Search Console) · 11 Social URLs · 12 Photos · 13 Logo SVG · 14 Parking/access · 15 Developer credit · 16 ICO fee + controller details.

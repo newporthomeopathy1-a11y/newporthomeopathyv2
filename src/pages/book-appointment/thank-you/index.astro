@@ -9,7 +9,7 @@ import { clinic } from '../../../data/site';
   noindex
   breadcrumbs={[{ name: 'Book a consultation', href: '/book-appointment/' }, { name: 'Thank you', href: '/book-appointment/thank-you/' }]}
 >
-  <section data-lead-event>
+  <section data-lead-event data-thank-you-content>
     <div class="container text-col">
       <h1>Thank You for Your Enquiry</h1>
       <p class="lead">We've received your enquiry and will reply within one working day. If it's urgent, call {clinic.phoneDisplay}.</p>
@@ -18,4 +18,39 @@ import { clinic } from '../../../data/site';
     </div>
   </section>
   <CtaBlock text="" />
+  <section data-booking-message hidden>
+    <div class="container text-col">
+      <p class="lead">Booking confirmed. Check your email.</p>
+    </div>
+  </section>
 </Base>
+
+<script is:inline>
+  (() => {
+    const params = new URLSearchParams(window.location.search);
+    if (window.top === window.self || params.get('source') !== 'booking') return;
+
+    document.body.classList.add('booking-return');
+    document.querySelectorAll('[data-thank-you-content]').forEach((element) => {
+      element.setAttribute('hidden', '');
+    });
+    document.querySelector('[data-booking-message]')?.removeAttribute('hidden');
+
+    window.parent.postMessage({
+      type: 'booking_complete',
+      consultation_type: params.get('type') ?? 'unknown',
+      format: params.get('format') || 'unknown',
+    }, window.location.origin);
+  })();
+</script>
+
+<style is:global>
+  body.booking-return { padding-bottom: 0 !important; }
+  body.booking-return .skip-link,
+  body.booking-return .topbar,
+  body.booking-return .site-header,
+  body.booking-return .site-footer,
+  body.booking-return .cookie-banner,
+  body.booking-return .mobile-actions { display: none !important; }
+  body.booking-return main > :not([data-booking-message]) { display: none !important; }
+</style>

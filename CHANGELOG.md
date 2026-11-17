@@ -1,5 +1,13 @@
 # Changelog
 
+## Version 3.0.4
+
+- Removed the Home FAQPage schema so structured data matches the visible page.
+- Added metadata length checks and updated the Book page metadata.
+- Displayed the enquiry form below the Cal.com booking flow and wired booking confirmations through the same-origin redirect.
+- Removed draft markers from rendered policy and contact content; added a build check for template leftovers.
+- Updated launch and deployment documentation for the booking and schema changes.
+
 ## Version 3.0.3 (16 November 2026)
 
 - Simplified the Consultations dropdown to compact, title-only options.
@@ -8,7 +16,7 @@
 
 ## Version 3.0.2 (16 November 2026)
 
-- Map now loads directly on Home, Contact and In-person consultations pages; click-to-load removed.
+- Map uses a click-to-load "View map" button on Home, Contact and In-person consultations pages.
 
 ## Version 3.0.1 (16 November 2026)
 

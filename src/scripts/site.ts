@@ -166,6 +166,7 @@ let gaScheduled = false;
 function loadGa() {
   const id = window.__GA_ID;
   if (!id || gaLoaded) return;
+  if (typeof window.gtag !== 'function') return;
   gaLoaded = true;
   window.gtag('consent', 'update', { analytics_storage: 'granted' });
   const s = document.createElement('script');
@@ -220,12 +221,15 @@ document.querySelector('[data-cookie-settings]')?.addEventListener('click', () =
 
 window.addEventListener('pageshow', syncConsentBanner);
 
-// TODO: Add the selected booking provider's exact origin after its message contract is confirmed.
-const BOOKING_MESSAGE_ORIGINS: string[] = [];
+const BOOKING_MESSAGE_ORIGINS: string[] = [window.location.origin];
 const bookingValues = {
   consultation_type: ['discovery', 'initial', 'follow_up'],
   format: ['in_person', 'online', 'phone'],
 };
+function trackEvent(eventName: string, params: Record<string, string>) {
+  if (readConsent() !== 'accept' || typeof window.gtag !== 'function') return;
+  window.gtag('event', eventName, params);
+}
 window.addEventListener('message', (event: MessageEvent<unknown>) => {
   if (!BOOKING_MESSAGE_ORIGINS.includes(event.origin)) return;
   if (!event.data || typeof event.data !== 'object' || Array.isArray(event.data)) return;
@@ -235,25 +239,37 @@ window.addEventListener('message', (event: MessageEvent<unknown>) => {
 
   const allowed = (value: unknown, options: string[]) =>
     typeof value === 'string' && options.includes(value) ? value : 'unknown';
-  window.gtag('event', 'booking_complete', {
+  trackEvent('booking_complete', {
     consultation_type: allowed(data.consultation_type, bookingValues.consultation_type),
     format: allowed(data.format, bookingValues.format),
   });
+
+  const frameWrap = document.getElementById('booking-frame-wrap');
+  if (frameWrap) {
+    const confirmation = document.createElement('p');
+    confirmation.className = 'booking-confirmation';
+    confirmation.textContent = 'Booking confirmed. Check your email.';
+    const homeLink = document.createElement('a');
+    homeLink.href = '/';
+    homeLink.textContent = 'Return to the home page';
+    frameWrap.replaceChildren(confirmation, homeLink);
+  }
 });
 
 // ---------- Delegated click tracking on [data-track] (no personal data) ----------
 document.addEventListener('click', (e) => {
   const el = (e.target as HTMLElement).closest<HTMLElement>('[data-track]');
   if (!el) return;
-  window.gtag('event', el.dataset.track!, { link_location: el.dataset.loc ?? 'page' });
+  trackEvent(el.dataset.track!, { link_location: el.dataset.loc ?? 'page' });
 });
 
 // ---------- Thank-you page: generate_lead with non-personal params only ----------
 const lead = document.querySelector<HTMLElement>('[data-lead-event]');
-if (lead) {
+const bookingReturnInFrame = new URLSearchParams(location.search).get('source') === 'booking' && window.top !== window.self;
+if (lead && !bookingReturnInFrame) {
   const p = new URLSearchParams(location.search);
   const allowed = (v: string | null, opts: string[]) => (v && opts.includes(v) ? v : 'unknown');
-  window.gtag('event', 'generate_lead', {
+  trackEvent('generate_lead', {
     consultation_type: allowed(p.get('type'), ['discovery', 'initial', 'follow_up']),
     format: allowed(p.get('format'), ['in_person', 'online', 'phone']),
   });

@@ -14,6 +14,9 @@ import { existsSync } from 'node:fs';
 const root = existsSync('.vercel/output/static') ? '.vercel/output/static' : 'dist';
 for await (const f of walk(root)) {
   let t = await readFile(f, 'utf8');
+  const renderedHtml = t.replace(/<script\b[^>]*>[\s\S]*?<\/script\s*>/gi, '');
+  const leftover = renderedHtml.match(/\bTODO\b|Draft:/);
+  if (leftover) { bad++; console.log(`${f}: "${leftover[0]}"`); }
   for (const a of allow) t = t.replace(a, '');
   for (const r of banned) { const m = t.match(r); if (m) { bad++; console.log(`${f}: "${m[0]}"`); } }
 }

@@ -40,7 +40,12 @@ A template is in `.env.example`. Copy it to `.env` for local development (`.env`
    - `https://cal.com/newport-homeopathy/initial-consultation`
    - `https://cal.com/newport-homeopathy/follow-up-consultation`
 3. Set `PUBLIC_BOOKING_INITIAL_URL` and `PUBLIC_BOOKING_FOLLOWUP_URL` in Vercel's Environment Variables for the environments where bookings should be enabled. For local testing, add them to `.env`.
-4. Redeploy after changing the variables. The Book page shows tabs for both events when both URLs are set; otherwise, it keeps the enquiry form unless the legacy fallback is configured.
+4. Redeploy after changing the variables. The Book page shows tabs for both events when both URLs are set, with the enquiry form below the booking flow.
+
+For each event, set **Event type > Advanced > Redirect on booking** to the same-origin thank-you page:
+
+- Initial event: `https://newporthomeopathy.com/book-appointment/thank-you/?source=booking&type=initial`
+- Follow-up event: `https://newporthomeopathy.com/book-appointment/thank-you/?source=booking&type=follow_up`
 
 Existing deployments can continue to use `PUBLIC_BOOKING_EMBED_URL_INITIAL` and `PUBLIC_BOOKING_EMBED_URL_FOLLOWUP`. The legacy `PUBLIC_BOOKING_EMBED_URL` is used as the fallback URL for both tabs.
 

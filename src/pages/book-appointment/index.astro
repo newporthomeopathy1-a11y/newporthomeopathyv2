@@ -52,8 +52,8 @@ const durationLabel = (duration: string) => {
 };
 ---
 <Base
-  title="Book with Kavita Batchu, BHMS – Homeopath | Newport Homeopathy Clinic"
-  description="Book an in-person consultation in Newport, Shropshire or an online consultation with Kavita Batchu, BHMS – Homeopath. Initial consultation £50. Call, WhatsApp or book online."
+  title="Book a Homeopathy Consultation | Newport Homeopathy Clinic"
+  description="Book an in-person consultation in Newport, Shropshire or an online consultation. Initial consultation £50. Call, WhatsApp or book online."
   breadcrumbs={[{ name: 'Book a consultation', href: '/book-appointment/' }]}
   preconnects={bookingPreconnects}
 >
@@ -64,7 +64,7 @@ const durationLabel = (duration: string) => {
 
   <section class="booking-form-section">
     <div class="container text-col">
-      {bookingFlowEnabled ? (
+      {bookingFlowEnabled && (
         <>
           <div class="booking-flow" id="booking-flow" hidden>
             <p class="booking-step-indicator" id="booking-step-indicator" aria-live="polite">Step 1 of 2: Your details</p>
@@ -313,10 +313,9 @@ const durationLabel = (duration: string) => {
             })();
           </script>
         </>
-      ) : (
-        <>
-          <h2 id="enquiry">Or send an enquiry</h2>
-          <form class="enquiry-form" method="post" action="/api/enquiry/" novalidate>
+      )}
+      <h2 id="enquiry">Or send an enquiry</h2>
+      <form class="enquiry-form" method="post" action="/api/enquiry/" novalidate>
             <p role="alert" aria-live="polite" class="error form-status">{globalMsg}</p>
 
             <div class="field">
@@ -392,9 +391,7 @@ const durationLabel = (duration: string) => {
               <button type="submit" class="btn btn-primary btn-lg">Send enquiry</button>
             </div>
             <p class="hint">By sending this form you agree to our <a href="/booking-terms/">booking terms</a>.</p>
-          </form>
-        </>
-      )}
+      </form>
     </div>
   </section>
   <CtaBlock text="" />

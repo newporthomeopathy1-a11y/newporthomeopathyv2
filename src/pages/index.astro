@@ -9,12 +9,7 @@ import MapFacade from '../components/MapFacade.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import heroBg from '../assets/hero-remedies.jpg';
 import kavitaPhoto from '../assets/kavita-about.jpg';
-import { clinic, fees, faqs, addressLine } from '../data/site';
-import { faqSchema } from '../data/schema';
-
-// Pick four decision-relevant questions for the home page.
-const pick = ['Can I talk to someone before I book?', 'Can I have a consultation online?', 'What happens at the first consultation?', 'How do I book?'];
-const faqPreview = pick.map((q) => faqs.find((f) => f.q === q)!).filter(Boolean);
+import { clinic, fees, addressLine } from '../data/site';
 
 // Hero photo is the largest contentful paint: preload the AVIF set so it starts downloading with the HTML.
 const HERO_WIDTHS = [640, 1024, 1440, 1672];
@@ -23,8 +18,7 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
 ---
 <Base
   title="Kavita Batchu, BHMS – Homeopath | Newport Homeopathy Clinic"
-  description="Private homeopathy consultations with Kavita Batchu, BHMS – Homeopath, in Newport, Shropshire or online across the UK. Initial consultation £50. Book today."
-  schema={[faqSchema(faqPreview)]}
+  description="Private homeopathy consultations with Kavita Batchu, BHMS – Homeopath, in Newport, Shropshire or online across the UK. Initial consultation £50."
   lcpImage={lcpImage}
 >
   <!-- 1. Hero -->
