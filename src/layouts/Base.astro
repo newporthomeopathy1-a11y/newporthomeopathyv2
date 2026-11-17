@@ -31,6 +31,7 @@ const backHref = path.startsWith('/blog/') && path !== '/blog/' ? '/blog/' : '/'
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 const year = new Date().getFullYear();
 const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
+const topbarEmail = 'cavitasuresh@yahoo.com';
 ---
 <!doctype html>
 <html lang="en-GB">
@@ -86,16 +87,16 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <div class="topbar">
-      <div class="container ds-container topbar-inner">
+      <div class="container ds-container ds-wide-container topbar-inner">
         <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="header"><Icon name="phone" /> {clinic.phoneDisplay}</a>
         <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="header"><Icon name="whatsapp" /> WhatsApp</a>
-        <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="header"><Icon name="mail" /> {clinic.email}</a>
+        <a href={`mailto:${topbarEmail}`} data-track="click_email" data-loc="header"><Icon name="mail" /> {topbarEmail}</a>
         <span class="topbar-hours">{clinic.hoursShort}</span>
       </div>
     </div>
 
     <header class="site-header">
-      <div class="container ds-container header-inner">
+      <div class="container ds-container ds-wide-container header-inner">
         <a href="/" class="logo">
           <picture>
             <source type="image/avif" srcset="/assets/img/clinic-logo-224.avif 224w, /assets/img/clinic-logo-448.avif 448w, /assets/img/clinic-logo-672.avif 672w" sizes="(max-width: 991px) 200px, 224px" />

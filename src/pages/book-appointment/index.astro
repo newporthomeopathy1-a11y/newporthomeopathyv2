@@ -76,7 +76,7 @@ const durationLabel = (duration: string) => {
 
               <div class="field">
                 <label for="booking-name">Full name <span class="req">(required)</span></label>
-                <input id="booking-name" type="text" autocomplete="name" maxlength="80" required aria-describedby="booking-name-error" />
+                <input id="booking-name" type="text" autocomplete="name" minlength="2" maxlength="80" required aria-describedby="booking-name-error" />
                 <p id="booking-name-error" class="error" aria-live="polite"></p>
               </div>
               <div class="field">
@@ -276,8 +276,8 @@ const durationLabel = (duration: string) => {
                   setError(input, errorId, message);
                   if (message && !firstInvalid) firstInvalid = input;
                 };
-                const nameValid = nameInput.value.trim().length > 0;
-                flagInvalid(nameInput, 'booking-name-error', nameValid ? '' : 'Enter your full name.');
+                const nameValid = nameInput.value.trim().length >= 2;
+                flagInvalid(nameInput, 'booking-name-error', nameValid ? '' : 'Enter your full name (2–80 characters).');
                 flagInvalid(emailInput, 'booking-email-error', emailInput.checkValidity() ? '' : 'Enter a valid email address.');
                 flagInvalid(phoneInput, 'booking-phone-error', phoneInput.checkValidity() ? '' : 'Enter a valid UK phone number, for example 07700 900123.');
 

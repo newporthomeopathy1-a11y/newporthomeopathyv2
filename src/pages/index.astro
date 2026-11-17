@@ -16,7 +16,7 @@ import { clinic, fees, addressLine, areas, services, reviews, googleReviewUrl } 
 
 // Hero photo is the largest contentful paint: preload the AVIF set so it starts downloading with the HTML.
 const HERO_WIDTHS = [640, 1024, 1440, 1672];
-const heroAvif = await getImage({ src: heroBg, format: 'avif', widths: HERO_WIDTHS, quality: 70 });
+const heroAvif = await getImage({ src: heroBg, format: 'avif', widths: HERO_WIDTHS, quality: 90 });
 const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'image/avif' };
 const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-min');
 const featuredAreaNames = ['Newport', 'Telford', 'Stafford', 'Shrewsbury', 'Market Drayton'];
@@ -42,11 +42,11 @@ const featuredAreas = featuredAreaNames.map((name) => {
       class="ds-hero-image"
       loading="eager"
       fetchpriority="high"
-      quality={70}
+      quality={90}
     />
-    <Container>
+    <Container class="ds-wide-container">
       <div class="ds-hero-card">
-        <h1>Your Homeopath in Newport, Shropshire</h1>
+        <h1>Homeopathy Consultations in Newport, Shropshire</h1>
         <p class="ds-hero-lead">Private, one-to-one consultations with {clinic.practitioner}, {clinic.qualification}, a homeopath with over {clinic.years} years' experience. In person at {clinic.street}, {clinic.locality}, or online anywhere in the UK.</p>
         <div class="ds-hero-actions">
           <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-track="click_book" data-loc="hero">Book a consultation</a>

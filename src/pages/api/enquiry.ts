@@ -106,7 +106,14 @@ export const POST: APIRoute = async (ctx) => {
   }
   const form = await request.formData();
   if (oneLine(form.get('company'))) return redirect('/book-appointment/thank-you/', 303); // honeypot: silently drop
-  if (!(await verifyTurnstile(oneLine(form.get('cf-turnstile-response')), ip))) return back('captcha');
+  let captchaVerified: boolean;
+  try {
+    captchaVerified = await verifyTurnstile(oneLine(form.get('cf-turnstile-response')), ip);
+  } catch (error) {
+    console.error('[enquiry] Turnstile verification failed', error);
+    return back('captcha');
+  }
+  if (!captchaVerified) return back('captcha');
 
   const { errors, data } = validate(form);
   if (errors.length) return back(errors.join(','));
