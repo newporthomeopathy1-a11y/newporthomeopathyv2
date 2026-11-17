@@ -36,7 +36,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 |---|---|
 | Book / Call / WhatsApp on every page | ✅ Header, sticky mobile bar, CTA block at the end of every page |
 | Mobile sticky bar (<768px, 56px, safe-area) | ✅ |
-| Booking tool embed | ✅ Cal.com two-step flow and enquiry form display together when both event URLs are set; form and fallback work without JavaScript |
+| Booking tool embed | ✅ Book page shows Cal.com only; the enquiry form appears only as a fallback when Cal.com URLs are not configured. Free discovery chat now links to WhatsApp. |
 | Enquiry form fields, labels, required in text, max lengths, honeypot, consent | ✅ Adds a free discovery chat option and a phone format |
 | Works without JavaScript | ✅ Booking page is server-rendered and shows errors returned by the server |
 | Server validation, CR/LF stripping, HTML escaping | ✅ `src/pages/api/enquiry.ts` |

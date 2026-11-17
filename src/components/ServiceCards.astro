@@ -8,7 +8,7 @@ import { services } from '../data/site';
       <h3>{s.title}</h3>
       <p class="price">{s.price} <span>{s.meta}</span></p>
       <a href={s.href} class="link-arrow" data-astro-prefetch>
-        {s.title === 'Free discovery chat' ? 'Request a chat' : <>Find out more<span class="visually-hidden"> about {s.title.toLowerCase()}</span></>}
+        {s.title === 'Free discovery chat' ? 'Message on WhatsApp' : <>Find out more<span class="visually-hidden"> about {s.title.toLowerCase()}</span></>}
       </a>
     </article>
   ))}

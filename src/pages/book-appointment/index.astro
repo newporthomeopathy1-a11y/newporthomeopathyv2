@@ -64,7 +64,7 @@ const durationLabel = (duration: string) => {
 
   <section class="booking-form-section">
     <div class="container text-col">
-      {bookingFlowEnabled && (
+      {bookingFlowEnabled ? (
         <>
           <div class="booking-flow" id="booking-flow" hidden>
             <p class="booking-step-indicator" id="booking-step-indicator" aria-live="polite">Step 1 of 2: Your details</p>
@@ -136,6 +136,7 @@ const durationLabel = (duration: string) => {
                   <iframe id="booking-frame-follow-up" title="Book a follow-up consultation with Kavita Batchu, BHMS – Homeopath via Cal.com" class="booking-embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
               </div>
+              <p class="booking-medical-note">Prefer to talk first? <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="book">Call {clinic.phoneDisplay}</a> or send a <a href={clinic.whatsapp} data-track="click_whatsapp" data-loc="book">WhatsApp message</a>.</p>
               <p class="booking-unavailable" id="booking-unavailable" role="alert" hidden>Booking is unavailable. Please call or WhatsApp us.</p>
               <button type="button" class="btn btn-outline" id="booking-back">Back / Edit my details</button>
               <p class="booking-direct-link">Having trouble? <a id="booking-direct-link" target="_blank" rel="noopener noreferrer">Open the booking page directly</a></p>
@@ -313,7 +314,8 @@ const durationLabel = (duration: string) => {
             })();
           </script>
         </>
-      )}
+      ) : (
+        <>
       <h2 id="enquiry">Or send an enquiry</h2>
       <form class="enquiry-form" method="post" action="/api/enquiry/" novalidate>
             <p role="alert" aria-live="polite" class="error form-status">{globalMsg}</p>
@@ -392,6 +394,8 @@ const durationLabel = (duration: string) => {
             </div>
             <p class="hint">By sending this form you agree to our <a href="/booking-terms/">booking terms</a>.</p>
       </form>
+        </>
+      )}
     </div>
   </section>
   <CtaBlock text="" />

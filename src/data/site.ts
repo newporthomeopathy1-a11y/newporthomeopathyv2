@@ -61,7 +61,7 @@ export const services = [
     price: `£${fees.followUp.price}`, meta: fees.followUp.duration,
   },
   {
-    title: 'Free discovery chat', href: '/book-appointment/?type=discovery#enquiry',
+    title: 'Free discovery chat', href: clinic.whatsapp,
     price: 'Free', meta: fees.discovery.duration,
   },
 ];
