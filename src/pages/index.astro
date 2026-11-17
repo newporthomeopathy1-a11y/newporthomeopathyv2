@@ -23,10 +23,11 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
 const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-min');
 const discoveryChatButtonLabel = `Free ${fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-minute')} chat`;
 const homeFaqQuestions = [
+  'How much does a homeopathy consultation cost?',
   'How do I book?',
   'What happens at the first consultation?',
   'Can I have a consultation online?',
-  'What is homeopathy?',
+  'Should I keep seeing my GP?',
 ];
 const homeFaqs = homeFaqQuestions.map((question) => {
   const faq = faqs.find((item) => item.q === question);
@@ -47,25 +48,21 @@ const featuredAreas = featuredAreaNames.map((name) => {
   footerPractitionerLabel={clinic.practitioner}
 >
   <section class="ds-hero">
-    <div class="ds-hero-media">
-      <Picture
-        src={heroBg}
-        formats={['avif', 'webp']}
-        widths={HERO_WIDTHS}
-        sizes="100vw"
-        alt=""
-        class="ds-hero-image"
-        loading="eager"
-        fetchpriority="high"
-        quality={90}
-      />
-      <span class="ds-hero-chip">{clinic.practitioner}, {clinic.qualification} · {clinic.years}+ years’ experience</span>
-    </div>
+    <Picture
+      src={heroBg}
+      formats={['avif', 'webp']}
+      widths={HERO_WIDTHS}
+      sizes="100vw"
+      alt=""
+      class="ds-hero-image"
+      loading="eager"
+      fetchpriority="high"
+      quality={90}
+    />
     <Container class="ds-wide-container">
-      <div class="ds-hero-content">
-        <p class="ds-eyebrow">Homeopath in Newport, Shropshire</p>
-        <h1 class="ds-hero-title">Homeopathy Consultations in Newport, Shropshire</h1>
-        <p class="ds-hero-lead">One-to-one consultations with {clinic.practitioner}, {clinic.qualification}, in Newport or online across the UK.</p>
+      <div class="ds-hero-card">
+        <h1>Homeopathy Consultations in Newport, Shropshire</h1>
+        <p class="ds-hero-lead">Private, one-to-one consultations with a {clinic.qualification}-qualified homeopath with over {clinic.years} years’ experience. In Newport or online across the UK.</p>
         <div class="ds-hero-actions">
           <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-track="click_book" data-loc="hero">Book a consultation</a>
           <a href={clinic.whatsapp} class="btn btn-outline btn-lg" rel="noopener" data-track="click_whatsapp" data-loc="hero">{discoveryChatButtonLabel}</a>
@@ -195,9 +192,9 @@ const featuredAreas = featuredAreaNames.map((name) => {
   {reviews.length > 0 && <div class="ds-home-reviews"><Reviews /></div>}
 
   <Section tone="soft" class="ds-home-faq">
-    <SectionHeader eyebrow="Helpful answers" title="Common questions" />
-    <FaqList items={homeFaqs} />
-    <p class="ds-section-action"><a href="/frequently-asked-questions/" class="link-arrow">More questions</a></p>
+    <SectionHeader eyebrow="Helpful answers" title="Common questions" lead="Quick answers about fees, booking, online appointments and seeing your GP." />
+    <FaqList items={homeFaqs} grouped={false} />
+    <p class="ds-section-action"><a href="/frequently-asked-questions/" class="btn btn-outline">See all questions</a></p>
   </Section>
 
   <Section class="ds-home-location">

@@ -5,20 +5,25 @@ import type { FaqGroup } from '../data/site';
 interface Props {
   items: { q: string; a: string; group: FaqGroup; link?: { href: string; label: string } }[];
   open?: boolean;
+  grouped?: boolean;
 }
-const { items, open = false } = Astro.props;
+const { items, open = false, grouped = true } = Astro.props;
 const groups: FaqGroup[] = [
   'Booking and fees',
   'Your consultation',
   'Online appointments',
   'About homeopathy and Kavita',
 ];
+const visibleGroups: (FaqGroup | null)[] = grouped ? groups : [null];
 ---
-{groups.map((group) => (
-  <div class="ds-faq-group" aria-labelledby={`faq-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
-    <h2 id={`faq-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>{group}</h2>
+{visibleGroups.map((group) => {
+  const headingId = group ? `faq-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}` : undefined;
+  const groupItems = group ? items.filter((item) => item.group === group) : items;
+  return (
+  <div class:list={['ds-faq-group', !group && 'ds-faq-flat']} aria-labelledby={headingId}>
+    {group && <h2 id={headingId}>{group}</h2>}
     <div class="faq-list">
-      {items.filter((f) => f.group === group).map((f) => (
+      {groupItems.map((f) => (
         <details open={open}>
           <summary><h3>{f.q}</h3></summary>
           <p>{f.a} {f.link && <a href={f.link.href}>{f.link.label}</a>}</p>
@@ -26,4 +31,5 @@ const groups: FaqGroup[] = [
       ))}
     </div>
   </div>
-  ))}
+  );
+})}
