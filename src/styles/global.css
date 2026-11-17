@@ -623,6 +623,9 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .ds-prose li { margin-bottom: var(--ds-gap-heading); }
 .ds-prose > :last-child { margin-bottom: 0; }
 
+.ds-section-wide-copy > .ds-container { max-width: 1600px; }
+.ds-section-wide-copy .ds-prose { max-width: none; }
+
 .ds-hero {
   position: relative;
   overflow: hidden;
