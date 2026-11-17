@@ -652,16 +652,18 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   max-width: 780px;
   padding: 32px;
   border: 1px solid rgb(255 255 255 / .7);
-  border-radius: 32px;
+  border-radius: 40px;
   background: rgb(255 255 255 / .95);
   box-shadow: 0 20px 50px rgb(17 20 24 / .12);
 }
 .ds-hero-card h1 {
   margin: 0 0 var(--ds-gap-heading);
   text-align: left;
-  font-size: 3.75rem;
+  font-size: clamp(2.25rem, 4vw, 3.75rem);
+  line-height: 1.12;
 }
 .ds-hero-lead {
+  max-width: 56ch;
   margin: 0;
   color: var(--grey-600);
   text-align: left;
@@ -678,13 +680,30 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   width: auto;
   min-width: 0;
   min-height: 56px;
-  padding: 16px 32px;
+  padding: 16px 24px;
   font-size: 1rem;
   white-space: nowrap;
   flex: 0 0 auto;
 }
+.ds-hero-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 20px;
+  margin-top: 12px;
+}
+.ds-hero-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: var(--blue-700);
+  font-weight: 600;
+  text-decoration: none;
+}
+.ds-hero-contact a:hover { text-decoration: underline; }
 @media (min-width: 861px) {
-  .ds-hero-card { padding: 56px; }
+  .ds-hero-card { padding: clamp(48px, 4vw, 56px); }
 }
 @media (max-width: 860px) {
   .ds-hero { background: var(--white); }
@@ -696,13 +715,16 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   .ds-hero > .ds-container {
     min-height: 0;
     padding-block: 0;
+    padding-inline: 16px;
   }
   .ds-hero-card {
     max-width: none;
     padding: 24px;
   }
-  .ds-hero-card h1 { font-size: 1.875rem; }
-  .ds-hero-actions > .btn { width: 100%; flex: 1 1 100%; }
+  .ds-hero-card h1 { font-size: clamp(1.875rem, 7vw, 2.25rem); }
+  .ds-hero-actions { flex-direction: column; }
+  .ds-hero-actions > .btn { width: 100%; flex: 0 0 auto; }
+  .ds-hero-contact { gap: 4px 16px; }
 }
 
 .ds-trust-strip > .ds-container {

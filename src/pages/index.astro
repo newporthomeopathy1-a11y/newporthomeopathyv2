@@ -19,6 +19,7 @@ const HERO_WIDTHS = [640, 1024, 1440, 1672];
 const heroAvif = await getImage({ src: heroBg, format: 'avif', widths: HERO_WIDTHS, quality: 90 });
 const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'image/avif' };
 const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-min');
+const discoveryChatButtonLabel = `Free ${fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-minute')} chat`;
 const featuredAreaNames = ['Newport', 'Telford', 'Stafford', 'Shrewsbury', 'Market Drayton'];
 const featuredAreas = featuredAreaNames.map((name) => {
   const area = areas.find((candidate) => candidate === name);
@@ -50,8 +51,11 @@ const featuredAreas = featuredAreaNames.map((name) => {
         <p class="ds-hero-lead">Private, one-to-one consultations with {clinic.practitioner}, {clinic.qualification}, a homeopath with over {clinic.years} years' experience. In person at {clinic.street}, {clinic.locality}, or online anywhere in the UK.</p>
         <div class="ds-hero-actions">
           <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-track="click_book" data-loc="hero">Book a consultation</a>
-          <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline btn-lg" data-track="click_call" data-loc="hero"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
-          <a href={clinic.whatsapp} class="btn btn-outline btn-lg" rel="noopener" data-track="click_whatsapp" data-loc="hero"><Icon name="whatsapp" /> WhatsApp</a>
+          <a href={clinic.whatsapp} class="btn btn-outline btn-lg" rel="noopener" data-track="click_whatsapp" data-loc="hero">{discoveryChatButtonLabel}</a>
+        </div>
+        <div class="ds-hero-contact" role="group" aria-label="Contact the clinic">
+          <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="hero"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
+          <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="hero"><Icon name="whatsapp" /> WhatsApp</a>
         </div>
       </div>
     </Container>
