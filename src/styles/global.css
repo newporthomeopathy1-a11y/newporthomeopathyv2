@@ -644,22 +644,24 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   z-index: 1;
   display: flex;
   align-items: center;
-  min-height: 640px;
   padding-block: var(--ds-section-sm);
 }
 .ds-hero-card {
-  width: 100%;
-  max-width: 780px;
-  padding: 32px;
+  width: calc(100% - 40px);
+  max-width: 780px !important;
+  box-sizing: border-box;
+  height: auto;
+  min-height: 0;
+  padding: 48px;
   border: 1px solid rgb(255 255 255 / .7);
-  border-radius: 40px;
+  border-radius: 32px;
   background: rgb(255 255 255 / .95);
   box-shadow: 0 20px 50px rgb(17 20 24 / .12);
 }
 .ds-hero-card h1 {
-  margin: 0 0 var(--ds-gap-heading);
+  margin: 0 0 20px;
   text-align: left;
-  font-size: clamp(2.25rem, 4vw, 3.75rem);
+  font-size: clamp(42px, 4vw, 60px);
   line-height: 1.12;
 }
 .ds-hero-lead {
@@ -667,14 +669,14 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   margin: 0;
   color: var(--grey-600);
   text-align: left;
-  font-size: 1.125rem;
-  line-height: 1.625;
+  font-size: 20px;
+  line-height: 1.6;
 }
 .ds-hero-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
-  margin-top: 32px;
+  gap: 12px;
+  margin-top: 24px;
 }
 .ds-hero-actions .btn {
   width: auto;
@@ -690,7 +692,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   flex-wrap: wrap;
   align-items: center;
   gap: 4px 20px;
-  margin-top: 12px;
+  margin-top: 8px;
 }
 .ds-hero-contact a {
   display: inline-flex;
@@ -702,9 +704,6 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   text-decoration: none;
 }
 .ds-hero-contact a:hover { text-decoration: underline; }
-@media (min-width: 861px) {
-  .ds-hero-card { padding: clamp(48px, 4vw, 56px); }
-}
 @media (max-width: 860px) {
   .ds-hero { background: var(--white); }
   .ds-hero > picture {
@@ -713,15 +712,17 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
     height: clamp(200px, 56vw, 280px);
   }
   .ds-hero > .ds-container {
-    min-height: 0;
     padding-block: 0;
     padding-inline: 16px;
   }
   .ds-hero-card {
-    max-width: none;
+    width: 100%;
+    max-width: none !important;
+    height: auto;
+    min-height: 0;
     padding: 24px;
   }
-  .ds-hero-card h1 { font-size: clamp(1.875rem, 7vw, 2.25rem); }
+  .ds-hero-card h1 { font-size: clamp(36px, 7vw, 42px); }
   .ds-hero-actions { flex-direction: column; }
   .ds-hero-actions > .btn { width: 100%; flex: 0 0 auto; }
   .ds-hero-contact { gap: 4px 16px; }
