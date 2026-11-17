@@ -648,28 +648,28 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 }
 .ds-hero-card {
   width: calc(100% - 40px);
-  max-width: 780px !important;
+  max-width: 580px !important;
   box-sizing: border-box;
   height: auto;
   min-height: 0;
-  padding: 48px;
+  padding: 32px;
   border: 1px solid rgb(255 255 255 / .7);
-  border-radius: 32px;
+  border-radius: 28px;
   background: rgb(255 255 255 / .95);
   box-shadow: 0 20px 50px rgb(17 20 24 / .12);
 }
 .ds-hero-card h1 {
-  margin: 0 0 20px;
+  margin: 0 0 16px;
   text-align: left;
-  font-size: clamp(42px, 4vw, 60px);
-  line-height: 1.12;
+  font-size: clamp(32px, 4vw, 44px);
+  line-height: 1.2;
 }
 .ds-hero-lead {
   max-width: 56ch;
   margin: 0;
   color: var(--grey-600);
   text-align: left;
-  font-size: 20px;
+  font-size: 1.1rem;
   line-height: 1.6;
 }
 .ds-hero-actions {
