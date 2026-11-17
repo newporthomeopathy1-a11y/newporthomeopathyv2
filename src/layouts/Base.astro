@@ -13,13 +13,14 @@ interface Props {
   noindex?: boolean;
   ogType?: 'website' | 'article';
   preconnects?: string[];
+  footerPractitionerLabel?: string;
   /** Blog posts: ISO dates for article:published_time / modified_time. */
   published?: Date;
   updated?: Date;
   /** Largest-contentful-paint image to preload (responsive srcset). */
   lcpImage?: { srcset: string; sizes: string; type: string };
 }
-const { title, description, breadcrumbs, schema = [], noindex = false, ogType = 'website', preconnects = [], published, updated, lcpImage } = Astro.props;
+const { title, description, breadcrumbs, schema = [], noindex = false, ogType = 'website', preconnects = [], footerPractitionerLabel = clinic.title, published, updated, lcpImage } = Astro.props;
 const ogImage = `${SITE}/og-image.jpg`;
 const ogImageAlt = `${clinic.title} at ${clinic.name}`;
 const path = Astro.url.pathname;
@@ -171,7 +172,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
             </picture>
           </a>
           <ul class="footer-contact-list">
-            <li class="footer-line"><Icon name="user" /> <a href="/about-kavita-batchu/">{clinic.title}</a></li>
+            <li class="footer-line"><Icon name="user" /> <a href="/about-kavita-batchu/">{footerPractitionerLabel}</a></li>
             <li class="footer-line"><Icon name="pin" /> <a href={clinic.mapsUrl} rel="noopener" data-track="click_directions" data-loc="footer">{addressLine}</a></li>
             <li class="footer-line"><Icon name="phone" /> <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="footer">{clinic.phoneIntl}</a></li>
             <li class="footer-line"><Icon name="whatsapp" /> <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="footer">WhatsApp</a></li>

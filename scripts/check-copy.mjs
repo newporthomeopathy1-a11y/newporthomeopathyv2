@@ -2,7 +2,7 @@
 import { readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 const banned = [
-  /\btreat(s|ed|ing)?\b/i, /\bcure/i, /\bheal(s|ing)?\b/i, /\beffective\b/i, /side effects/i, /\brelief\b/i, /\bDr\.? /,
+  /\btreat(s|ed|ing)?\b/i, /\bcure/i, /\bheal(s|ing)?\b/i, /\beffective\b/i, /side effects/i, /\brelief\b/i, /\bsafe(ly)?\b/i, /\btreatment\b/i, /natural alternative/i, /no side/i, /\bDr\.? /,
   /\b(asthma|eczema|migraine|arthritis|allerg|vertigo|gastritis|menstrual|urinary|psoriasis|anxiety|depression|insomnia|infertility)/i,
   /lorem ipsum/i, /medilab/i, /uthra/i, /walter white/i, /saul goodman/i,
 ];

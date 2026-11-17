@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 3.1.0
+
+- Added page-specific sitemap dates, crawler guidance, generated `llms.txt` and expanded structured data.
+- Updated page metadata and clinic information, and tightened the rendered-copy compliance checks.
+- Added review dates, grouped FAQs, blog summaries and WhatsApp service-card tracking.
+
 ## Version 3.0.5
 
 - Book page now shows Cal.com only; the enquiry form appears only as a fallback when Cal.com URLs are not configured. Free discovery chat now links to WhatsApp.

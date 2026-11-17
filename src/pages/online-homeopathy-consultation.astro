@@ -3,12 +3,13 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
-import { clinic } from '../data/site';
+import { clinic, fees } from '../data/site';
 import { serviceSchema } from '../data/schema';
+const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-minute');
 ---
 <Base
-  title="Online Homeopathy Consultations UK | Newport Homeopathy"
-  description="Private online homeopathy consultations by video or WhatsApp, available anywhere in the UK. Initial consultation £50, follow-ups £30."
+  title="Online Homeopathy Consultation by Video | UK-wide"
+  description={`Video homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, from anywhere in the UK. Same fees as in clinic: £${fees.initial.price} initial, £${fees.followUp.price} follow-up. Free ${discoveryChatDuration} chat.`}
   breadcrumbs={[{ name: 'Online consultations', href: '/online-homeopathy-consultation/' }]}
   schema={[serviceSchema('online')]}
 >

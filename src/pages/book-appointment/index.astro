@@ -8,6 +8,7 @@ import { clinic, fees } from '../../data/site';
 export const prerender = false;
 
 const params = Astro.url.searchParams;
+const replyDays = clinic.hoursText.split(',')[0].replace('–', ' to ');
 const errorCodes = (params.get('error') ?? '').split(',').filter(Boolean);
 const FIELD_MSG: Record<string, string> = {
   name: 'Please enter your full name (2–80 characters).',
@@ -53,7 +54,7 @@ const durationLabel = (duration: string) => {
 ---
 <Base
   title="Book a Homeopathy Consultation | Newport Homeopathy Clinic"
-  description="Book an in-person consultation in Newport, Shropshire or an online consultation. Initial consultation £50. Call, WhatsApp or book online."
+  description={`Book an in-person consultation in ${clinic.locality}, ${clinic.region} or online. Initial consultation £${fees.initial.price}. Call, WhatsApp or book online.`}
   breadcrumbs={[{ name: 'Book a consultation', href: '/book-appointment/' }]}
   preconnects={bookingPreconnects}
 >
@@ -396,6 +397,7 @@ const durationLabel = (duration: string) => {
       </form>
         </>
       )}
+      <p class="hint">We reply within one working day, {replyDays}.</p>
     </div>
   </section>
   <CtaBlock text="" />

@@ -4,11 +4,13 @@ import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import MapFacade from '../components/MapFacade.astro';
 import { clinic, addressLine } from '../data/site';
+import { contactPageSchema } from '../data/schema';
 ---
 <Base
-  title="Contact & Directions | Newport Homeopathy Clinic, TF10"
-  description="Find Newport Homeopathy Clinic at 75 Forton Road, Newport, Shropshire TF10 8BU. Opening hours, parking, phone and WhatsApp."
+  title={`Contact & Directions | ${clinic.street}, ${clinic.locality} ${clinic.postcode}`}
+  description={`Find ${clinic.name} at ${clinic.street}, ${clinic.locality}, ${clinic.region} ${clinic.postcode}. Phone, WhatsApp, email, opening hours, parking and directions.`}
   breadcrumbs={[{ name: 'Contact', href: '/contact/' }]}
+  schema={[contactPageSchema()]}
 >
   <PageIntro
     h1="Contact and Directions"

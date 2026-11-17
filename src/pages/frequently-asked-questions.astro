@@ -4,12 +4,13 @@ import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
 import FaqList from '../components/FaqList.astro';
-import { faqs } from '../data/site';
+import { clinic, faqs, formatPageUpdated } from '../data/site';
 import { faqSchema } from '../data/schema';
+const lastReviewed = formatPageUpdated('/frequently-asked-questions/');
 ---
 <Base
-  title="Homeopathy Consultation FAQs | Newport Homeopathy Clinic"
-  description="Answers to common questions about booking, fees, online appointments, parking and what happens at a homeopathy consultation in Newport."
+  title="Homeopathy FAQs: Fees, Booking & What to Expect"
+  description={`Answers on homeopathy consultation fees, booking, online appointments, parking, regulation, the NHS and seeing your GP, from ${clinic.name}.`}
   breadcrumbs={[{ name: 'FAQs', href: '/frequently-asked-questions/' }]}
   schema={[faqSchema()]}
 >
@@ -20,7 +21,9 @@ import { faqSchema } from '../data/schema';
   <section class="section-top-none">
     <div class="container text-col">
       <FaqList items={faqs} open />
+      {/* CLINIC INPUT: Add FAQs about remedies, online platform, children, cancellation and languages after clinic confirmation. */}
       <GpStatement />
+      <p>Last reviewed: {lastReviewed}</p>
     </div>
   </section>
   <CtaBlock text="" />

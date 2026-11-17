@@ -1,13 +1,29 @@
 ---
 // Native <details>: works without JS, content is in the HTML for crawlers.
-interface Props { items: { q: string; a: string; link?: { href: string; label: string } }[]; open?: boolean }
+import type { FaqGroup } from '../data/site';
+
+interface Props {
+  items: { q: string; a: string; group: FaqGroup; link?: { href: string; label: string } }[];
+  open?: boolean;
+}
 const { items, open = false } = Astro.props;
+const groups: FaqGroup[] = [
+  'Booking and fees',
+  'Your consultation',
+  'Online appointments',
+  'About homeopathy and Kavita',
+];
 ---
-<div class="faq-list">
-  {items.map((f) => (
-    <details open={open}>
-      <summary><h3>{f.q}</h3></summary>
-      <p>{f.a} {f.link && <a href={f.link.href}>{f.link.label}</a>}</p>
-    </details>
+{groups.map((group) => (
+  <section class="faq-group" aria-labelledby={`faq-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+    <h2 id={`faq-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>{group}</h2>
+    <div class="faq-list">
+      {items.filter((f) => f.group === group).map((f) => (
+        <details open={open}>
+          <summary><h3>{f.q}</h3></summary>
+          <p>{f.a} {f.link && <a href={f.link.href}>{f.link.label}</a>}</p>
+        </details>
+      ))}
+    </div>
+  </section>
   ))}
-</div>

@@ -1,7 +1,17 @@
-import { SITE, clinic, fees, faqs } from './site';
+import { SITE, areas, clinic, fees, faqs, pageUpdated } from './site';
 
 const clinicId = `${SITE}/#clinic`;
 const personId = `${SITE}/about-kavita-batchu/#person`;
+const personNode = {
+  '@type': 'Person',
+  '@id': personId,
+  name: clinic.practitioner,
+  honorificSuffix: clinic.qualification,
+  jobTitle: 'Homeopath',
+  url: `${SITE}/about-kavita-batchu/`,
+  image: `${SITE}/assets/img/kavita-batchu.jpg`,
+  worksFor: { '@id': clinicId },
+};
 
 // Site-wide graph (spec Part 7). No Physician/MedicalClinic/medicalSpecialty, no "Dr".
 export function siteGraph() {
@@ -9,10 +19,11 @@ export function siteGraph() {
     '@type': 'HealthAndBeautyBusiness',
     '@id': clinicId,
     name: clinic.name,
+    alternateName: clinic.alternateNames,
     url: `${SITE}/`,
     logo: `${SITE}/assets/img/logo.png`,
     image: `${SITE}/og-image.jpg`,
-    description: 'Private homeopathy consultations in Newport, Shropshire and online across the UK.',
+    description: `Private one-to-one homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, at ${clinic.street}, ${clinic.locality}, ${clinic.region} ${clinic.postcode}, and online by video across the UK.`,
     telephone: clinic.phoneIntl,
     email: clinic.email,
     priceRange: `£${fees.followUp.price}–£${fees.initial.price}`,
@@ -36,19 +47,26 @@ export function siteGraph() {
       },
     ],
     areaServed: [
-      { '@type': 'City', name: 'Newport, Shropshire' },
-      { '@type': 'City', name: 'Telford' },
+      ...areas.map((name) => ({ '@type': 'City', name })),
       { '@type': 'AdministrativeArea', name: 'Shropshire' },
       { '@type': 'Country', name: 'United Kingdom' },
     ],
+    founder: { '@id': personId },
     employee: { '@id': personId },
+    knowsAbout: [{
+      '@type': 'Thing',
+      name: 'Homeopathy',
+      sameAs: 'https://en.wikipedia.org/wiki/Homeopathy',
+    }],
   };
   if (clinic.sameAs.length) business.sameAs = clinic.sameAs;
+  if (clinic.hasMap) business.hasMap = clinic.hasMap;
 
   return {
     '@context': 'https://schema.org',
     '@graph': [
       business,
+      personNode,
       {
         '@type': 'WebSite',
         '@id': `${SITE}/#website`,
@@ -64,19 +82,46 @@ export function siteGraph() {
 export function personSchema() {
   return {
     '@context': 'https://schema.org',
-    '@type': 'Person',
-    '@id': personId,
-    name: clinic.title,
-    jobTitle: 'Homeopath',
+    '@type': 'ProfilePage',
     url: `${SITE}/about-kavita-batchu/`,
-    image: `${SITE}/assets/img/kavita-batchu.jpg`,
-    hasCredential: {
-      '@type': 'EducationalOccupationalCredential',
-      credentialCategory: 'degree',
-      name: clinic.qualificationFull,
+    dateModified: pageUpdated['/about-kavita-batchu/'],
+    mainEntity: {
+      ...personNode,
+      description: `Kavita Batchu is a BHMS-qualified homeopath with over ${clinic.years} years’ experience, offering private consultations in Newport, Shropshire and online across the UK.`,
+      knowsAbout: ['Homeopathy', 'Homoeopathy'],
+      knowsLanguage: ['en'],
+      hasCredential: {
+        '@type': 'EducationalOccupationalCredential',
+        credentialCategory: 'degree',
+        name: clinic.qualificationFull,
+      },
     },
-    // TODO(open item 1): add memberOf + sameAs once the professional body is confirmed.
-    worksFor: { '@id': clinicId },
+    // CLINIC INPUT: Confirm professional body details before adding memberOf.
+    // CLINIC INPUT: Confirm education institution details before adding alumniOf.
+    // CLINIC INPUT: Add sameAs only after profile URLs are confirmed.
+  };
+}
+
+export function contactPageSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    '@id': `${SITE}/contact/#webpage`,
+    url: `${SITE}/contact/`,
+    name: 'Contact and directions',
+    isPartOf: { '@id': `${SITE}/#website` },
+    about: { '@id': clinicId },
+  };
+}
+
+export function collectionPageSchema() {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    '@id': `${SITE}/blog/#webpage`,
+    url: `${SITE}/blog/`,
+    name: 'Guides and Articles',
+    isPartOf: { '@id': `${SITE}/#website` },
   };
 }
 
@@ -97,9 +142,30 @@ export function serviceSchema(kind: 'in-person' | 'online') {
       ? { availableChannel: { '@type': 'ServiceChannel', name: 'Video call', serviceUrl: `${SITE}/book-appointment/` } }
       : {}),
     offers: [
-      { '@type': 'Offer', name: 'Free discovery chat (about 15 minutes)', price: '0.00', priceCurrency: 'GBP' },
-      { '@type': 'Offer', name: `Initial consultation (${fees.initial.duration})`, price: `${fees.initial.price}.00`, priceCurrency: 'GBP' },
-      { '@type': 'Offer', name: 'Follow-up consultation', price: `${fees.followUp.price}.00`, priceCurrency: 'GBP' },
+      {
+        '@type': 'Offer',
+        name: 'Free discovery chat (about 15 minutes)',
+        price: '0.00',
+        priceCurrency: 'GBP',
+        url: `${SITE}/book-appointment/`,
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        name: `Initial consultation (${fees.initial.duration})`,
+        price: `${fees.initial.price}.00`,
+        priceCurrency: 'GBP',
+        url: `${SITE}/book-appointment/`,
+        availability: 'https://schema.org/InStock',
+      },
+      {
+        '@type': 'Offer',
+        name: 'Follow-up consultation',
+        price: `${fees.followUp.price}.00`,
+        priceCurrency: 'GBP',
+        url: `${SITE}/book-appointment/`,
+        availability: 'https://schema.org/InStock',
+      },
     ],
   };
 }
@@ -124,7 +190,7 @@ export function faqSchema(list = faqs) {
     mainEntity: list.map((f) => ({
       '@type': 'Question',
       name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a },
+      acceptedAnswer: { '@type': 'Answer', text: f.link ? `${f.a} ${f.link.label}` : f.a },
     })),
   };
 }
@@ -138,6 +204,7 @@ export function blogPostingSchema(p: { title: string; description: string; slug:
     description: p.description,
     datePublished: p.published.toISOString().slice(0, 10),
     dateModified: (p.updated ?? p.published).toISOString().slice(0, 10),
+    inLanguage: 'en-GB',
     author: { '@id': personId },
     publisher: { '@id': clinicId },
     image: `${SITE}/og-image.jpg`,

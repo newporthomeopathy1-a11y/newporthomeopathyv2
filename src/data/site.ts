@@ -4,6 +4,37 @@
 
 export const SITE = 'https://newporthomeopathy.com';
 
+export const pageUpdated: Record<string, string> = {
+  '/': '2026-11-17',
+  '/homeopathy-consultations/': '2026-11-17',
+  '/online-homeopathy-consultation/': '2026-11-17',
+  '/consultation-fees/': '2026-11-17',
+  '/what-to-expect/': '2026-11-17',
+  '/about-kavita-batchu/': '2026-11-17',
+  '/areas-we-serve/': '2026-11-17',
+  '/frequently-asked-questions/': '2026-11-17',
+  '/contact/': '2026-11-17',
+  '/blog/': '2026-11-17',
+  '/book-appointment/': '2026-11-17',
+  '/booking-terms/': '2026-11-17',
+  '/privacy-policy/': '2026-11-17',
+  '/cookie-policy/': '2026-11-17',
+};
+
+export function formatPageUpdated(path: string): string {
+  const updated = pageUpdated[path];
+  if (!updated) throw new Error(`Missing page update date for ${path}.`);
+
+  const date = new Date(`${updated}T00:00:00Z`);
+  if (Number.isNaN(date.getTime())) throw new Error(`Invalid page update date for ${path}: ${updated}.`);
+
+  return date.toLocaleDateString('en-GB', {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
+}
+
 export const clinic = {
   name: 'Newport Homeopathy Clinic',
   practitioner: 'Kavita Batchu',
@@ -11,6 +42,7 @@ export const clinic = {
   qualification: 'BHMS',
   qualificationFull: 'Bachelor of Homoeopathic Medicine and Surgery (BHMS)',
   years: '15',
+  alternateNames: ['Newport Homoeopathy Clinic', 'Newport Homeopathy'],
   phoneDisplay: '07904 622856',
   phoneIntl: '+44 7904 622856',
   phoneTel: '+447904622856',
@@ -21,6 +53,7 @@ export const clinic = {
   region: 'Shropshire',
   postcode: 'TF10 8BU',
   country: 'GB',
+  hasMap: '',
   geo: { lat: 52.7782, lng: -2.3783 }, // TODO: confirm against the GBP pin
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Newport+Homeopathy+Clinic%2C+75+Forton+Road%2C+Newport+TF10+8BU',
   hoursText: 'Monday–Saturday, 9:00–18:00', // TODO(open item 5)
@@ -77,6 +110,7 @@ export const nav = [
     ],
   },
   { href: '/consultation-fees/', label: 'Fees' },
+  { href: '/blog/', label: 'Guides' },
   { href: '/about-kavita-batchu/', label: 'About' },
   { href: '/frequently-asked-questions/', label: 'FAQs' },
   { href: '/contact/', label: 'Contact' },
@@ -101,50 +135,109 @@ export const areas = [
 
 // One list renders both the visible FAQ and the FAQPage JSON-LD (spec Part 7).
 // `link` is an internal page the answer points to (spec: FAQ answers link to the relevant page).
-export const faqs = [
+export type FaqGroup =
+  | 'Booking and fees'
+  | 'Your consultation'
+  | 'Online appointments'
+  | 'About homeopathy and Kavita';
+
+type Faq = {
+  q: string;
+  a: string;
+  group: FaqGroup;
+  link?: { href: string; label: string };
+};
+
+export const faqs: Faq[] = [
   {
     q: 'How much does a homeopathy consultation cost?',
     a: `An initial consultation costs £${fees.initial.price} and lasts ${fees.initial.duration}; a follow-up costs £${fees.followUp.price}.`,
+    group: 'Booking and fees',
     link: { href: '/consultation-fees/', label: 'See all fees' },
   },
   {
     q: 'How do I book?',
     a: `Book online, call ${clinic.phoneDisplay} or send a WhatsApp message. We reply within one working day.`,
+    group: 'Booking and fees',
     link: { href: '/book-appointment/', label: 'Book a consultation' },
   },
   {
     q: 'Can I have a consultation online?',
     a: 'Yes. Online consultations are available by video anywhere in the UK.',
+    group: 'Online appointments',
     link: { href: '/online-homeopathy-consultation/', label: 'Online consultations' },
   },
   {
     q: 'What happens at the first consultation?',
     a: `Kavita asks about your health history, lifestyle and wellbeing during the first appointment, which lasts ${fees.initial.duration}.`,
+    group: 'Your consultation',
     link: { href: '/what-to-expect/', label: 'What to expect' },
   },
   {
     q: 'How often are follow-up appointments?',
     a: `Follow-ups are usually ${fees.followUp.interval}, and cost £${fees.followUp.price}.`,
+    group: 'Your consultation',
     link: { href: '/what-to-expect/', label: 'What to expect' },
   },
   {
     q: 'Where is the clinic and is there parking?',
     a: `The clinic is at ${addressLine}. Please ask about parking and step-free access when you book.`, // TODO(open item 14)
+    group: 'Booking and fees',
     link: { href: '/contact/', label: 'Directions' },
   },
   {
     q: 'How can I pay?',
     a: `${clinic.payment}. Payment is taken at or before the appointment.`,
+    group: 'Booking and fees',
     link: { href: '/booking-terms/', label: 'Booking terms' },
   },
   {
     q: 'Should I keep seeing my GP?',
     a: gpStatement,
+    group: 'Your consultation',
     link: { href: '/what-to-expect/', label: 'What to expect' },
   },
   {
     q: 'Can I talk to someone before I book?',
     a: `Book a free discovery chat (${fees.discovery.duration}) by phone or WhatsApp; there is no obligation.`,
+    group: 'Booking and fees',
     link: { href: '/book-appointment/', label: 'Request a free chat' },
+  },
+  {
+    q: 'What is homeopathy?',
+    a: 'Homeopathy is a system of complementary medicine developed by Samuel Hahnemann in the late 1700s. It is a complementary therapy and does not replace medical care from your GP. During a consultation, Kavita asks about your health history, lifestyle and wellbeing. Please continue to see your GP about health concerns.',
+    group: 'About homeopathy and Kavita',
+  },
+  {
+    q: 'Is it “homeopathy” or “homoeopathy”?',
+    a: 'Both spellings are used in the UK and mean the same thing. “Homeopathy” is the common modern spelling, while “homoeopathy” is an older spelling used in the name of Kavita Batchu’s degree, Bachelor of Homoeopathic Medicine and Surgery (BHMS). The word “homoeopathy” is retained in that degree name.',
+    group: 'About homeopathy and Kavita',
+  },
+  {
+    q: 'Is homeopathy available on the NHS?',
+    a: 'No, homeopathy is not routinely available on the NHS. Consultations at Newport Homeopathy Clinic are private. This answer refers to the clinic’s consultations and does not describe every local NHS service. For information about services in your area, check with your GP or local NHS service.',
+    group: 'About homeopathy and Kavita',
+  },
+  {
+    q: 'Are homeopaths regulated in the UK?',
+    a: 'Homeopaths are not subject to statutory regulation in the UK. Some registers are voluntary, rather than a statutory requirement. This answer describes the general regulatory position only. For details of a particular register, consult the organisation that maintains it or its published information.',
+    group: 'About homeopathy and Kavita',
+  },
+  {
+    q: 'What qualification does Kavita have?',
+    a: 'Kavita Batchu holds a BHMS qualification, short for Bachelor of Homoeopathic Medicine and Surgery. The course was five years and was completed in India. BHMS is the abbreviation used in the qualification name. See the about page for details of Kavita’s training.',
+    group: 'About homeopathy and Kavita',
+    link: { href: '/about-kavita-batchu/', label: 'About Kavita Batchu' },
+  },
+  {
+    q: 'Do I need a referral from my GP?',
+    a: 'No, you do not need a GP referral to book a consultation. You can contact the clinic directly to ask about an appointment. If you have a health concern, continue to seek advice from your GP. Homeopathy is a complementary therapy and is not a substitute for medical care.',
+    group: 'Your consultation',
+  },
+  {
+    q: 'Is my information kept confidential?',
+    a: 'The privacy policy explains how your personal information is used and shared. It says enquiry details are used to reply and arrange appointments, describes the information collected and its retention period, and states that data is not sold or used with advertising pixels. For details, read the',
+    group: 'Your consultation',
+    link: { href: '/privacy-policy/', label: 'Privacy Policy' },
   },
 ];

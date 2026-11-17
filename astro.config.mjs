@@ -1,21 +1,13 @@
-import { execFileSync } from 'node:child_process';
 import { readFileSync, readdirSync, renameSync, unlinkSync } from 'node:fs';
 import { join, relative, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import vercel from '@astrojs/vercel';
+import { pageUpdated } from './src/data/site.ts';
 
 const projectRoot = fileURLToPath(new URL('.', import.meta.url));
 const blogRoot = join(projectRoot, 'src', 'content', 'blog');
-const gitLastmod = new Date(execFileSync('git', ['log', '-1', '--format=%cI'], {
-  cwd: projectRoot,
-  encoding: 'utf8',
-}).trim());
-
-if (Number.isNaN(gitLastmod.getTime())) {
-  throw new Error('Unable to determine the last Git commit date for sitemap entries.');
-}
 
 function getFrontmatterDate(frontmatter, field, file) {
   const value = frontmatter.match(new RegExp(`^${field}:\\s*["']?([^\\s"']+)`, 'm'))?.[1];
@@ -92,7 +84,9 @@ export default defineConfig({
       serialize: (item) => {
         const pathname = decodeURIComponent(new URL(item.url).pathname);
         const blogPost = pathname.match(/^\/blog\/(.+)\/$/);
-        const lastmod = blogPost ? blogLastmods.get(blogPost[1]) : gitLastmod;
+        const lastmod = blogPost
+          ? blogLastmods.get(blogPost[1])
+          : new Date(pageUpdated[pathname] ?? '2026-11-17');
         if (!lastmod) throw new Error(`Missing frontmatter date for sitemap URL ${item.url}.`);
         return { ...item, lastmod };
       },

@@ -2,15 +2,15 @@
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
-import { areas } from '../data/site';
+import { areas, clinic } from '../data/site';
 ---
 <Base
-  title="Homeopath near Telford & Shropshire | Newport Homeopathy"
-  description="Our Newport clinic is easy to reach from Telford, Edgmond, Gnosall, Market Drayton, Stafford and Shrewsbury. Online across the UK."
+  title="Homeopath near Telford, Stafford & Shrewsbury | Newport"
+  description={`Homeopathy consultations in ${clinic.locality}, ${clinic.region}, ${areas.slice(1).join(', ')}. Or book online.`}
   breadcrumbs={[{ name: 'Areas we serve', href: '/areas-we-serve/' }]}
 >
   <PageIntro
-    h1="Areas We Serve"
+    h1="A Homeopath for Telford, Stafford, Shrewsbury and Nearby"
     lead="The Newport clinic serves nearby areas across east Shropshire and west Staffordshire. Online consultations are available anywhere in the UK."
   />
   <section class="section-top-none">

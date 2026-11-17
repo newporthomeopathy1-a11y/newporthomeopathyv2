@@ -1,15 +1,24 @@
 ---
 // Service cards list what the clinic offers, never conditions or outcomes.
-import { services } from '../data/site';
+import { clinic, services } from '../data/site';
 ---
 <div class="service-grid" style={`--service-count: ${services.length};`}>
-  {services.map((s) => (
-    <article class="card service-card">
-      <h3>{s.title}</h3>
-      <p class="price">{s.price} <span>{s.meta}</span></p>
-      <a href={s.href} class="link-arrow" data-astro-prefetch>
-        {s.title === 'Free discovery chat' ? 'Message on WhatsApp' : <>Find out more<span class="visually-hidden"> about {s.title.toLowerCase()}</span></>}
-      </a>
-    </article>
-  ))}
+  {services.map((s) => {
+    const isWhatsApp = s.href === clinic.whatsapp;
+    return (
+      <article class="card service-card">
+        <h3>{s.title}</h3>
+        <p class="price">{s.price} <span>{s.meta}</span></p>
+        <a
+          href={s.href}
+          class="link-arrow"
+          data-astro-prefetch={isWhatsApp ? undefined : true}
+          data-track={isWhatsApp ? 'click_whatsapp' : undefined}
+          data-loc={isWhatsApp ? 'service_card' : undefined}
+        >
+          {s.title === 'Free discovery chat' ? 'Message on WhatsApp' : <>Find out more<span class="visually-hidden"> about {s.title.toLowerCase()}</span></>}
+        </a>
+      </article>
+    );
+  })}
 </div>

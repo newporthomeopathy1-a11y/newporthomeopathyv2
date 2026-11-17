@@ -6,17 +6,20 @@ import GpStatement from '../components/GpStatement.astro';
 import MapFacade from '../components/MapFacade.astro';
 import { clinic, fees, addressLine } from '../data/site';
 import { serviceSchema } from '../data/schema';
+const initialDurationShort = fees.initial.duration.replace(/ minutes?$/, ' min');
 ---
 <Base
-  title="Homeopathy Consultations in Newport, Shropshire"
-  description="One-to-one homeopathy consultations at 75 Forton Road, Newport TF10 8BU. Initial 30–90 minutes, £50. Monday to Saturday, 9am–6pm."
+  title={`In-Person Homeopathy Consultations | ${clinic.locality} ${clinic.postcode}`}
+  description={`See ${clinic.practitioner}, ${clinic.qualification}, face to face at ${clinic.street}, ${clinic.locality}, ${clinic.region}. First consultation ${initialDurationShort}, £${fees.initial.price}; follow-ups £${fees.followUp.price}. ${clinic.hoursShort}.`}
   breadcrumbs={[{ name: 'In-person consultations', href: '/homeopathy-consultations/' }]}
   schema={[serviceSchema('in-person')]}
 >
   <PageIntro
-    h1="Homeopathy Consultations at Our Newport Clinic"
+    h1={`In-Person Homeopathy Consultations at ${clinic.street}, ${clinic.locality}`}
     lead={`One-to-one homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, at ${addressLine}. The initial consultation costs £${fees.initial.price} and lasts ${fees.initial.duration}; follow-ups cost £${fees.followUp.price}.`}
-  />
+  >
+    <p><a href="/areas-we-serve/">Areas we serve</a></p>
+  </PageIntro>
   <section class="section-top-none">
     <div class="container grid-2 grid-start">
       <div class="prose">

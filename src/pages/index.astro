@@ -9,17 +9,26 @@ import MapFacade from '../components/MapFacade.astro';
 import ServiceCards from '../components/ServiceCards.astro';
 import heroBg from '../assets/hero-remedies.jpg';
 import kavitaPhoto from '../assets/kavita-about.jpg';
-import { clinic, fees, addressLine } from '../data/site';
+import { clinic, fees, addressLine, areas } from '../data/site';
 
 // Hero photo is the largest contentful paint: preload the AVIF set so it starts downloading with the HTML.
 const HERO_WIDTHS = [640, 1024, 1440, 1672];
 const heroAvif = await getImage({ src: heroBg, format: 'avif', widths: HERO_WIDTHS, quality: 70 });
 const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'image/avif' };
+const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-min');
+const featuredAreaNames = ['Newport', 'Telford', 'Stafford', 'Shrewsbury', 'Market Drayton'];
+const featuredAreas = featuredAreaNames.map((name) => {
+  const area = areas.find((candidate) => candidate === name);
+  if (!area) throw new Error(`Missing featured area "${name}" in src/data/site.ts.`);
+  return area;
+});
+const areasTeaser = `Clients come from ${featuredAreas.slice(0, -1).join(', ')} and ${featuredAreas[featuredAreas.length - 1]}, and online across the UK.`;
 ---
 <Base
-  title="Kavita Batchu, BHMS – Homeopath | Newport Homeopathy Clinic"
-  description="Private homeopathy consultations with Kavita Batchu, BHMS – Homeopath, in Newport, Shropshire or online across the UK. Initial consultation £50."
+  title="Homeopath in Newport, Shropshire | Newport Homeopathy Clinic"
+  description={`Homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, at ${clinic.street}, ${clinic.locality} ${clinic.postcode.split(' ')[0]}, or online UK-wide. £${fees.initial.price} initial, £${fees.followUp.price} follow-up. Free ${discoveryChatDuration} chat.`}
   lcpImage={lcpImage}
+  footerPractitionerLabel={clinic.practitioner}
 >
   <!-- 1. Hero -->
   <section class="hero hero-photo">
@@ -36,8 +45,9 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
     />
     <div class="container hero-grid">
       <div class="hero-copy">
-        <h1>Homeopathy Consultations in Newport, Shropshire</h1>
+        <h1>Your Homeopath in Newport, Shropshire</h1>
         <p class="hero-lead">Private, one-to-one consultations with {clinic.practitioner}, {clinic.qualification}, a homeopath with over {clinic.years} years' experience. In person at {clinic.street}, {clinic.locality}, or online anywhere in the UK.</p>
+        <p>Newport Homeopathy Clinic is a private homeopathy practice at {addressLine}. It is run by {clinic.practitioner}, who holds a {clinic.qualificationFull} degree and has over {clinic.years} years’ experience as a homeopath. Consultations are one-to-one, in person during clinic hours ({clinic.hoursText}), or by video from anywhere in the UK. A first consultation lasts {fees.initial.duration} and costs £{fees.initial.price}; follow-ups cost £{fees.followUp.price}. A free discovery chat ({fees.discovery.duration}) is available before you book.</p>
         <div class="cta-actions">
           <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-track="click_book" data-loc="hero">Book a consultation</a>
           <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline btn-lg" data-track="click_call" data-loc="hero"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
@@ -50,11 +60,49 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
   <!-- 2. Trust strip -->
   <section class="trust-strip" aria-label="Key facts">
     <ul class="container">
-      <li><span class="trust-icon"><Icon name="award" /></span><span><strong>{clinic.years}+ years</strong> experience</span></li>
+      <li><span class="trust-icon"><Icon name="award" /></span><span><strong>{clinic.title}</strong></span></li>
       <li><span class="trust-icon"><Icon name="pound" /></span><span><strong>£{fees.initial.price}</strong> initial consultation</span></li>
       <li><span class="trust-icon"><Icon name="video" /></span><span><strong>In person</strong> and online</span></li>
       <li><span class="trust-icon"><Icon name="clock" /></span><span><strong>{clinic.hoursShort}</strong></span></li>
     </ul>
+  </section>
+
+  <section>
+    <div class="container text-col">
+      <h2>Why people choose the clinic</h2>
+      <ul>
+        <li>A first consultation lasts {fees.initial.duration}.</li>
+        <li>The same consultation fees apply online and in person.</li>
+        <li>Appointments are available on Saturdays ({clinic.hoursShort}).</li>
+        <li>A free discovery chat ({fees.discovery.duration}) is available before booking.</li>
+        <li><a href={clinic.whatsapp} rel="noopener">Request an appointment by WhatsApp</a>.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="container text-col">
+      <h2>About homeopathy, briefly</h2>
+      <p>Homeopathy is a system of complementary medicine developed by Samuel Hahnemann in the late 1700s. Consultations look at health history and lifestyle as a whole, with time for the person to describe their circumstances and the questions they want to discuss. Homeopathy is a complementary therapy, not a replacement for your GP or other medical care. Please continue to see your GP about health concerns, and do not stop or change prescribed medication without medical advice. Read more in our <a href="/frequently-asked-questions/">frequently asked questions</a>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="container text-col">
+      <h2>Areas we serve</h2>
+      <p><a href="/areas-we-serve/">{areasTeaser}</a></p>
+    </div>
+  </section>
+
+  <section class="soft">
+    <div class="container text-col">
+      <h2>Common questions</h2>
+      <ul>
+        <li><a href="/frequently-asked-questions/">How much does a consultation cost?</a></li>
+        <li><a href="/frequently-asked-questions/">Can I have a consultation online?</a></li>
+        <li><a href="/frequently-asked-questions/">Should I keep seeing my GP?</a></li>
+      </ul>
+    </div>
   </section>
 
   <!-- 3. Meet your practitioner -->
@@ -62,7 +110,7 @@ const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'ima
     <div class="container grid-2 about-grid">
       <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Kavita Batchu, BHMS" loading="lazy" decoding="async" class="about-banner" />
       <div>
-        <h2>{clinic.title}</h2>
+        <h2>Meet your homeopath, {clinic.practitioner}</h2>
         <p>Kavita has a five-year BHMS degree and over {clinic.years} years' experience.</p>
         <p>Homeopathy is a system of complementary medicine developed over 200 years ago.</p>
         <p class="section-link"><a href="/about-kavita-batchu/" class="link-arrow">About Kavita</a></p>

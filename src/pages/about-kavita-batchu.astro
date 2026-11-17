@@ -5,10 +5,13 @@ import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import kavitaPhoto from '../assets/kavita-about.jpg';
 import { personSchema } from '../data/schema';
+import { clinic, formatPageUpdated, gpStatement } from '../data/site';
+
+const lastReviewed = formatPageUpdated('/about-kavita-batchu/');
 ---
 <Base
   title="Kavita Batchu, BHMS – Homeopath in Newport, Shropshire"
-  description="Meet Kavita Batchu, BHMS – Homeopath, with over 15 years' experience offering private consultations in Newport, Shropshire and online."
+  description={`Meet ${clinic.practitioner}: ${clinic.qualification}-qualified homeopath with ${clinic.years} years’ experience. Her training, how she works, and how to book in ${clinic.locality}, ${clinic.region} or online.`}
   breadcrumbs={[{ name: 'About Kavita Batchu', href: '/about-kavita-batchu/' }]}
   schema={[personSchema()]}
 >
@@ -18,14 +21,23 @@ import { personSchema } from '../data/schema';
   />
   <section class="section-top-none">
     <div class="container grid-2 about-grid grid-start">
-      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Kavita Batchu, BHMS" loading="lazy" decoding="async" class="about-banner" />
+      {/* CLINIC INPUT: Supply an approved clinic-room photo if one should be added to the page. */}
+      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Kavita Batchu, homeopath at Newport Homeopathy Clinic, Shropshire" loading="lazy" decoding="async" class="about-banner" />
       <div class="prose">
+        <p>Kavita Batchu is a homeopath with a five-year {clinic.qualificationFull} degree from India and over {clinic.years} years’ experience. Her first consultation is a detailed conversation about health history, lifestyle and wellbeing.</p>
         <h2>Training</h2>
-        <p>I hold a five-year Bachelor of Homeopathic Medicine and Surgery (BHMS) degree from India and have over 15 years of experience as a homeopath.</p>
-        {/* TODO(open item 1): add confirmed professional body membership + register link. Do not publish the old "Royal Society of Homeopaths" wording. */}
+        <p>I hold a five-year {clinic.qualificationFull} degree from India and have over {clinic.years} years of experience as a homeopath.</p>
+        {/* CLINIC INPUT: Confirm professional body and register link before adding them. */}
+        {/* CLINIC INPUT: Confirm insurance information before adding it. */}
+        {/* CLINIC INPUT: Confirm the college name and year qualified before adding them. */}
+        {/* CLINIC INPUT: Confirm languages before listing them. */}
+        {/* CLINIC INPUT: Confirm why Kavita chose Newport before adding a reason. */}
         <h2>How I work</h2>
         <p>Your first consultation is a detailed conversation about your health history, lifestyle and wellbeing.</p>
-        <p><a href="/homeopathy-consultations/">In person</a> · <a href="/online-homeopathy-consultation/">Online</a> · <a href="/consultation-fees/">Fees</a></p>
+        <p><a href="/homeopathy-consultations/">In-person consultations</a> · <a href="/online-homeopathy-consultation/">Online consultations</a> · <a href="/consultation-fees/">Fees</a></p>
+        <h2>Working alongside your GP</h2>
+        <p>{gpStatement}</p>
+        <p>Last reviewed: {lastReviewed}</p>
       </div>
     </div>
   </section>

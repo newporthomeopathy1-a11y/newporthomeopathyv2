@@ -3,13 +3,16 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import CtaBlock from '../../components/CtaBlock.astro';
+import { collectionPageSchema } from '../../data/schema';
+import { clinic } from '../../data/site';
 const posts = (await getCollection('blog', (p) => !p.data.draft)).sort((a, b) => +b.data.published - +a.data.published);
 const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <Base
   title="Homeopathy Guides & Articles | Newport Homeopathy Clinic"
-  description="Practical guides on homeopathy consultations, fees, online appointments and choosing a homeopath, reviewed by Kavita Batchu, BHMS – Homeopath."
+  description={`Plain-English guides to homeopathy consultations, fees, online appointments, qualifications and choosing a homeopath in the UK, by ${clinic.practitioner}, ${clinic.qualification}.`}
   breadcrumbs={[{ name: 'Guides and articles', href: '/blog/' }]}
+  schema={[collectionPageSchema()]}
 >
   <PageIntro h1="Guides and Articles" lead="Practical guides on booking, fees, online appointments and what happens at a homeopathy consultation, reviewed by Kavita Batchu, BHMS." />
   <section class="section-top-none">

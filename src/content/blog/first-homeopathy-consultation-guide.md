@@ -1,6 +1,7 @@
 ---
 title: "Your First Homeopathy Consultation: A Simple Guide"
 description: "First homeopathy consultation in Newport: what happens, how long it takes, cost and preparation. Reviewed by Kavita Batchu, BHMS – Homeopath."
+summary: "A first consultation is a private, one-to-one conversation with Kavita Batchu, in Newport or online. This guide outlines what to expect and what to bring."
 published: 2026-11-12
 ---
 

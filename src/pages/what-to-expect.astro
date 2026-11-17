@@ -2,30 +2,53 @@
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
-import { clinic, fees } from '../data/site';
+import GpStatement from '../components/GpStatement.astro';
+import { clinic, fees, formatPageUpdated } from '../data/site';
+
+const lastReviewed = formatPageUpdated('/what-to-expect/');
 ---
 <Base
-  title="What to Expect at Your Homeopathy Consultation"
-  description="What happens at your first homeopathy consultation in Newport, how to prepare, how long it takes and how follow-up appointments work."
+  title="What Happens at a Homeopathy Consultation? | Newport"
+  description={`How a first homeopathy consultation works in ${clinic.locality} or online: how to prepare, what ${clinic.practitioner.split(' ')[0]} asks, how long it takes, and how follow-ups are arranged.`}
   breadcrumbs={[{ name: 'What to expect', href: '/what-to-expect/' }]}
 >
   <PageIntro
-    h1="What to Expect at Your Consultation"
+    h1="What to Expect at Your First Homeopathy Consultation"
     lead={`Your first appointment with ${clinic.practitioner} is a private, one-to-one conversation.`}
   />
   <section class="section-top-none">
     <div class="container prose">
-      <h2>Before you book</h2>
-      <p>Ask for a free 15-minute chat if you're unsure.</p>
-      <h2>How to prepare</h2>
-      <ul>
-        <li>A list of any medicines and supplements you take.</li>
-        <li>The initial appointment lasts {fees.initial.duration}.</li>
-      </ul>
-      <h2>During and after</h2>
-      <p>Kavita asks about your health history, lifestyle and wellbeing. Follow-ups are usually {fees.followUp.interval}.</p>
-      <p>Please keep seeing your GP and do not stop or change prescribed medication without medical advice.</p>
+      <h2>How long is the first consultation?</h2>
+      <p>The first consultation lasts {fees.initial.duration}.</p>
+
+      <h2>What will Kavita ask about?</h2>
+      <p>Kavita asks about your health history, routine, sleep, diet and how you feel day to day, in general terms.</p>
+
+      <h2>Do I need a GP referral?</h2>
+      <p>No, you do not need a GP referral to book.</p>
+
+      <h2>Can someone come with me?</h2>
+      <p>You are welcome to ask when booking if someone can come with you.</p>
+
+      <h2>What happens after the first appointment?</h2>
+      <p>You can take time after the appointment to consider whether you would like to book another consultation.</p>
+
+      <h2>How do follow-ups work?</h2>
+      <p>Kavita suggests an interval, usually {fees.followUp.interval}, and you decide whether to book.</p>
+
+      <h2>How does this fit with seeing my GP?</h2>
+      <GpStatement />
+
+      <h2>Preparing for your consultation</h2>
+      <ol>
+        <li>List any medicines or supplements you take.</li>
+        <li>Note any questions you would like to ask.</li>
+        <li>Bring your glasses if you use them.</li>
+        <li>Allow time for the appointment: the first consultation lasts {fees.initial.duration}.</li>
+      </ol>
+
       <p><a href="/homeopathy-consultations/">In person</a> · <a href="/online-homeopathy-consultation/">Online</a> · <a href="/consultation-fees/">Fees</a></p>
+      <p>Last reviewed: {lastReviewed}</p>
     </div>
   </section>
   <CtaBlock text="" />
