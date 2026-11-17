@@ -15,7 +15,7 @@ const groups: FaqGroup[] = [
 ];
 ---
 {groups.map((group) => (
-  <section class="faq-group" aria-labelledby={`faq-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
+  <div class="ds-faq-group" aria-labelledby={`faq-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
     <h2 id={`faq-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>{group}</h2>
     <div class="faq-list">
       {items.filter((f) => f.group === group).map((f) => (
@@ -25,5 +25,5 @@ const groups: FaqGroup[] = [
         </details>
       ))}
     </div>
-  </section>
+  </div>
   ))}

@@ -3,6 +3,10 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
+import Grid from '../components/ds/Grid.astro';
+import Card from '../components/ds/Card.astro';
 import { clinic, fees, formatPageUpdated } from '../data/site';
 
 const lastReviewed = formatPageUpdated('/what-to-expect/');
@@ -16,8 +20,8 @@ const lastReviewed = formatPageUpdated('/what-to-expect/');
     h1="What to Expect at Your First Homeopathy Consultation"
     lead={`Your first appointment with ${clinic.practitioner} is a private, one-to-one conversation.`}
   />
-  <section class="section-top-none">
-    <div class="container prose">
+  <Section>
+    <Prose>
       <h2>How long is the first consultation?</h2>
       <p>The first consultation lasts {fees.initial.duration}.</p>
 
@@ -40,16 +44,18 @@ const lastReviewed = formatPageUpdated('/what-to-expect/');
       <GpStatement />
 
       <h2>Preparing for your consultation</h2>
-      <ol>
-        <li>List any medicines or supplements you take.</li>
-        <li>Note any questions you would like to ask.</li>
-        <li>Bring your glasses if you use them.</li>
-        <li>Allow time for the appointment: the first consultation lasts {fees.initial.duration}.</li>
-      </ol>
+    </Prose>
+    <Grid cols={2} as="ol" class="ds-steps">
+      <Card as="li" title="List any medicines or supplements you take." />
+      <Card as="li" title="Note any questions you would like to ask." />
+      <Card as="li" title="Bring your glasses if you use them." />
+      <Card as="li" title={`Allow time for the appointment: the first consultation lasts ${fees.initial.duration}.`} />
+    </Grid>
 
+    <Prose>
       <p><a href="/homeopathy-consultations/">In person</a> · <a href="/online-homeopathy-consultation/">Online</a> · <a href="/consultation-fees/">Fees</a></p>
       <p>Last reviewed: {lastReviewed}</p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
 </Base>

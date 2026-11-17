@@ -1,22 +1,22 @@
 ---
 // Patient feedback (spec Part 5 §7). Renders nothing until approved, experience-only reviews exist in site.ts.
 import { reviews, googleReviewUrl } from '../data/site';
+import Section from './ds/Section.astro';
+import SectionHeader from './ds/SectionHeader.astro';
+import Grid from './ds/Grid.astro';
+import Card from './ds/Card.astro';
 ---
 {reviews.length > 0 && (
-  <section>
-    <div class="container">
-      <div class="section-head">
-        <h2>What clients say about their visit</h2>
-      </div>
-      <div class="grid-3">
+  <Section>
+    <SectionHeader title="What clients say about their visit" />
+      <Grid cols={3}>
         {reviews.map((r) => (
-          <figure class="card review">
+          <Card as="figure" class="review">
             <blockquote><p>“{r.quote}”</p></blockquote>
             <figcaption>— {r.name}{r.source && <span>, {r.source}</span>}</figcaption>
-          </figure>
+          </Card>
         ))}
-      </div>
-      {googleReviewUrl && <p class="center review-link"><a href={googleReviewUrl} rel="noopener" class="link-arrow">Read more reviews on Google</a></p>}
-    </div>
-  </section>
+      </Grid>
+      {googleReviewUrl && <p class="ds-section-action"><a href={googleReviewUrl} rel="noopener" class="link-arrow">Read more reviews on Google</a></p>}
+  </Section>
 )}

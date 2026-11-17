@@ -4,6 +4,10 @@ import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
 import MapFacade from '../components/MapFacade.astro';
+import Section from '../components/ds/Section.astro';
+import Grid from '../components/ds/Grid.astro';
+import Card from '../components/ds/Card.astro';
+import Prose from '../components/ds/Prose.astro';
 import { clinic, fees, addressLine } from '../data/site';
 import { serviceSchema } from '../data/schema';
 const initialDurationShort = fees.initial.duration.replace(/ minutes?$/, ' min');
@@ -20,9 +24,9 @@ const initialDurationShort = fees.initial.duration.replace(/ minutes?$/, ' min')
   >
     <p><a href="/areas-we-serve/">Areas we serve</a></p>
   </PageIntro>
-  <section class="section-top-none">
-    <div class="container grid-2 grid-start">
-      <div class="prose">
+  <Section>
+    <Grid cols={2} class="ds-grid-861">
+      <Prose>
         <h2>First consultation</h2>
         <p>A private conversation about your health history, lifestyle and wellbeing. <a href="/what-to-expect/">What to expect</a></p>
         <h2>Follow-ups</h2>
@@ -30,14 +34,13 @@ const initialDurationShort = fees.initial.duration.replace(/ minutes?$/, ' min')
         <h2>Hours</h2>
         <p>{clinic.hoursText}. <a href="/consultation-fees/">Fees</a></p>
         <GpStatement />
-      </div>
-      <div>
-        <h2>Finding the clinic</h2>
+      </Prose>
+      <Card title="Finding the clinic" titleAs="h2">
         <p>Parking and step-free access are available at the clinic.</p>
         <MapFacade />
         <p class="map-note"><a href="/areas-we-serve/">Areas we serve</a></p>
-      </div>
-    </div>
-  </section>
+      </Card>
+    </Grid>
+  </Section>
   <CtaBlock text="" />
 </Base>

@@ -1,0 +1,29 @@
+---
+import Icon from '../Icon.astro';
+
+type IconName = 'phone' | 'whatsapp' | 'mail' | 'calendar' | 'menu' | 'pin' | 'clock' | 'video' | 'award' | 'pound' | 'close' | 'user' | 'back' | 'chevron';
+type HeadingName = 'h2' | 'h3' | 'h4';
+
+interface Props {
+  title?: string;
+  titleAs?: HeadingName;
+  href?: string;
+  icon?: IconName;
+  as?: 'div' | 'article' | 'li' | 'figure';
+  class?: string;
+}
+
+const { title, titleAs: TitleElement = 'h3', href, icon, as: Element = 'div', class: className } = Astro.props;
+---
+<Element class:list={['ds-card', className]}>
+  {icon && <span class="trust-icon ds-card-icon"><Icon name={icon} /></span>}
+  {title && (
+    <TitleElement class="ds-card-heading">
+      {href ? <a href={href} data-astro-prefetch={href.startsWith('/') ? '' : undefined}>{title}</a> : title}
+    </TitleElement>
+  )}
+  <div class="ds-card-content">
+    <slot />
+  </div>
+  <slot name="link" />
+</Element>

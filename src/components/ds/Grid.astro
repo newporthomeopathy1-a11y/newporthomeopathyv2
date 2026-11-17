@@ -1,0 +1,12 @@
+---
+interface Props {
+  cols: 2 | 3 | 4;
+  as?: 'div' | 'ol' | 'ul';
+  class?: string;
+}
+
+const { cols, as: Element = 'div', class: className } = Astro.props;
+---
+<Element class:list={['ds-grid', `ds-grid-cols-${cols}`, className]}>
+  <slot />
+</Element>

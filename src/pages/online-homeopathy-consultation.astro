@@ -3,6 +3,10 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
+import Grid from '../components/ds/Grid.astro';
+import Card from '../components/ds/Card.astro';
 import { clinic, fees } from '../data/site';
 import { serviceSchema } from '../data/schema';
 const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-minute');
@@ -17,18 +21,20 @@ const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').rep
     h1="Online Homeopathy Consultations Across the UK"
     lead={`Private online consultations by video are available anywhere in the UK with ${clinic.practitioner}, ${clinic.qualification}.`}
   />
-  <section class="section-top-none">
-    <div class="container prose">
+  <Section>
+    <Prose>
       <h2>How it works</h2>
-      <ol>
-        <li>Book and choose "Online".</li>
-        {/* TODO(open item 6): confirm platform (WhatsApp video / Zoom / phone) */}
-        <li>You'll get the date, time and joining link.</li>
-        <li>Join from a quiet room on any phone, tablet or computer.</li>
-      </ol>
+    </Prose>
+    <Grid cols={3} as="ol" class="ds-steps">
+      <Card as="li" title={'Book and choose "Online".'} />
+      {/* TODO(open item 6): confirm platform (WhatsApp video / Zoom / phone) */}
+      <Card as="li" title="You'll get the date, time and joining link." />
+      <Card as="li" title="Join from a quiet room on any phone, tablet or computer." />
+    </Grid>
+    <Prose>
       <p>Have a list of any medicines you take before your first consultation. <a href="/consultation-fees/">Fees</a> · <a href="/what-to-expect/">What to expect</a></p>
       <GpStatement />
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
 </Base>

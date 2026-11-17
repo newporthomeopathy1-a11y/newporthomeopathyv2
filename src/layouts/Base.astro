@@ -86,7 +86,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     <a class="skip-link" href="#main">Skip to main content</a>
 
     <div class="topbar">
-      <div class="container topbar-inner">
+      <div class="container ds-container topbar-inner">
         <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="header"><Icon name="phone" /> {clinic.phoneDisplay}</a>
         <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="header"><Icon name="whatsapp" /> WhatsApp</a>
         <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="header"><Icon name="mail" /> {clinic.email}</a>
@@ -95,7 +95,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
     </div>
 
     <header class="site-header">
-      <div class="container header-inner">
+      <div class="container ds-container header-inner">
         <a href="/" class="logo">
           <picture>
             <source type="image/avif" srcset="/assets/img/clinic-logo-224.avif 224w, /assets/img/clinic-logo-448.avif 448w, /assets/img/clinic-logo-672.avif 672w" sizes="(max-width: 991px) 200px, 224px" />
@@ -151,19 +151,19 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
               <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="header"><Icon name="phone" /> Call</a>
               <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener" data-track="click_whatsapp" data-loc="header"><Icon name="whatsapp" /> WhatsApp</a>
             </div>
-            <p class="mobile-menu-gp">{gpStatementShort}</p>
+            <p class="mobile-menu-gp ds-mobile-menu-gp">{gpStatementShort}</p>
           </div>
         </nav>
       </div>
     </header>
 
     <main id="main">
-      {showBackLink && <div class="container"><BackLink href={backHref} /></div>}
+      {showBackLink && <div class="container ds-container"><BackLink href={backHref} /></div>}
       <slot />
     </main>
 
     <footer class="site-footer">
-      <div class="container footer-grid">
+      <div class="container ds-container footer-grid">
         <div class="footer-about">
           <a href="/" class="footer-logo">
             <picture>
@@ -212,7 +212,7 @@ const gaId = import.meta.env.PUBLIC_GA_ID ?? '';
           {clinic.social.instagram && <a href={clinic.social.instagram} rel="noopener" aria-label="Instagram">Instagram</a>}
         </div>
       </div>
-      <div class="container footer-base">
+      <div class="container ds-container footer-base">
         <p>{gpStatementShort}</p>
         <p>© {year} {clinic.name} · Designed &amp; Developed by Articog Tech LLP</p>
       </div>

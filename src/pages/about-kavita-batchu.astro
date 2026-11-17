@@ -4,6 +4,9 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import kavitaPhoto from '../assets/kavita-about.jpg';
+import Grid from '../components/ds/Grid.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
 import { personSchema } from '../data/schema';
 import { clinic, formatPageUpdated, gpStatement } from '../data/site';
 
@@ -19,11 +22,11 @@ const lastReviewed = formatPageUpdated('/about-kavita-batchu/');
     h1="About Kavita Batchu, BHMS – Homeopath"
     lead="Kavita Batchu offers private consultations in Newport and online across the UK."
   />
-  <section class="section-top-none">
-    <div class="container grid-2 about-grid grid-start">
+  <Section>
+    <Grid cols={2} class="ds-grid-861">
       {/* CLINIC INPUT: Supply an approved clinic-room photo if one should be added to the page. */}
-      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Kavita Batchu, homeopath at Newport Homeopathy Clinic, Shropshire" loading="lazy" decoding="async" class="about-banner" />
-      <div class="prose">
+      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Kavita Batchu, homeopath at Newport Homeopathy Clinic, Shropshire" loading="lazy" decoding="async" class="ds-about-photo" />
+      <Prose>
         <p>Kavita Batchu is a homeopath with a five-year {clinic.qualificationFull} degree from India and over {clinic.years} years’ experience. Her first consultation is a detailed conversation about health history, lifestyle and wellbeing.</p>
         <h2>Training</h2>
         <p>I hold a five-year {clinic.qualificationFull} degree from India and have over {clinic.years} years of experience as a homeopath.</p>
@@ -34,8 +37,8 @@ const lastReviewed = formatPageUpdated('/about-kavita-batchu/');
         <h2>Working alongside your GP</h2>
         <p>{gpStatement}</p>
         <p>Last reviewed: {lastReviewed}</p>
-      </div>
-    </div>
-  </section>
+      </Prose>
+    </Grid>
+  </Section>
   <CtaBlock text="" />
 </Base>

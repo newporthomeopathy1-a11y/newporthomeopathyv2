@@ -3,6 +3,9 @@ import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import CtaBlock from '../../components/CtaBlock.astro';
+import Section from '../../components/ds/Section.astro';
+import Grid from '../../components/ds/Grid.astro';
+import Card from '../../components/ds/Card.astro';
 import { collectionPageSchema } from '../../data/schema';
 import { clinic } from '../../data/site';
 const posts = (await getCollection('blog', (p) => !p.data.draft)).sort((a, b) => +b.data.published - +a.data.published);
@@ -15,16 +18,15 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
   schema={[collectionPageSchema()]}
 >
   <PageIntro h1="Guides and Articles" lead="Practical guides on booking, fees, online appointments and what happens at a homeopathy consultation, reviewed by Kavita Batchu, BHMS." />
-  <section class="section-top-none">
-    <div class="container text-col">
+  <Section>
+    <Grid cols={3}>
       {posts.map((p) => (
-        <article class="card blog-card">
-          <h2><a href={`/blog/${p.id}/`}>{p.data.title}</a></h2>
+        <Card title={p.data.title} titleAs="h2" href={`/blog/${p.id}/`} class="ds-blog-card">
           <p class="post-meta"><time datetime={p.data.published.toISOString().slice(0, 10)}>{fmt(p.data.published)}</time></p>
           <p>{p.data.description}</p>
-        </article>
+        </Card>
       ))}
-    </div>
-  </section>
+    </Grid>
+  </Section>
   <CtaBlock />
 </Base>

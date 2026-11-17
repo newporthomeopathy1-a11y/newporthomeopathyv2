@@ -1,21 +1,23 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
 ---
 <Base
   title="Page Not Found | Newport Homeopathy Clinic"
   description="This page could not be found. Visit the home page or contact Newport Homeopathy Clinic."
   noindex
 >
-  <section>
-    <div class="container text-col">
-      <h1>Page not found</h1>
-      <p class="lead">Sorry, we couldn't find that page.</p>
+  <PageIntro h1="Page not found" lead="Sorry, we couldn't find that page." />
+  <Section>
+    <Prose>
       <ul>
         <li><a href="/">Home</a></li>
         <li><a href="/contact/">Contact and directions</a></li>
       </ul>
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
 </Base>

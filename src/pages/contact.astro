@@ -3,6 +3,9 @@ import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import MapFacade from '../components/MapFacade.astro';
+import Section from '../components/ds/Section.astro';
+import Grid from '../components/ds/Grid.astro';
+import Card from '../components/ds/Card.astro';
 import { clinic, addressLine } from '../data/site';
 import { contactPageSchema } from '../data/schema';
 ---
@@ -16,10 +19,9 @@ import { contactPageSchema } from '../data/schema';
     h1="Contact and Directions"
     lead="Contact Newport Homeopathy Clinic with a question or to arrange an appointment."
   />
-  <section class="section-top-none">
-    <div class="container grid-2 grid-start">
-      <div class="prose">
-        <h2>Get in touch</h2>
+  <Section>
+    <Grid cols={2} class="ds-grid-861">
+      <Card title="Get in touch" titleAs="h2">
         <address><strong>{clinic.name}</strong><br />{addressLine}</address>
         <p>Phone: <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="page">{clinic.phoneDisplay}</a></p>
         <p>WhatsApp: <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="page">Message us on WhatsApp</a></p>
@@ -28,9 +30,11 @@ import { contactPageSchema } from '../data/schema';
         <p>{clinic.hoursText}</p>
         <h2>Parking and access</h2>
         <p>Parking and step-free access are available at the clinic.</p>
-      </div>
-      <MapFacade />
-    </div>
-  </section>
+      </Card>
+      <Card class="ds-map-card">
+        <MapFacade />
+      </Card>
+    </Grid>
+  </Section>
   <CtaBlock text="" />
 </Base>

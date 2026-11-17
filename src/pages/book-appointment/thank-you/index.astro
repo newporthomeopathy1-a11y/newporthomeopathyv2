@@ -1,6 +1,8 @@
 ---
 import Base from '../../../layouts/Base.astro';
 import CtaBlock from '../../../components/CtaBlock.astro';
+import Section from '../../../components/ds/Section.astro';
+import Prose from '../../../components/ds/Prose.astro';
 import { clinic } from '../../../data/site';
 ---
 <Base
@@ -9,20 +11,20 @@ import { clinic } from '../../../data/site';
   noindex
   breadcrumbs={[{ name: 'Book a consultation', href: '/book-appointment/' }, { name: 'Thank you', href: '/book-appointment/thank-you/' }]}
 >
-  <section data-lead-event data-thank-you-content>
-    <div class="container text-col">
+  <Section size="md" data-lead-event data-thank-you-content>
+    <Prose>
       <h1>Thank You for Your Enquiry</h1>
       <p class="lead">We've received your enquiry and will reply within one working day. If it's urgent, call {clinic.phoneDisplay}.</p>
       <p>You'll also get a confirmation email. If you don't see it, please check your spam folder.</p>
       <p><a href="/what-to-expect/">What to expect at your consultation</a></p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
-  <section data-booking-message hidden>
-    <div class="container text-col">
+  <Section size="md" data-booking-message hidden>
+    <Prose>
       <p class="lead">Booking confirmed. Check your email.</p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
 </Base>
 
 <script is:inline>

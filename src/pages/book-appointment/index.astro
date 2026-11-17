@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageIntro from '../../components/PageIntro.astro';
 import CtaBlock from '../../components/CtaBlock.astro';
+import Section from '../../components/ds/Section.astro';
 import { clinic, fees } from '../../data/site';
 
 // Server-rendered so errors returned by /api/enquiry show even without JavaScript (spec Part 4).
@@ -63,8 +64,8 @@ const durationLabel = (duration: string) => {
     lead="Tell us a little about yourself, then choose a time that suits you. You'll receive a confirmation by email."
   />
 
-  <section class="booking-form-section">
-    <div class="container text-col">
+  <Section>
+    <div class="ds-booking-wrap">
       {bookingFlowEnabled ? (
         <>
           <div class="booking-flow" id="booking-flow" hidden>
@@ -115,7 +116,7 @@ const durationLabel = (duration: string) => {
                 <p id="booking-consent-error" class="error" aria-live="polite"></p>
               </div>
               <button type="button" class="btn btn-primary btn-lg booking-continue" id="booking-continue">Continue to choose a time</button>
-            </section>
+            </Section>
 
             <section class="booking-step booking-time-step" id="booking-time-step" aria-labelledby="booking-time-heading" hidden>
               <h2 id="booking-time-heading" tabindex="-1">Choose a time</h2>

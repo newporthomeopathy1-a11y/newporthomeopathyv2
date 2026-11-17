@@ -1,10 +1,12 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBlock from '../components/CtaBlock.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
 ---
 <Base title="Cookie Policy | Newport Homeopathy Clinic" description="Which cookies this website uses and how to manage them." breadcrumbs={[{ name: 'Cookie policy', href: '/cookie-policy/' }]}>
-  <section>
-    <div class="container prose">
+  <Section>
+    <Prose>
       <h1>Cookie Policy</h1>
       <p class="lead">This policy explains how this website uses consent, analytics and third-party cookies.</p>
       <h2>Strictly necessary</h2>
@@ -13,7 +15,7 @@ import CtaBlock from '../components/CtaBlock.astro';
       <p>Google Analytics 4 uses <code>_ga</code> and <code>_ga_*</code> cookies to count visits and button clicks. They are set only if you accept. Change your choice using "Cookie settings" in the footer.</p>
       <h2>Third-party content</h2>
       <p>Google Maps loads only when you click "Show interactive map". The booking tool and spam check may set necessary cookies.</p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
 </Base>

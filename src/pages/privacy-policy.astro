@@ -1,11 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBlock from '../components/CtaBlock.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
 import { clinic, addressLine } from '../data/site';
 ---
 <Base title="Privacy Policy | Newport Homeopathy Clinic" description="How Newport Homeopathy Clinic collects, uses and protects your personal information." breadcrumbs={[{ name: 'Privacy policy', href: '/privacy-policy/' }]}>
-  <section>
-    <div class="container prose">
+  <Section>
+    <Prose>
       <h1>Privacy Policy</h1>
       <p class="lead">This policy explains how Newport Homeopathy Clinic handles personal information.</p>
       {/* TODO: Confirm controller details and the ICO fee before launch. */}
@@ -23,7 +25,7 @@ import { clinic, addressLine } from '../data/site';
       <p>We delete enquiries after 12 months unless you become a client. Client records follow professional guidance.</p>
       <h2>Your rights</h2>
       <p>Email us to access, correct or delete your information, or withdraw consent. You can complain to the Information Commissioner's Office at <a href="https://ico.org.uk/make-a-complaint/" rel="noopener">ico.org.uk</a>.</p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
 </Base>

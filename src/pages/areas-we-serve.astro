@@ -2,6 +2,10 @@
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
+import Grid from '../components/ds/Grid.astro';
+import Card from '../components/ds/Card.astro';
 import { areas, clinic } from '../data/site';
 ---
 <Base
@@ -11,14 +15,20 @@ import { areas, clinic } from '../data/site';
 >
   <PageIntro
     h1="A Homeopath for Telford, Stafford, Shrewsbury and Nearby"
-    lead="The Newport clinic serves nearby areas across east Shropshire and west Staffordshire. Online consultations are available anywhere in the UK."
+    lead="The Newport clinic serves nearby areas across east Shropshire and west Staffordshire."
   />
-  <section class="section-top-none">
-    <div class="container prose">
+  <Section>
+    <Prose>
       <h2>Nearby areas</h2>
-      <p>{areas.join(', ')}.</p>
+    </Prose>
+    {/* CLINIC INPUT: Confirm drive times before adding any travel estimates to the areas page. */}
+    <Grid cols={4} class="ds-town-cards">
+      {areas.map((area) => <Card title={area} />)}
+    </Grid>
+    <Prose>
+      <p>Online consultations are available anywhere in the UK.</p>
       <p><a href="/online-homeopathy-consultation/">Online consultations</a> · <a href="/contact/">Directions</a> · <a href="/consultation-fees/">Fees</a></p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
 </Base>

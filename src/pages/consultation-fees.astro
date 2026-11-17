@@ -2,6 +2,8 @@
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
 import { clinic, fees, formatPageUpdated } from '../data/site';
 import { serviceSchema } from '../data/schema';
 const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-minute');
@@ -18,8 +20,8 @@ const pricesLastReviewed = formatPageUpdated('/consultation-fees/');
     h1="Homeopathy Consultation Fees"
     lead={`An initial homeopathy consultation costs £${fees.initial.price} and a follow-up costs £${fees.followUp.price}, in person or online.`}
   />
-  <section class="section-top-none">
-    <div class="container text-col">
+  <Section>
+    <div class="ds-fees-content">
       <table class="fees">
         <thead><tr><th scope="col">Appointment</th><th scope="col">Length</th><th scope="col">Fee</th></tr></thead>
         <tbody>
@@ -29,7 +31,7 @@ const pricesLastReviewed = formatPageUpdated('/consultation-fees/');
         </tbody>
       </table>
       <p class="table-note">Same fee in person and online</p>
-      <div class="prose fees-details">
+      <Prose>
         <h2>What’s included in the fee</h2>
         <p>The consultation is one-to-one with {clinic.practitioner}. An initial consultation lasts {fees.initial.duration}; a follow-up lasts {fees.followUp.duration}.</p>
         {/* CLINIC INPUT: Are remedies included? */}
@@ -44,8 +46,8 @@ const pricesLastReviewed = formatPageUpdated('/consultation-fees/');
         <p>Kavita suggests an interval, usually {fees.followUp.interval}, and you decide whether to book.</p>
 
         <p>Prices last reviewed: {pricesLastReviewed}</p>
-      </div>
+      </Prose>
     </div>
-  </section>
+  </Section>
   <CtaBlock text="" />
 </Base>

@@ -1,0 +1,22 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+import Container from './Container.astro';
+
+interface Props extends HTMLAttributes<'section'> {
+  size?: 'sm' | 'md' | 'lg';
+  tone?: 'white' | 'soft';
+  ariaLabel?: string;
+}
+
+const { size = 'md', tone = 'white', id, ariaLabel, class: className, ...attributes } = Astro.props;
+---
+<section
+  class:list={['ds-section', `ds-section-${size}`, tone === 'soft' && 'ds-section-soft', className]}
+  id={id}
+  aria-label={ariaLabel}
+  {...attributes}
+>
+  <Container>
+    <slot />
+  </Container>
+</section>

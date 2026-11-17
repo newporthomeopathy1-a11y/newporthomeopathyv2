@@ -2,14 +2,17 @@
 import { Picture, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
-import Reviews from '../components/Reviews.astro';
 import MapFacade from '../components/MapFacade.astro';
-import ServiceCards from '../components/ServiceCards.astro';
+import Container from '../components/ds/Container.astro';
+import Section from '../components/ds/Section.astro';
+import SectionHeader from '../components/ds/SectionHeader.astro';
+import Grid from '../components/ds/Grid.astro';
+import Card from '../components/ds/Card.astro';
+import Prose from '../components/ds/Prose.astro';
 import heroBg from '../assets/hero-remedies.jpg';
 import kavitaPhoto from '../assets/kavita-about.jpg';
-import { clinic, fees, addressLine, areas } from '../data/site';
+import { clinic, fees, addressLine, areas, services, reviews, googleReviewUrl } from '../data/site';
 
 // Hero photo is the largest contentful paint: preload the AVIF set so it starts downloading with the HTML.
 const HERO_WIDTHS = [640, 1024, 1440, 1672];
@@ -22,7 +25,6 @@ const featuredAreas = featuredAreaNames.map((name) => {
   if (!area) throw new Error(`Missing featured area "${name}" in src/data/site.ts.`);
   return area;
 });
-const areasTeaser = `Clients come from ${featuredAreas.slice(0, -1).join(', ')} and ${featuredAreas[featuredAreas.length - 1]}, and online across the UK.`;
 ---
 <Base
   title="Homeopath in Newport, Shropshire | Newport Homeopathy Clinic"
@@ -30,35 +32,33 @@ const areasTeaser = `Clients come from ${featuredAreas.slice(0, -1).join(', ')} 
   lcpImage={lcpImage}
   footerPractitionerLabel={clinic.practitioner}
 >
-  <!-- 1. Hero -->
-  <section class="hero hero-photo">
+  <section class="ds-hero">
     <Picture
       src={heroBg}
       formats={['avif', 'webp']}
       widths={HERO_WIDTHS}
       sizes="100vw"
       alt=""
-      class="hero-bg"
+      class="ds-hero-image"
       loading="eager"
       fetchpriority="high"
       quality={70}
     />
-    <div class="container hero-grid">
-      <div class="hero-copy">
+    <Container>
+      <div class="ds-hero-card">
         <h1>Your Homeopath in Newport, Shropshire</h1>
-        <p class="hero-lead">Private, one-to-one consultations with {clinic.practitioner}, {clinic.qualification}, a homeopath with over {clinic.years} years' experience. In person at {clinic.street}, {clinic.locality}, or online anywhere in the UK.</p>
-        <div class="cta-actions">
+        <p class="ds-hero-lead">Private, one-to-one consultations with {clinic.practitioner}, {clinic.qualification}, a homeopath with over {clinic.years} years' experience. In person at {clinic.street}, {clinic.locality}, or online anywhere in the UK.</p>
+        <div class="ds-hero-actions">
           <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-track="click_book" data-loc="hero">Book a consultation</a>
           <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline btn-lg" data-track="click_call" data-loc="hero"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
           <a href={clinic.whatsapp} class="btn btn-outline btn-lg" rel="noopener" data-track="click_whatsapp" data-loc="hero"><Icon name="whatsapp" /> WhatsApp</a>
         </div>
       </div>
-    </div>
+    </Container>
   </section>
 
-  <!-- 2. Trust strip -->
-  <section class="trust-strip" aria-label="Key facts">
-    <ul class="container">
+  <section class="trust-strip ds-trust-strip" aria-label="Key facts">
+    <ul class="container ds-container">
       <li><span class="trust-icon"><Icon name="award" /></span><span><strong>{clinic.title}</strong></span></li>
       <li><span class="trust-icon"><Icon name="pound" /></span><span><strong>£{fees.initial.price}</strong> initial consultation</span></li>
       <li><span class="trust-icon"><Icon name="video" /></span><span><strong>In person</strong> and online</span></li>
@@ -66,125 +66,158 @@ const areasTeaser = `Clients come from ${featuredAreas.slice(0, -1).join(', ')} 
     </ul>
   </section>
 
-  <section>
-    <div class="container prose">
-      <h2>About the clinic</h2>
+  <Section>
+    <SectionHeader title="About the clinic" />
+    <Prose>
       <p>Newport Homeopathy Clinic is a private homeopathy practice at {addressLine}. It is run by {clinic.practitioner}, who holds a {clinic.qualificationFull} degree and has over {clinic.years} years’ experience as a homeopath. Consultations are one-to-one, in person during clinic hours ({clinic.hoursText}), or by video from anywhere in the UK. A first consultation lasts {fees.initial.duration} and costs £{fees.initial.price}; follow-ups cost £{fees.followUp.price}. A free discovery chat ({fees.discovery.duration}) is available before you book.</p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
 
-  <section>
-    <div class="container text-col">
-      <h2>Why people choose the clinic</h2>
-      <ul>
-        <li>A first consultation lasts {fees.initial.duration}.</li>
-        <li>The same consultation fees apply online and in person.</li>
-        <li>Appointments are available on Saturdays ({clinic.hoursShort}).</li>
-        <li>A free discovery chat ({fees.discovery.duration}) is available before booking.</li>
-      </ul>
-      <p class="section-link"><a class="link-arrow" href={clinic.whatsapp} rel="noopener">Request an appointment by WhatsApp</a></p>
-    </div>
-  </section>
+  <Section>
+    <SectionHeader title="Why people choose the clinic" />
+    <Grid cols={4}>
+      <Card title="Time to talk" icon="clock">
+        <p>A first consultation lasts {fees.initial.duration}.</p>
+      </Card>
+      <Card title="Same fee online" icon="video">
+        <p>The same consultation fees apply online and in person.</p>
+      </Card>
+      <Card title="Saturday appointments" icon="clock">
+        <p>Appointments are available on Saturdays ({clinic.hoursShort}).</p>
+      </Card>
+      <Card title="Free chat first" icon="whatsapp">
+        <p>A free discovery chat ({fees.discovery.duration}) is available before booking.</p>
+      </Card>
+    </Grid>
+    <p class="ds-section-action">
+      <a class="btn btn-outline" href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="home">Request an appointment by WhatsApp</a>
+    </p>
+  </Section>
 
-  <section class="soft">
-    <div class="container text-col">
-      <h2>About homeopathy, briefly</h2>
+  <Section tone="soft">
+    <SectionHeader title="About homeopathy, briefly" />
+    <Prose>
       <p>Homeopathy is a system of complementary medicine developed by Samuel Hahnemann in the late 1700s. Consultations look at health history and lifestyle as a whole, with time for the person to describe their circumstances and the questions they want to discuss. Homeopathy is a complementary therapy, not a replacement for your GP or other medical care. Please continue to see your GP about health concerns, and do not stop or change prescribed medication without medical advice. Read more in our <a href="/frequently-asked-questions/">frequently asked questions</a>.</p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
 
-  <section>
-    <div class="container text-col">
-      <h2>Areas we serve</h2>
-      <p>{areasTeaser}</p>
-      <p class="section-link"><a class="link-arrow" href="/areas-we-serve/">See all areas we serve</a></p>
-    </div>
-  </section>
+  <Section>
+    <SectionHeader title="Areas we serve" />
+    <ul class="ds-town-list">
+      {featuredAreas.map((area) => <li class="ds-town-chip">{area}</li>)}
+    </ul>
+    <p class="ds-section-action">
+      <a class="btn btn-outline" href="/areas-we-serve/">See all areas we serve</a>
+    </p>
+  </Section>
 
-  <section class="soft">
-    <div class="container text-col">
-      <h2>Common questions</h2>
-      <ul class="link-list">
-        <li><a href="/frequently-asked-questions/">How much does a consultation cost?</a></li>
-        <li><a href="/frequently-asked-questions/">Can I have a consultation online?</a></li>
-        <li><a href="/frequently-asked-questions/">Should I keep seeing my GP?</a></li>
-      </ul>
-    </div>
-  </section>
+  <Section tone="soft">
+    <SectionHeader title="Common questions" />
+    <Grid cols={3}>
+      <Card title="How much does a consultation cost?" href="/frequently-asked-questions/" />
+      <Card title="Can I have a consultation online?" href="/frequently-asked-questions/" />
+      <Card title="Should I keep seeing my GP?" href="/frequently-asked-questions/" />
+    </Grid>
+  </Section>
 
-  <!-- 3. Meet your practitioner -->
-  <section>
-    <div class="container grid-2 about-grid">
-      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Kavita Batchu, BHMS" loading="lazy" decoding="async" class="about-banner" />
-      <div>
-        <h2>Meet your homeopath, {clinic.practitioner}</h2>
+  <Section>
+    <Grid cols={2} class="ds-meet-grid">
+      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Kavita Batchu, BHMS" loading="lazy" decoding="async" class="ds-meet-photo" />
+      <div class="ds-meet-copy">
+        <SectionHeader title={`Meet your homeopath, ${clinic.practitioner}`} />
         <p>Kavita has a five-year BHMS degree and over {clinic.years} years' experience.</p>
         <p>Homeopathy is a system of complementary medicine developed over 200 years ago.</p>
-        <p class="section-link"><a href="/about-kavita-batchu/" class="link-arrow">About Kavita</a></p>
+        <p><a href="/about-kavita-batchu/" class="link-arrow">About Kavita</a></p>
       </div>
-    </div>
-  </section>
+    </Grid>
+  </Section>
 
-  <!-- 4. Consultation cards -->
-  <section class="soft">
-    <div class="container">
-      <div class="section-head">
-        <h2>Consultation options</h2>
-      </div>
-      <ServiceCards />
-    </div>
-  </section>
+  <Section tone="soft">
+    <SectionHeader title="Consultation options" />
+    <Grid cols={4}>
+      {services.map((service) => {
+        const isWhatsApp = service.href === clinic.whatsapp;
+        return (
+          <Card title={service.title}>
+            <p class="ds-card-price">{service.price} <span>{service.meta}</span></p>
+            <a
+              slot="link"
+              href={service.href}
+              class="ds-card-link"
+              data-astro-prefetch={isWhatsApp ? undefined : ''}
+              data-track={isWhatsApp ? 'click_whatsapp' : undefined}
+              data-loc={isWhatsApp ? 'service_card' : undefined}
+            >
+              {service.title === 'Free discovery chat' ? 'Message on WhatsApp' : <>Find out more<span class="visually-hidden"> about {service.title.toLowerCase()}</span></>}
+            </a>
+          </Card>
+        );
+      })}
+    </Grid>
+  </Section>
 
-  <!-- 5. What to expect -->
-  <section>
-    <div class="container">
-      <div class="section-head">
-        <h2>What to expect</h2>
-      </div>
-      <ol class="steps">
-        <li><h3>Get in touch</h3><p>Book, call or WhatsApp; a free 15-minute chat is available.</p></li>
-        <li><h3>First consultation</h3><p>A private, one-to-one conversation about your health history, lifestyle and wellbeing.</p></li>
-        <li><h3>Follow-ups</h3><p>Usually {fees.followUp.interval}, in person or online.</p></li>
-      </ol>
-      <p class="section-link"><a href="/what-to-expect/" class="link-arrow">What to expect</a></p>
-    </div>
-  </section>
+  <Section>
+    <SectionHeader title="What to expect" />
+    <Grid cols={3} as="ol" class="ds-steps">
+      <Card as="li" title="Get in touch">
+        <p>Book, call or WhatsApp; a free 15-minute chat is available.</p>
+      </Card>
+      <Card as="li" title="First consultation">
+        <p>A private, one-to-one conversation about your health history, lifestyle and wellbeing.</p>
+      </Card>
+      <Card as="li" title="Follow-ups">
+        <p>Usually {fees.followUp.interval}, in person or online.</p>
+      </Card>
+    </Grid>
+    <p class="ds-section-action"><a href="/what-to-expect/" class="link-arrow">What to expect</a></p>
+  </Section>
 
-  <!-- 6. Fees -->
-  <section class="soft">
-    <div class="container narrow">
-      <div class="section-head">
-        <h2>Fees</h2>
-      </div>
-      <table class="fees">
-        <thead><tr><th scope="col">Appointment</th><th scope="col">Length</th><th scope="col">Fee</th></tr></thead>
-        <tbody>
-          <tr><td>{fees.discovery.label}</td><td>{fees.discovery.duration}</td><td><strong>Free</strong></td></tr>
-          <tr><td>{fees.initial.label}</td><td>{fees.initial.duration}</td><td><strong>£{fees.initial.price}</strong></td></tr>
-          <tr><td>{fees.followUp.label}</td><td>{fees.followUp.duration}</td><td><b>£{fees.followUp.price}</b></td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+  <Section tone="soft">
+    <SectionHeader title="Fees" />
+    <table class="fees ds-fees">
+      <thead><tr><th scope="col">Appointment</th><th scope="col">Length</th><th scope="col">Fee</th></tr></thead>
+      <tbody>
+        <tr><td>{fees.discovery.label}</td><td>{fees.discovery.duration}</td><td><strong>Free</strong></td></tr>
+        <tr><td>{fees.initial.label}</td><td>{fees.initial.duration}</td><td><strong>£{fees.initial.price}</strong></td></tr>
+        <tr><td>{fees.followUp.label}</td><td>{fees.followUp.duration}</td><td><b>£{fees.followUp.price}</b></td></tr>
+      </tbody>
+    </table>
+  </Section>
 
-  <!-- 7. Reviews -->
-  <Reviews />
+  {reviews.length > 0 && (
+    <Section>
+      <SectionHeader title="What clients say about their visit" />
+      <Grid cols={3}>
+        {reviews.map((review) => (
+          <figure class="ds-card ds-review-card">
+            <blockquote><p>“{review.quote}”</p></blockquote>
+            <figcaption>— {review.name}{review.source && <span>, {review.source}</span>}</figcaption>
+          </figure>
+        ))}
+      </Grid>
+      {googleReviewUrl && <p class="ds-section-action"><a href={googleReviewUrl} rel="noopener" class="link-arrow">Read more reviews on Google</a></p>}
+    </Section>
+  )}
 
-  <!-- 8. Location and hours -->
-  <section class="soft">
-    <div class="container grid-2">
+  <Section tone="soft">
+    <SectionHeader title="Location and hours" />
+    <Grid cols={2}>
       <div>
-        <h2>Location and hours</h2>
         <address class="info-line"><Icon name="pin" /> <span>{addressLine}</span></address>
         <p class="info-line"><Icon name="clock" /> <span>{clinic.hoursText}</span></p>
         <p><a href="/areas-we-serve/">Areas we serve</a> · <a href="/contact/">Directions</a></p>
       </div>
       <MapFacade />
-    </div>
-  </section>
+    </Grid>
+  </Section>
 
-  <!-- 9. Final CTA + GP statement -->
-  <CtaBlock text="">
+  <Section tone="soft">
+    <SectionHeader title="Book a consultation" />
+    <div class="ds-final-actions">
+      <a href="/book-appointment/" class="btn btn-primary" data-astro-prefetch="tap" data-track="click_book" data-loc="page"><Icon name="calendar" /> Book a consultation</a>
+      <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="page"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
+      <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener" data-track="click_whatsapp" data-loc="page"><Icon name="whatsapp" /> WhatsApp</a>
+    </div>
     <GpStatement />
-  </CtaBlock>
+  </Section>
 </Base>

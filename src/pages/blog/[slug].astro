@@ -6,6 +6,9 @@ import { Image } from 'astro:assets';
 import portrait from '../../assets/kavita-portrait.jpg';
 import { clinic } from '../../data/site';
 import { blogPostingSchema } from '../../data/schema';
+import Section from '../../components/ds/Section.astro';
+import Prose from '../../components/ds/Prose.astro';
+import Card from '../../components/ds/Card.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', (p) => !p.data.draft);
@@ -25,33 +28,36 @@ const fmt = (x: Date) => x.toLocaleDateString('en-GB', { day: 'numeric', month: 
   breadcrumbs={[{ name: 'Guides and articles', href: '/blog/' }, { name: d.title, href: `/blog/${post.id}/` }]}
   schema={[blogPostingSchema({ title: d.title, description: d.description, slug: post.id, published: d.published, updated: d.updated })]}
 >
-  <article class="container prose article-content">
-    <h1>{d.title}</h1>
-    {d.summary && (
-      <aside class="card article-summary" aria-labelledby="article-summary-heading">
-        <h2 id="article-summary-heading">In short</h2>
-        <p>{d.summary}</p>
-      </aside>
-    )}
-    <p class="post-meta">
-      Published <time datetime={d.published.toISOString().slice(0, 10)}>{fmt(d.published)}</time>
-      {d.updated && <> · Updated <time datetime={d.updated.toISOString().slice(0, 10)}>{fmt(d.updated)}</time></>}
-      · Reviewed by <a href="/about-kavita-batchu/">{clinic.title}</a>
-    </p>
-    <Content />
-    <aside class="author-box">
-      <Image src={portrait} alt="Kavita Batchu, BHMS" width={128} height={128} format="webp" quality={70} loading="lazy" decoding="async" />
-      <div>
-        <p class="author-name"><strong><a href="/about-kavita-batchu/">{clinic.title}</a></strong></p>
-        <p class="author-description">Homeopath with over {clinic.years} years' experience, offering consultations in Newport, Shropshire and online.</p>
-      </div>
-    </aside>
-    {others.length > 0 && (
-      <>
-        <h2>Related guides</h2>
-        <ul>{others.map((o) => <li><a href={`/blog/${o.id}/`}>{o.data.title}</a></li>)}</ul>
-      </>
-    )}
-  </article>
+  <Section>
+    <article>
+      <Prose>
+        <h1>{d.title}</h1>
+        {d.summary && (
+          <Card title="In short" titleAs="h2">
+            <p>{d.summary}</p>
+          </Card>
+        )}
+        <p class="post-meta">
+          Published <time datetime={d.published.toISOString().slice(0, 10)}>{fmt(d.published)}</time>
+          {d.updated && <> · Updated <time datetime={d.updated.toISOString().slice(0, 10)}>{fmt(d.updated)}</time></>}
+          · Reviewed by <a href="/about-kavita-batchu/">{clinic.title}</a>
+        </p>
+        <Content />
+        <aside class="author-box">
+          <Image src={portrait} alt="Kavita Batchu, BHMS" width={128} height={128} format="webp" quality={70} loading="lazy" decoding="async" />
+          <div>
+            <p class="author-name"><strong><a href="/about-kavita-batchu/">{clinic.title}</a></strong></p>
+            <p class="author-description">Homeopath with over {clinic.years} years' experience, offering consultations in Newport, Shropshire and online.</p>
+          </div>
+        </aside>
+        {others.length > 0 && (
+          <>
+            <h2>Related guides</h2>
+            <ul>{others.map((o) => <li><a href={`/blog/${o.id}/`}>{o.data.title}</a></li>)}</ul>
+          </>
+        )}
+      </Prose>
+    </article>
+  </Section>
   <CtaBlock />
 </Base>

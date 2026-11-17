@@ -4,6 +4,8 @@ import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
 import FaqList from '../components/FaqList.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
 import { clinic, faqs, formatPageUpdated } from '../data/site';
 import { faqSchema } from '../data/schema';
 const lastReviewed = formatPageUpdated('/frequently-asked-questions/');
@@ -18,13 +20,13 @@ const lastReviewed = formatPageUpdated('/frequently-asked-questions/');
     h1="Frequently Asked Questions"
     lead="Quick answers about booking, fees, online appointments and what happens at a homeopathy consultation in Newport, Shropshire."
   />
-  <section class="section-top-none">
-    <div class="container text-col">
+  <Section>
+    <Prose>
       <FaqList items={faqs} open />
       {/* CLINIC INPUT: Add FAQs about remedies, online platform, children, cancellation and languages after clinic confirmation. */}
       <GpStatement />
       <p>Last reviewed: {lastReviewed}</p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
 </Base>

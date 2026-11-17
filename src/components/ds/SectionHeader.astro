@@ -1,0 +1,13 @@
+---
+interface Props {
+  title: string;
+  lead?: string;
+  as?: 'h2' | 'h3' | 'h4';
+}
+
+const { title, lead, as: Heading = 'h2' } = Astro.props;
+---
+<header class="ds-section-header">
+  <Heading class="ds-section-heading">{title}</Heading>
+  {lead && <p class="ds-section-lead">{lead}</p>}
+</header>

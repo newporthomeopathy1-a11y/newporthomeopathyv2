@@ -2,18 +2,19 @@
 // Every page ends with Book / Call / WhatsApp (spec Part 5).
 import { clinic } from '../data/site';
 import Icon from './Icon.astro';
+import Section from './ds/Section.astro';
+import SectionHeader from './ds/SectionHeader.astro';
 interface Props { heading?: string; text?: string }
 const { heading = 'Book a consultation', text = 'Book online, call or WhatsApp. A free 15-minute chat is available first.' } = Astro.props;
 ---
-<section class="cta-block">
-  <div class="container">
-    <h2>{heading}</h2>
-    {text && <p>{text}</p>}
-    <div class="cta-actions">
+<Section size="md" tone="soft">
+  <div class="ds-cta-block">
+    <SectionHeader title={heading} lead={text || undefined} />
+    <div class="ds-cta-actions">
       <a href="/book-appointment/" class="btn btn-primary" data-astro-prefetch="tap" data-track="click_book" data-loc="page"><Icon name="calendar" /> Book a consultation</a>
       <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="page"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
       <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener" data-track="click_whatsapp" data-loc="page"><Icon name="whatsapp" /> WhatsApp</a>
     </div>
-    <slot />
+    <div class="ds-cta-slot"><slot /></div>
   </div>
-</section>
+</Section>

@@ -1,11 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import CtaBlock from '../components/CtaBlock.astro';
+import Section from '../components/ds/Section.astro';
+import Prose from '../components/ds/Prose.astro';
 import { clinic, fees } from '../data/site';
 ---
 <Base title="Booking and Cancellation Terms | Newport Homeopathy Clinic" description="Booking, payment and cancellation terms for consultations." breadcrumbs={[{ name: 'Booking terms', href: '/booking-terms/' }]}>
-  <section>
-    <div class="container prose">
+  <Section>
+    <Prose>
       <h1>Booking and Cancellation Terms</h1>
       <p class="lead">These terms cover consultation fees, payment and cancellations.</p>
       {/* TODO: Confirm the cancellation policy before launch. */}
@@ -17,7 +19,7 @@ import { clinic, fees } from '../data/site';
       <p>Please give at least 24 hours' notice if you need to change or cancel, by phone or WhatsApp on {clinic.phoneDisplay}.</p>
       <h2>Your health</h2>
       <p>Homeopathy is a complementary therapy. It is not a substitute for diagnosis or treatment by a medical professional. Please keep seeing your GP about any health concern.</p>
-    </div>
-  </section>
+    </Prose>
+  </Section>
   <CtaBlock text="" />
 </Base>

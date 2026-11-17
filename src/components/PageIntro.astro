@@ -1,12 +1,13 @@
 ---
-// H1 + 1–2 sentence answer-first summary (spec Part 5 "Other page templates").
+import Section from './ds/Section.astro';
+
 interface Props { h1: string; lead: string }
 const { h1, lead } = Astro.props;
 ---
-<section class="page-intro">
-  <div class="container text-col page-intro-content">
+<Section size="sm">
+  <div class="ds-page-header">
     <h1>{h1}</h1>
     <p class="lead">{lead}</p>
     <slot />
   </div>
-</section>
+</Section>
