@@ -11,7 +11,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 | Favicon set from the leaf mark (ico, svg, 180, 192, 512, manifest) | ✅ `scripts/make-icons.mjs` · 🟡 replace with SVG logo when supplied (open item 13) |
 | One font family, ≤3 weights, self-hosted woff2, `font-display: swap` | ✅ Open Sans (variable, latin, 48 KB), weights 400/600/700, preloaded, metric-matched fallback |
 | Only needed CSS/JS | ✅ No Bootstrap, no icon font, one small deferred script |
-| `tel:`, `mailto:`, WhatsApp links | ✅ Email: cavitasuresh@yahoo.com (clinic's choice; also receives form enquiries) |
+| `tel:`, `mailto:`, WhatsApp links | ✅ Email: info@newporthomeopathy.com (clinic's choice; also receives form enquiries) |
 | Social icons with real URLs or removed | ✅ Hidden until URLs are set in `src/data/site.ts` · 🟡 open item 11 |
 | Logo links to `/` with alt, width, height | ✅ |
 | Nav links not wrapped in headings; menu toggle is a `<button>` | ✅ |

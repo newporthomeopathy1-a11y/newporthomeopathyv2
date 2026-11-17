@@ -22,7 +22,7 @@ The old PHP files (`ajax.php`, `assets/forms/*.php`) don't exist in this build, 
 | Variable | Required | Purpose |
 |---|---|---|
 | `RESEND_API_KEY` | To send email | Booking-form emails via [Resend](https://resend.com). Without it, production shows "couldn't send, please call". In `npm run dev` the form still completes but sends nothing. |
-| `CLINIC_INBOX` | No | Where enquiries go. Defaults to the clinic email in `site.ts` (cavitasuresh@yahoo.com). |
+| `CLINIC_INBOX` | No | Where enquiries go. Defaults to the clinic email in `site.ts` (info@newporthomeopathy.com). |
 | `TURNSTILE_SECRET_KEY` + `PUBLIC_TURNSTILE_SITE_KEY` | Required in production | Cloudflare Turnstile spam check on the form. Local development allows the secret key to be absent. |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Required in production | Upstash Redis REST credentials for the five-per-hour enquiry limit per IP. Local development allows submissions when these are absent. |
 | `PUBLIC_GA_ID` | Optional | GA4 measurement ID. The cookie banner appears only when this is set, and GA loads only after Accept. |
@@ -52,7 +52,7 @@ Existing deployments can continue to use `PUBLIC_BOOKING_EMBED_URL_INITIAL` and 
 ## Email sending (Resend)
 
 1. Create a Resend account and add the domain `newporthomeopathy.com`.
-2. Add the DNS records Resend gives you (SPF, DKIM), plus a DMARC record. Start with `v=DMARC1; p=none; rua=mailto:cavitasuresh@yahoo.com` and move to `p=quarantine` after two clean weeks.
+2. Add the DNS records Resend gives you (SPF, DKIM), plus a DMARC record. Start with `v=DMARC1; p=none; rua=mailto:info@newporthomeopathy.com` and move to `p=quarantine` after two clean weeks.
 3. Emails are sent from `noreply@newporthomeopathy.com` with Reply-To set to the patient. The patient also gets an automatic acknowledgement.
 
 ## After launch

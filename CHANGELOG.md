@@ -50,7 +50,7 @@ A complete rebuild of newporthomeopathy.com, replacing the version 1 template si
 - Book, Call and WhatsApp on every page, with a sticky action bar on mobile.
 - Working enquiry form with server-side validation, spam protection and an automatic acknowledgement email. It also works without JavaScript.
 - Free 15-minute discovery chat added as a service.
-- Clinic email: cavitasuresh@yahoo.com.
+- Clinic email: info@newporthomeopathy.com.
 
 **Search and AI visibility**
 - A unique title, description and H1 on every page. Canonical URLs, Open Graph and Twitter tags.

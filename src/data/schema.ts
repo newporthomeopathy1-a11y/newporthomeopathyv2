@@ -96,8 +96,6 @@ export function personSchema() {
         name: clinic.qualificationFull,
       },
     },
-    // CLINIC INPUT: Confirm professional body details before adding memberOf.
-    // CLINIC INPUT: Confirm education institution details before adding alumniOf.
     // CLINIC INPUT: Add sameAs only after profile URLs are confirmed.
   };
 }

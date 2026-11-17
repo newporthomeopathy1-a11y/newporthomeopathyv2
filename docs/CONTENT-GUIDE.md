@@ -18,7 +18,7 @@ Everything repeated across pages lives in this one file, so it can't drift out o
 | Facebook / Instagram (icons appear automatically when set) | `clinic.social`, `clinic.sameAs` |
 | GP statement | `gpStatement`, `gpStatementShort` |
 
-Current clinic email: **cavitasuresh@yahoo.com**. It's shown on the site and also receives booking-form enquiries.
+Current clinic email: **info@newporthomeopathy.com**. It's shown on the site and also receives booking-form enquiries.
 
 ## 2. Page text: `src/pages/*.astro`
 

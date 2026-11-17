@@ -47,7 +47,7 @@ export const clinic = {
   phoneIntl: '+44 7904 622856',
   phoneTel: '+447904622856',
   whatsapp: 'https://wa.me/447904622856?text=Hello%2C%20I%27d%20like%20to%20book%20a%20consultation',
-  email: 'cavitasuresh@yahoo.com', // Clinic inbox: shown on the site and receives booking-form enquiries
+  email: 'info@newporthomeopathy.com', // Clinic inbox: shown on the site and receives booking-form enquiries
   street: '75 Forton Road',
   locality: 'Newport',
   region: 'Shropshire',
@@ -181,7 +181,7 @@ export const faqs: Faq[] = [
   },
   {
     q: 'Where is the clinic and is there parking?',
-    a: `The clinic is at ${addressLine}. Please ask about parking and step-free access when you book.`, // TODO(open item 14)
+    a: `The clinic is at ${addressLine}. Parking and step-free access are available.`,
     group: 'Booking and fees',
     link: { href: '/contact/', label: 'Directions' },
   },

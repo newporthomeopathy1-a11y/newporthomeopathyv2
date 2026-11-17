@@ -47,7 +47,6 @@ const areasTeaser = `Clients come from ${featuredAreas.slice(0, -1).join(', ')} 
       <div class="hero-copy">
         <h1>Your Homeopath in Newport, Shropshire</h1>
         <p class="hero-lead">Private, one-to-one consultations with {clinic.practitioner}, {clinic.qualification}, a homeopath with over {clinic.years} years' experience. In person at {clinic.street}, {clinic.locality}, or online anywhere in the UK.</p>
-        <p>Newport Homeopathy Clinic is a private homeopathy practice at {addressLine}. It is run by {clinic.practitioner}, who holds a {clinic.qualificationFull} degree and has over {clinic.years} years’ experience as a homeopath. Consultations are one-to-one, in person during clinic hours ({clinic.hoursText}), or by video from anywhere in the UK. A first consultation lasts {fees.initial.duration} and costs £{fees.initial.price}; follow-ups cost £{fees.followUp.price}. A free discovery chat ({fees.discovery.duration}) is available before you book.</p>
         <div class="cta-actions">
           <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-track="click_book" data-loc="hero">Book a consultation</a>
           <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline btn-lg" data-track="click_call" data-loc="hero"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
@@ -68,6 +67,13 @@ const areasTeaser = `Clients come from ${featuredAreas.slice(0, -1).join(', ')} 
   </section>
 
   <section>
+    <div class="container prose">
+      <h2>About the clinic</h2>
+      <p>Newport Homeopathy Clinic is a private homeopathy practice at {addressLine}. It is run by {clinic.practitioner}, who holds a {clinic.qualificationFull} degree and has over {clinic.years} years’ experience as a homeopath. Consultations are one-to-one, in person during clinic hours ({clinic.hoursText}), or by video from anywhere in the UK. A first consultation lasts {fees.initial.duration} and costs £{fees.initial.price}; follow-ups cost £{fees.followUp.price}. A free discovery chat ({fees.discovery.duration}) is available before you book.</p>
+    </div>
+  </section>
+
+  <section>
     <div class="container text-col">
       <h2>Why people choose the clinic</h2>
       <ul>
@@ -75,8 +81,8 @@ const areasTeaser = `Clients come from ${featuredAreas.slice(0, -1).join(', ')} 
         <li>The same consultation fees apply online and in person.</li>
         <li>Appointments are available on Saturdays ({clinic.hoursShort}).</li>
         <li>A free discovery chat ({fees.discovery.duration}) is available before booking.</li>
-        <li><a href={clinic.whatsapp} rel="noopener">Request an appointment by WhatsApp</a>.</li>
       </ul>
+      <p class="section-link"><a class="link-arrow" href={clinic.whatsapp} rel="noopener">Request an appointment by WhatsApp</a></p>
     </div>
   </section>
 
@@ -90,14 +96,15 @@ const areasTeaser = `Clients come from ${featuredAreas.slice(0, -1).join(', ')} 
   <section>
     <div class="container text-col">
       <h2>Areas we serve</h2>
-      <p><a href="/areas-we-serve/">{areasTeaser}</a></p>
+      <p>{areasTeaser}</p>
+      <p class="section-link"><a class="link-arrow" href="/areas-we-serve/">See all areas we serve</a></p>
     </div>
   </section>
 
   <section class="soft">
     <div class="container text-col">
       <h2>Common questions</h2>
-      <ul>
+      <ul class="link-list">
         <li><a href="/frequently-asked-questions/">How much does a consultation cost?</a></li>
         <li><a href="/frequently-asked-questions/">Can I have a consultation online?</a></li>
         <li><a href="/frequently-asked-questions/">Should I keep seeing my GP?</a></li>
