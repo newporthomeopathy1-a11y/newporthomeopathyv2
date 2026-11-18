@@ -9,6 +9,10 @@ import { clinic, fees } from '../../data/site';
 export const prerender = false;
 
 const params = Astro.url.searchParams;
+Astro.response.headers.set(
+  'Cache-Control',
+  params.has('error') ? 'no-store' : 'public, s-maxage=3600, stale-while-revalidate=86400',
+);
 const replyDays = clinic.hoursText.split(',')[0].replace('–', ' to ');
 const errorCodes = (params.get('error') ?? '').split(',').filter(Boolean);
 const FIELD_MSG: Record<string, string> = {
@@ -17,7 +21,7 @@ const FIELD_MSG: Record<string, string> = {
   phone: 'Please enter a UK phone number, for example 07700 900123.',
   type: 'Please choose a consultation type.',
   format: 'Please choose in person, online or phone.',
-  date: 'Please choose a date from today, Monday to Saturday.',
+  date: 'Please choose a date from today, Monday to Friday.',
   consent: 'Please tick the box so we can contact you about your enquiry.',
 };
 const GLOBAL_MSG: Record<string, string> = {
@@ -183,6 +187,7 @@ const durationLabel = (duration: string) => {
                 followUp: document.getElementById('booking-loading-follow-up')
               };
               const bookingUrls = { initial: initialBookingUrl, followUp: followUpBookingUrl };
+              const bookingLoadObservers = new WeakMap();
 
               flow.hidden = false;
 
@@ -190,6 +195,45 @@ const durationLabel = (duration: string) => {
                 const error = document.getElementById(errorId);
                 error.textContent = message;
                 input.setAttribute('aria-invalid', String(Boolean(message)));
+              };
+
+              const isNearViewport = (target) => {
+                if (!target.getClientRects().length) return false;
+                const rect = target.getBoundingClientRect();
+                return rect.top <= window.innerHeight + 300 && rect.bottom >= -300;
+              };
+
+              const loadWhenNearViewport = (target, callback) => {
+                bookingLoadObservers.get(target)?.();
+                let cleanup = () => {};
+                const finish = () => {
+                  if (!isNearViewport(target)) return;
+                  cleanup();
+                  bookingLoadObservers.delete(target);
+                  callback();
+                };
+
+                if ('IntersectionObserver' in window) {
+                  const observer = new IntersectionObserver((entries) => {
+                    if (entries.some((entry) => entry.isIntersecting)) finish();
+                  }, { rootMargin: '300px' });
+                  cleanup = () => observer.disconnect();
+                  bookingLoadObservers.set(target, cleanup);
+                  observer.observe(target);
+                  return;
+                }
+
+                const check = () => {
+                  if (isNearViewport(target)) finish();
+                };
+                cleanup = () => {
+                  window.removeEventListener('scroll', check);
+                  window.removeEventListener('resize', check);
+                };
+                bookingLoadObservers.set(target, cleanup);
+                window.addEventListener('scroll', check, { passive: true });
+                window.addEventListener('resize', check);
+                check();
               };
 
               const activateTab = (type) => {
@@ -226,12 +270,13 @@ const durationLabel = (duration: string) => {
 
                 const frame = bookingFrames[type];
                 const loader = bookingLoaders[type];
-                if (frame.src !== embedUrl.toString()) {
-                  loader.hidden = false;
-                  frame.src = embedUrl.toString();
-                }
                 frameWrap.hidden = false;
                 unavailable.hidden = true;
+                const src = embedUrl.toString();
+                if (frame.getAttribute('src') !== src) {
+                  loader.hidden = false;
+                  loadWhenNearViewport(bookingPanels[type], () => { frame.src = src; });
+                }
                 return true;
               };
 
@@ -285,13 +330,20 @@ const durationLabel = (duration: string) => {
                 stepIndicator.textContent = 'Step 2 of 2: Choose a time';
                 const selectedBookingType = selectedType.value === 'initial' ? 'initial' : 'followUp';
                 activateTab(selectedBookingType);
-                loadBookingFrame(selectedBookingType);
                 detailsStep.hidden = true;
                 timeStep.hidden = false;
+                loadBookingFrame(selectedBookingType);
                 document.getElementById('booking-time-heading').focus();
               });
 
               backButton.addEventListener('click', () => {
+                Object.values(bookingPanels).forEach((panel) => {
+                  const cancel = bookingLoadObservers.get(panel);
+                  if (cancel) {
+                    cancel();
+                    bookingLoadObservers.delete(panel);
+                  }
+                });
                 Object.values(bookingFrames).forEach((frame) => frame.removeAttribute('src'));
                 Object.values(bookingLoaders).forEach((loader) => { loader.hidden = false; });
                 frameWrap.hidden = false;
@@ -350,7 +402,7 @@ const durationLabel = (duration: string) => {
             </fieldset>
             <div class="form-row">
             <div class="field">
-              <label for="date">Preferred date <span class="req">(optional, Monday–Saturday)</span></label>
+              <label for="date">Preferred date <span class="req">(optional, Monday–Friday)</span></label>
               <input id="date" name="date" type="date" aria-describedby="date-error" />
               <p id="date-error" class="error" aria-live="polite">{fieldErr('date')}</p>
             </div>

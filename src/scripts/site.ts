@@ -129,10 +129,9 @@ if (toggle && navEl) {
 
 // ---------- Map facade: keep third-party map code off the initial load ----------
 document.querySelectorAll<HTMLElement>('.map-facade[data-map-src]').forEach((facade) => {
-  const button = facade.querySelector<HTMLButtonElement>('.map-load');
   const frame = facade.querySelector<HTMLElement>('.map-frame');
   const status = facade.querySelector<HTMLElement>('.map-status');
-  if (!button || !frame || !status) return;
+  if (!frame || !status) return;
 
   let started = false;
   const loadMap = () => {
@@ -151,12 +150,11 @@ document.querySelectorAll<HTMLElement>('.map-facade[data-map-src]').forEach((fac
       iframe.remove();
       facade.classList.remove('map-loaded');
       facade.classList.add('map-error');
-      status.textContent = 'The map did not load. Please try again or open Google Maps.';
+      status.textContent = 'The map could not be loaded. Use the Open in Google Maps link below.';
       status.hidden = false;
-      started = false;
     }, 8000);
     iframe.title = facade.dataset.mapTitle ?? '';
-    iframe.loading = 'eager';
+    iframe.loading = 'lazy';
     iframe.referrerPolicy = 'no-referrer-when-downgrade';
     iframe.allowFullscreen = true;
     iframe.addEventListener('load', () => {
@@ -172,15 +170,30 @@ document.querySelectorAll<HTMLElement>('.map-facade[data-map-src]').forEach((fac
       iframe.remove();
       facade.classList.remove('map-loaded');
       facade.classList.add('map-error');
-      status.textContent = 'The map could not be loaded. Please try again or open Google Maps.';
+      status.textContent = 'The map could not be loaded. Use the Open in Google Maps link below.';
       status.hidden = false;
-      started = false;
     }, { once: true });
     iframe.src = src;
     frame.append(iframe);
   };
 
-  button.addEventListener('click', loadMap);
+  const IntersectionObserverConstructor = Reflect.get(window, 'IntersectionObserver') as
+    | typeof IntersectionObserver
+    | undefined;
+
+  if (typeof IntersectionObserverConstructor === 'function') {
+    const observer = new IntersectionObserverConstructor((entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        observer.disconnect();
+        loadMap();
+      }
+    }, { rootMargin: '300px' });
+    observer.observe(frame);
+  } else if (document.readyState === 'complete') {
+    loadMap();
+  } else {
+    window.addEventListener('load', loadMap, { once: true });
+  }
 });
 
 // ---------- Consent + GA4 (spec Part 9) ----------
@@ -234,17 +247,13 @@ function setBannerVisible(visible: boolean) {
 }
 
 function syncConsentBanner() {
-  if (!window.__GA_ID || !banner) {
-    setBannerVisible(false);
-    return;
-  }
+  if (!banner) return;
   const consent = readConsent();
   setBannerVisible(!consent);
   if (consent === 'accept') scheduleGa();
 }
 
-// Only show the banner when analytics is actually configured.
-if (window.__GA_ID && banner) {
+if (banner) {
   syncConsentBanner();
   banner.addEventListener('click', (e) => {
     const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-consent]');
@@ -255,7 +264,7 @@ if (window.__GA_ID && banner) {
   });
 }
 document.querySelector('[data-cookie-settings]')?.addEventListener('click', () => {
-  if (banner && window.__GA_ID) setBannerVisible(true);
+  if (banner) setBannerVisible(true);
 });
 
 window.addEventListener('pageshow', syncConsentBanner);
@@ -389,7 +398,7 @@ if (form) {
     date.min = new Date().toISOString().slice(0, 10);
     date.addEventListener('change', () => {
       const day = date.value ? new Date(date.value + 'T12:00:00').getDay() : 1;
-      date.setCustomValidity(day === 0 ? 'The clinic is closed on Sundays. Please pick Monday to Saturday.' : '');
+      date.setCustomValidity(day === 0 || day === 6 ? 'The clinic is open Monday to Friday. Please pick a weekday.' : '');
     });
   }
   form.addEventListener('submit', (e) => {

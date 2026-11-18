@@ -67,7 +67,7 @@ export default defineConfig({
   output: 'static',
   adapter: vercel(),
   trailingSlash: 'ignore', // pages use trailing slashes; /api/enquiry must not redirect a POST
-  prefetch: { prefetchAll: false, defaultStrategy: 'tap' },
+  prefetch: { prefetchAll: false, defaultStrategy: 'hover' },
   security: {
     allowedDomains: [
       { hostname: 'newporthomeopathy.com', protocol: 'https' },

@@ -24,10 +24,10 @@ export const pageUpdated: Record<string, string> = {
   '/frequently-asked-questions/': '2026-11-18',
   '/contact/': '2026-11-18',
   '/blog/': '2026-11-17',
-  '/book-appointment/': '2026-11-17',
+  '/book-appointment/': '2026-11-18',
   '/booking-terms/': '2026-11-17',
-  '/privacy-policy/': '2026-11-17',
-  '/cookie-policy/': '2026-11-17',
+  '/privacy-policy/': '2026-11-18',
+  '/cookie-policy/': '2026-11-18',
 };
 
 export function formatPageUpdated(path: string): string {
@@ -65,8 +65,8 @@ export const clinic = {
   hasMap: '', // TODO: confirm the Google Business Profile map URL
   geo: { lat: 52.7782, lng: -2.3783 }, // TODO: confirm against the GBP pin
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Newport+Homeopathy+Clinic%2C+75+Forton+Road%2C+Newport+TF10+8BU',
-  hoursText: 'Monday–Saturday, 9:00–18:00',
-  hoursShort: 'Mon–Sat, 9am–6pm',
+  hoursText: 'Monday–Friday, 9:00–18:00',
+  hoursShort: 'Mon–Fri, 9am–6pm',
   payment: 'Cash or bank transfer',
   // TODO: add only confirmed Google Business Profile URLs; never publish placeholders.
   sameAs: [] as string[],

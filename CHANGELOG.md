@@ -1,5 +1,11 @@
 # Changelog
 
+## Weekday hours and loading updates (18 November 2026)
+
+- Updated clinic availability to weekdays, and synchronized booking date checks.
+- Added near-view loading for maps and booking calendars, and made cookie controls independent of analytics configuration.
+- Reduced the hero image payload and adjusted asset loading priorities.
+
 ## Version 3.1.1 (18 November 2026)
 
 - Expanded clinic, consultation, fee, contact and area information using existing clinic facts.

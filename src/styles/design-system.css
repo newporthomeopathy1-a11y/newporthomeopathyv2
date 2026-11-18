@@ -11,8 +11,7 @@
 }
 
 /* 1. Plain white sections everywhere. Sections are separated by spacing and a hairline. */
-.ds-section-soft,
-.ds-home-reviews .ds-section { background: var(--white); }
+.ds-section-soft { background: var(--white); }
 .ds-section + .ds-section > .ds-container,
 .ds-section + .ds-home-final-cta { border-top: 0; }
 .ds-section:not(.ds-home-about) + .ds-section:not(.ds-section-soft) { padding-top: var(--ds-section-md); }
@@ -96,19 +95,7 @@
   padding: var(--ds-card-pad);
 }
 .ds-service-card .ds-card-content { display: contents; }
-.ds-service-card .ds-price-pill {
-  display: block;
-  padding: 0;
-  margin: 0;
-  border-radius: 0;
-  background: none;
-  color: var(--blue-700);
-  font-size: 1.75rem;
-  font-weight: 700;
-  line-height: 1.2;
-}
 .ds-service-card-free { border-color: var(--ds-card-border); background: var(--white); }
-.ds-service-card-free .ds-price-pill { background: none; color: var(--blue-700); }
 .ds-service-card .ds-service-duration { margin: 4px 0 var(--space-2); color: var(--grey-600); }
 .ds-service-card .ds-card-link.ds-service-link {
   display: flex;
@@ -177,22 +164,19 @@
 .ds-about-media picture { width: calc(100% + 14px); max-width: 420px; }
 .ds-about-media img { width: 100%; height: auto; aspect-ratio: auto; object-fit: initial; }
 
-/* Keep the map address and both actions visible while its iframe loads or displays. */
+/* Keep the address and directions link visible beside the reserved map frame. */
 .map-facade {
   display: grid;
   height: auto;
   gap: var(--space-2);
 }
 .map-facade .map-frame { height: 360px; min-height: 0; }
-.map-facade .map-placeholder { color: var(--grey-600); }
 .map-facade .map-details { display: grid; justify-items: start; gap: var(--space-1); }
 .map-facade .map-details > span { color: var(--grey-600); }
 .map-facade .map-actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); }
-.map-facade .map-load { display: inline-flex; }
 .map-facade .map-external-link { margin-top: 0; }
 .map-facade .map-status { margin: 0; color: var(--grey-600); }
 .map-facade .map-status[hidden] { display: none; }
-.map-facade.map-loaded .map-placeholder { visibility: hidden; }
 @media (max-width: 860px) {
   .map-facade .map-frame { height: 320px; }
 }

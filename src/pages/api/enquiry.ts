@@ -56,7 +56,7 @@ function validate(f: FormData) {
     const d = new Date(`${rawDate}T12:00:00Z`);
     const today = new Date();
     today.setUTCHours(0, 0, 0, 0);
-    if (isNaN(+d) || d < today || d.getUTCDay() === 0) errors.push('date');
+    if (isNaN(+d) || d < today || d.getUTCDay() === 0 || d.getUTCDay() === 6) errors.push('date');
     else date = rawDate;
   }
   const message = String(f.get('message') ?? '').slice(0, 500);
