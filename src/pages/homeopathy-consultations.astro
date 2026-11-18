@@ -5,7 +5,6 @@ import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
 import MapFacade from '../components/MapFacade.astro';
 import Section from '../components/ds/Section.astro';
-import Grid from '../components/ds/Grid.astro';
 import Card from '../components/ds/Card.astro';
 import Prose from '../components/ds/Prose.astro';
 import { clinic, fees, addressLine, formatPageUpdated } from '../data/site';
@@ -26,34 +25,32 @@ const lastReviewed = formatPageUpdated('/homeopathy-consultations/');
     <p>See <a href="/areas-we-serve/">the towns and areas we serve</a>.</p>
   </PageIntro>
   <Section>
-    <Grid cols={2} class="ds-grid-861">
-      <Prose>
-        <h2>Your visit, step by step</h2>
-        <p>The clinic is at {addressLine}. Your first appointment is a private, one-to-one conversation with {clinic.practitioner} and lasts {fees.initial.duration}. The conversation covers your health history, lifestyle and wellbeing. You can describe these in your own words and ask questions during the appointment.</p>
-        <p>Towards the end, you and Kavita can agree what the next steps might be. Follow-ups are usually {fees.followUp.interval}; you decide whether and when to book one. A follow-up lasts {fees.followUp.duration}. For more detail, read <a href="/what-to-expect/">what to expect at your first consultation</a>.</p>
+    <Prose>
+      <h2>Your visit, step by step</h2>
+      <p>The clinic is at {addressLine}. Your first appointment is a private, one-to-one conversation with {clinic.practitioner} and lasts {fees.initial.duration}. The conversation covers your health history, lifestyle and wellbeing. You can describe these in your own words and ask questions during the appointment.</p>
+      <p>Towards the end, you and Kavita can agree what the next steps might be. Follow-ups are usually {fees.followUp.interval}; you decide whether and when to book one. A follow-up lasts {fees.followUp.duration}. For more detail, read <a href="/what-to-expect/">what to expect at your first consultation</a>.</p>
 
-        <h2>What should I bring?</h2>
-        <p>A short list can help you remember the details you want to share. Bring:</p>
-        <ul>
-          <li>a list of your current medicines;</li>
-          <li>any questions you would like to ask.</li>
-        </ul>
-        <p>The first conversation gives you time to explain your health history, lifestyle and wellbeing in your own words.</p>
+      <h2>What should I bring?</h2>
+      <p>A short list can help you remember the details you want to share. Bring:</p>
+      <ul>
+        <li>a list of your current medicines;</li>
+        <li>any questions you would like to ask.</li>
+      </ul>
+      <p>The first conversation gives you time to explain your health history, lifestyle and wellbeing in your own words.</p>
 
-        <h2>Payment and booking</h2>
-        <p>An initial consultation costs £{fees.initial.price}; a follow-up costs £{fees.followUp.price}. The same fee applies to the online consultation. Payment is due at or before the appointment, by {clinic.payment.toLowerCase()}.</p>
-        <p>Request a visit through the <a href="/book-appointment/">online booking page</a>, or contact the clinic by phone or WhatsApp. A free chat is available before booking and lasts {fees.discovery.duration}. Enquiries receive a reply within one working day.</p>
-        <p>Read the <a href="/consultation-fees/">full consultation fees</a> and <a href="/booking-terms/">booking and cancellation terms</a> before you book. Clinic hours are {clinic.hoursText}.</p>
-        <p>Last reviewed: {lastReviewed}</p>
-        <GpStatement />
-      </Prose>
-      <Card title="Parking and access" titleAs="h2">
-        <p>Parking and step-free access are available at the clinic.</p>
-        <p>The address is {addressLine}. Opening hours are {clinic.hoursText}; appointments are available from Monday to Saturday.</p>
-        <MapFacade />
-        <p class="map-note"><a href="/contact/">Contact and directions</a></p>
-      </Card>
-    </Grid>
+      <h2>Payment and booking</h2>
+      <p>An initial consultation costs £{fees.initial.price}; a follow-up costs £{fees.followUp.price}. The same fee applies to the online consultation. Payment is due at or before the appointment, by {clinic.payment.toLowerCase()}.</p>
+      <p>Request a visit through the <a href="/book-appointment/">online booking page</a>, or contact the clinic by phone or WhatsApp. A free chat is available before booking and lasts {fees.discovery.duration}. Enquiries receive a reply within one working day.</p>
+      <p>Read the <a href="/consultation-fees/">full consultation fees</a> and <a href="/booking-terms/">booking and cancellation terms</a> before you book. Clinic hours are {clinic.hoursText}.</p>
+      <p>Last reviewed: {lastReviewed}</p>
+      <GpStatement />
+    </Prose>
+    <Card title="Parking and access" titleAs="h2" class="ds-inperson-access">
+      <p>Parking and step-free access are available at the clinic.</p>
+      <p>The address is {addressLine}. Opening hours are {clinic.hoursText}; appointments are available from Monday to Saturday.</p>
+      <MapFacade />
+      <p class="map-note"><a href="/contact/">Contact and directions</a></p>
+    </Card>
   </Section>
   <CtaBlock text="" />
 </Base>

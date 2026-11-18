@@ -5,6 +5,7 @@ import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import kavitaPhoto from '../assets/kavita-about.jpg';
 import Grid from '../components/ds/Grid.astro';
+import Card from '../components/ds/Card.astro';
 import Section from '../components/ds/Section.astro';
 import Prose from '../components/ds/Prose.astro';
 import { personSchema } from '../data/schema';
@@ -23,8 +24,18 @@ const lastReviewed = formatPageUpdated('/about-kavita-batchu/');
     lead="Kavita Batchu offers private consultations in Newport and online across the UK."
   />
   <Section>
-    <Grid cols={2} class="ds-grid-861">
-      <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Kavita Batchu, homeopath at Newport Homeopathy Clinic, Shropshire" loading="lazy" decoding="async" class="ds-about-photo" />
+    <Grid cols={2} class="ds-about-profile-layout">
+      <div class="ds-about-profile">
+        <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 991px) 420px, 360px" alt="Kavita Batchu, homeopath at Newport Homeopathy Clinic, Shropshire" loading="lazy" decoding="async" class="ds-about-photo" />
+        <Card title="At a glance" titleAs="h2" class="ds-about-glance">
+          <dl class="ds-about-facts">
+            <div><dt>Qualification</dt><dd>{clinic.qualification}</dd></div>
+            <div><dt>Experience</dt><dd>Over {clinic.years} years</dd></div>
+            <div><dt>Consultations</dt><dd>In person in {clinic.locality} and online across the UK</dd></div>
+            <div><dt>Hours</dt><dd>{clinic.hoursText}</dd></div>
+          </dl>
+        </Card>
+      </div>
       <Prose>
         <p>Kavita Batchu is a homeopath with a {clinic.qualificationFull} degree and over {clinic.years} years’ experience. She offers private, one-to-one consultations in Newport and by video across the UK.</p>
 

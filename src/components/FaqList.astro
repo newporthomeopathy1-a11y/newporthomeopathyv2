@@ -26,7 +26,7 @@ const visibleGroups: (FaqGroup | null)[] = grouped ? groups : [null];
       {groupItems.map((f) => (
         <details open={open}>
           <summary><h3>{f.q}</h3></summary>
-          <p>{f.a} {f.link && <a href={f.link.href}>{f.link.label}</a>}</p>
+          <p>{f.a}{f.link && ' '}{f.link && <a href={f.link.href}>{f.link.label}</a>}</p>
         </details>
       ))}
     </div>

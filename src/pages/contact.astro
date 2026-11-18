@@ -6,6 +6,7 @@ import MapFacade from '../components/MapFacade.astro';
 import Section from '../components/ds/Section.astro';
 import Grid from '../components/ds/Grid.astro';
 import Card from '../components/ds/Card.astro';
+import Icon from '../components/Icon.astro';
 import { clinic, fees, addressLine, formatPageUpdated } from '../data/site';
 import { contactPageSchema } from '../data/schema';
 const lastReviewed = formatPageUpdated('/contact/');
@@ -21,20 +22,22 @@ const lastReviewed = formatPageUpdated('/contact/');
     lead="Contact Newport Homeopathy Clinic with a question or to arrange an appointment."
   />
   <Section>
-    <Grid cols={2} class="ds-grid-861">
-      <Card title="Get in touch" titleAs="h2">
+    <Grid cols={2} class="ds-grid-861 ds-contact-grid">
+      <Card title="Get in touch" titleAs="h2" class="ds-contact-card">
         <p>For an appointment enquiry, contact {clinic.name} by phone, WhatsApp or email. We reply within one working day, Monday to Saturday.</p>
-        <p>Phone: <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="page">{clinic.phoneDisplay}</a></p>
-        <p>WhatsApp: <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="page">Message us on WhatsApp</a></p>
-        <p>Email: <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="page">{clinic.email}</a></p>
+        <ul class="ds-contact-list">
+          <li><Icon name="phone" /><span>Phone: <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="page">{clinic.phoneDisplay}</a></span></li>
+          <li><Icon name="whatsapp" /><span>WhatsApp: <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="page">Message us on WhatsApp</a></span></li>
+          <li><Icon name="mail" /><span>Email: <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="page">{clinic.email}</a></span></li>
+        </ul>
         <p>Initial consultations last {fees.initial.duration}; follow-ups last {fees.followUp.duration} and are usually {fees.followUp.interval}. See the <a href="/consultation-fees/">consultation fees</a> for costs.</p>
         <p>Use the <a href="/book-appointment/">booking page</a> to request an appointment. The <a href="/booking-terms/">booking terms</a> explain payment and cancellations; the <a href="/privacy-policy/">privacy policy</a> covers personal information.</p>
         <p>Last reviewed: {lastReviewed}</p>
       </Card>
-      <Card title="Getting here" titleAs="h2" class="ds-map-card">
+      <Card title="Getting here" titleAs="h2" class="ds-contact-card ds-map-card">
         <address><strong>{clinic.name}</strong><br />{addressLine}</address>
         <p>Parking and step-free access are available at the clinic.</p>
-        <h3>Opening hours</h3>
+        <h3 class="ds-opening-hours">Opening hours</h3>
         <p>{clinic.hoursText}</p>
         <p>In-person consultations take place at this Newport address, and online consultations by video are available across the UK. The fee is the same in person and online; see the <a href="/consultation-fees/">consultation fees and appointment lengths</a>.</p>
         <p>Use the Load map button to display the map, or follow the separate Google Maps link to open directions. The <a href="/areas-we-serve/">areas we serve</a> page lists the locations covered by the clinic.</p>

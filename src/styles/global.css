@@ -75,9 +75,9 @@ a { color: var(--blue-600); text-underline-offset: 3px; }
 a:hover { color: var(--blue-700); }
 :focus-visible { outline: 3px solid var(--blue-600); outline-offset: 2px; border-radius: 6px; }
 h1, h2, h3 { line-height: 1.2; margin: 0 0 .6em; font-weight: 700; letter-spacing: -0.01em; color: var(--black); text-wrap: balance; }
-h1 { font-size: clamp(2rem, 4vw, 2.75rem); }
-h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
-h3 { font-size: 1.2rem; font-weight: 600; }
+h1 { font-size: clamp(1.9rem, 4vw, 2.75rem); }
+h2 { font-size: 1.5rem; }
+h3 { margin-top: var(--space-3); font-size: 1.125rem; font-weight: 600; }
 main h1 { margin-inline: auto; text-align: center; }
 main .lead { margin-inline: auto; text-align: center; }
 p { margin: 0 0 1em; }
@@ -343,8 +343,9 @@ table.fees { width: 100%; max-width: 900px; margin-inline: auto; border-collapse
 .faq-list summary::-webkit-details-marker { display: none; }
 .faq-list summary::after { content: '+'; flex: none; display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--blue-100); color: var(--blue-700); font-size: 1.25rem; line-height: 1; }
 .faq-list details[open] summary::after { content: '−'; }
-.faq-list summary h3 { margin: 0; font-size: 1.2rem; font-weight: 600; }
-.faq-list details > p { padding-bottom: var(--space-2); margin: 0; color: var(--grey-600); }
+.faq-list summary h3 { margin: 0; font-size: 1.125rem; font-weight: 600; }
+.faq-list details > p { padding-bottom: var(--space-2); margin: 0; color: var(--grey-600); text-wrap: pretty; }
+.faq-list details > p a { margin-left: var(--ds-gap-heading); }
 
 .gp-statement { border-left: 3px solid var(--blue-600); background: var(--white); border-radius: 0 12px 12px 0; padding: var(--space-2) var(--space-3); margin: var(--space-4) 0 0; font-size: 1rem; color: var(--grey-600); }
 .gp-statement p { margin: 0; }
@@ -402,7 +403,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .site-footer {
   border-top: 1px solid var(--grey-200);
   padding: 56px 0 24px;
-  background: var(--blue-50);
+  background: var(--white);
   color: var(--grey-600);
 }
 .site-footer a { color: var(--ink); text-decoration: none; }
@@ -418,7 +419,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .footer-grid > div:not(.footer-about) > ul { display: grid; row-gap: 12px; }
 .footer-grid > div:not(.footer-about) > ul > li { margin: 0; padding: 0; }
 .footer-heading {
-  margin: 0 0 16px;
+  margin: 0 0 12px;
   color: var(--blue-700);
   font-size: .78rem;
   font-weight: 700;
@@ -524,7 +525,6 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   .site-footer { padding: 40px 0 20px; }
   .footer-grid { grid-template-columns: minmax(0, 1fr); row-gap: 32px; }
   .footer-grid > div:not(.footer-about) > ul { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 20px; }
-  .footer-grid > div:not(.footer-about) > .footer-heading { margin-bottom: 12px; }
   .footer-grid .ask-ai-label { white-space: normal; }
   .footer-base { flex-direction: column; align-items: flex-start; }
   .footer-base p:last-child { white-space: normal; }
@@ -701,14 +701,17 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 }
 
 .ds-prose {
-  max-width: var(--ds-measure);
+  width: 100%;
+  max-width: 68ch;
   margin-inline: auto;
   text-align: left;
 }
 .ds-prose h1, .ds-prose h2, .ds-prose h3 { text-align: left; }
 .ds-prose h1, .ds-prose .lead { margin-inline: 0; }
-.ds-prose h2 { margin-top: var(--ds-gap-header); }
-.ds-prose h2:first-child { margin-top: 0; }
+.ds-prose h2 { margin-top: var(--space-5); margin-bottom: var(--space-1); }
+.ds-prose h3 { margin-top: var(--space-3); }
+.ds-prose p, .ds-card-content p, .ds-booking-wrap p { text-wrap: pretty; }
+.ds-prose p { margin-bottom: var(--space-2); }
 .ds-prose ul, .ds-prose ol { padding-left: 1.2em; }
 .ds-prose li { margin-bottom: var(--ds-gap-heading); }
 .ds-prose > :last-child { margin-bottom: 0; }
@@ -995,11 +998,6 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   line-height: 1.6;
 }
 .ds-home-faq .ds-section-action { text-align: center; }
-.ds-faq-group > h2 {
-  margin: 0 0 16px;
-  font-size: clamp(1.35rem, 2vw, 1.6rem);
-  line-height: 1.3;
-}
 .ds-home-reviews .ds-section { background: var(--grey-50); }
 
 .ds-location-grid { align-items: stretch; }
@@ -1136,7 +1134,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   text-wrap: balance;
 }
 .ds-page-header > .lead {
-  max-width: 680px;
+  max-width: 60ch;
   margin-inline: auto;
   text-align: center;
 }
@@ -1149,15 +1147,104 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 @media (min-width: 861px) {
   .ds-grid.ds-grid-861 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-.ds-about-photo { width: 100%; border-radius: var(--radius); }
-.ds-map-card { padding: 0; }
-.ds-map-card .map-facade { padding: 0; border: 0; }
+.ds-grid.ds-contact-grid { align-items: stretch; }
+.ds-contact-card .ds-card-content > p { margin-bottom: var(--space-2); }
+.ds-contact-list {
+  display: grid;
+  row-gap: var(--ds-gap-heading);
+  margin: 0 0 var(--space-2);
+  padding: 0;
+  list-style: none;
+}
+.ds-contact-list > li {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  column-gap: var(--ds-gap-heading);
+  align-items: start;
+}
+.ds-contact-list > li > .icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  padding: 9px;
+  border-radius: 50%;
+  background: var(--blue-100);
+  color: var(--blue-700);
+}
+.ds-contact-list > li > span { padding-top: 6px; line-height: 1.5; }
+.ds-contact-list a { color: var(--ink); text-decoration: none; }
+.ds-contact-list a:hover { color: var(--blue-600); text-decoration: underline; }
+.ds-opening-hours {
+  margin-top: var(--space-3);
+  padding-top: var(--space-2);
+  border-top: 1px solid var(--grey-200);
+}
+.ds-map-card .map-facade {
+  width: 100%;
+  margin-top: var(--space-2);
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.ds-about-profile-layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-5);
+  align-items: start;
+}
+.ds-about-profile {
+  display: grid;
+  gap: var(--space-2);
+  width: 100%;
+  max-width: 420px;
+  margin-inline: auto;
+}
+.ds-about-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+.ds-about-photo img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 15%;
+}
+.ds-about-facts { display: grid; gap: var(--space-2); margin: 0; }
+.ds-about-facts > div { display: grid; gap: var(--space-1); }
+.ds-about-facts dt {
+  color: var(--grey-600);
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.ds-about-facts dd { margin: 0; color: var(--ink); font-size: 1rem; }
+.ds-about-profile-layout > .ds-prose { max-width: 68ch; }
+.ds-inperson-access { margin-top: var(--ds-section-sm); }
+.ds-blog-single {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 520px;
+  margin-inline: auto;
+}
+@media (min-width: 992px) {
+  .ds-grid.ds-about-profile-layout { grid-template-columns: 360px minmax(0, 1fr); }
+  .ds-about-profile { position: sticky; top: 112px; max-width: none; }
+}
+@media (min-width: 960px) and (max-width: 1099px) {
+  .ds-blog-grid.ds-grid-cols-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 991px) {
+  .ds-about-profile { position: static; max-width: 420px; }
+}
 .ds-town-cards .ds-card-heading { text-align: center; }
-.ds-faq-group + .ds-faq-group { margin-top: 40px; }
 
 .ds-fees-content { width: 100%; max-width: 900px; margin-inline: auto; }
 .ds-fees-content > .ds-prose { margin-top: var(--ds-gap-grid); }
-.ds-blog-card h2 { font-size: 1.25rem; }
 .ds-booking-wrap { width: 100%; max-width: 960px; min-width: 0; margin-inline: auto; }
 
 .ds-cta-block { text-align: center; }
