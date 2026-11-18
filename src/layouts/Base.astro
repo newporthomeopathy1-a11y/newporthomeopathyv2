@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import '../styles/design-system.css';
+import { ClientRouter } from 'astro:transitions';
 import { SITE, clinic, nav, addressLine, gpStatementShort, aiLinks, aiPrompt } from '../data/site';
 import { siteGraph, breadcrumbSchema } from '../data/schema';
 import BackLink from '../components/BackLink.astro';
@@ -37,6 +38,7 @@ const topbarEmail = clinic.email;
 <!doctype html>
 <html lang="en-GB">
   <head>
+    <ClientRouter fallback="none" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>document.documentElement.classList.add('js');</script>
@@ -148,7 +150,7 @@ const topbarEmail = clinic.email;
             )}
           </ul>
           <div class="mobile-menu-actions">
-            <a href="/book-appointment/" class="btn btn-primary" data-astro-prefetch="tap" data-track="click_book" data-loc="header">Book a consultation</a>
+            <a href="/book-appointment/" class="btn btn-primary" data-astro-prefetch="tap" data-astro-reload data-track="click_book" data-loc="header">Book a consultation</a>
             <div class="mobile-menu-contacts">
               <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="header"><Icon name="phone" /> Call</a>
               <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener" data-track="click_whatsapp" data-loc="header"><Icon name="whatsapp" /> WhatsApp</a>
@@ -214,7 +216,7 @@ const topbarEmail = clinic.email;
             <li><a href="/consultation-fees/" data-astro-prefetch="viewport">Fees</a></li>
             <li><a href="/what-to-expect/" data-astro-prefetch="viewport">What to expect</a></li>
             <li><a href="/areas-we-serve/" data-astro-prefetch="viewport">Areas we serve</a></li>
-            <li><a href="/book-appointment/" data-astro-prefetch="tap">Book a consultation</a></li>
+            <li><a href="/book-appointment/" data-astro-prefetch="tap" data-astro-reload>Book a consultation</a></li>
           </ul>
         </div>
         <div>
@@ -246,7 +248,7 @@ const topbarEmail = clinic.email;
     <nav class="mobile-actions" aria-label="Quick contact">
       <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="sticky_bar"><Icon name="phone" /> Call</a>
       <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="sticky_bar"><Icon name="whatsapp" /> WhatsApp</a>
-      <a href="/book-appointment/" data-astro-prefetch="tap" data-track="click_book" data-loc="sticky_bar"><Icon name="calendar" /> Book</a>
+      <a href="/book-appointment/" data-astro-prefetch="tap" data-astro-reload data-track="click_book" data-loc="sticky_bar"><Icon name="calendar" /> Book</a>
     </nav>
 
     <div class="cookie-banner" role="region" aria-label="Cookie consent" hidden>

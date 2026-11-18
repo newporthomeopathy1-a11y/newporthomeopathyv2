@@ -31,7 +31,7 @@ const lastReviewed = formatPageUpdated('/contact/');
           <li><Icon name="mail" /><span>Email: <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="page">{clinic.email}</a></span></li>
         </ul>
         <p>Initial consultations last {fees.initial.duration}; follow-ups last {fees.followUp.duration} and are usually {fees.followUp.interval}. See the <a href="/consultation-fees/">consultation fees</a> for costs.</p>
-        <p>Use the <a href="/book-appointment/">booking page</a> to request an appointment. The <a href="/booking-terms/">booking terms</a> explain payment and cancellations; the <a href="/privacy-policy/">privacy policy</a> covers personal information.</p>
+        <p>Use the <a href="/book-appointment/" data-astro-reload>booking page</a> to request an appointment. The <a href="/booking-terms/">booking terms</a> explain payment and cancellations; the <a href="/privacy-policy/">privacy policy</a> covers personal information.</p>
         <p>Last reviewed: {lastReviewed}</p>
       </Card>
       <Card title="Getting here" titleAs="h2" class="ds-contact-card ds-map-card">

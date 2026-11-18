@@ -155,7 +155,7 @@ const durationLabel = (duration: string) => {
               </div>
             </div>
           </noscript>
-          <script is:inline define:vars={{ initialBookingUrl, followUpBookingUrl }}>
+          <script is:inline data-astro-rerun define:vars={{ initialBookingUrl, followUpBookingUrl }}>
             (() => {
               const flow = document.getElementById('booking-flow');
               if (!flow) return;

@@ -40,7 +40,7 @@ const lastReviewed = formatPageUpdated('/homeopathy-consultations/');
 
       <h2>Payment and booking</h2>
       <p>An initial consultation costs £{fees.initial.price}; a follow-up costs £{fees.followUp.price}. The same fee applies to the online consultation. Payment is due at or before the appointment, by {clinic.payment.toLowerCase()}.</p>
-      <p>Request a visit through the <a href="/book-appointment/">online booking page</a>, or contact the clinic by phone or WhatsApp. A free chat is available before booking and lasts {fees.discovery.duration}. Enquiries receive a reply within one working day.</p>
+      <p>Request a visit through the <a href="/book-appointment/" data-astro-reload>online booking page</a>, or contact the clinic by phone or WhatsApp. A free chat is available before booking and lasts {fees.discovery.duration}. Enquiries receive a reply within one working day.</p>
       <p>Read the <a href="/consultation-fees/">full consultation fees</a> and <a href="/booking-terms/">booking and cancellation terms</a> before you book. Clinic hours are {clinic.hoursText}.</p>
       <p>Last reviewed: {lastReviewed}</p>
       <GpStatement />

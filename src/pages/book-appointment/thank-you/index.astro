@@ -32,7 +32,7 @@ import { clinic } from '../../../data/site';
   </Section>
 </Base>
 
-<script is:inline>
+<script is:inline data-astro-rerun>
   (() => {
     const params = new URLSearchParams(window.location.search);
     if (window.top === window.self || params.get('source') !== 'booking') return;

@@ -1,218 +1,5 @@
 // Progressive enhancement only. Every page's content works without this file.
 
-// ---------- Mobile menu: button toggle, focus trap, Esc to close ----------
-document.documentElement.classList.add('js');
-const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
-const navEl = document.getElementById('site-nav');
-if (toggle && navEl) {
-  const closeButton = navEl.querySelector<HTMLButtonElement>('.nav-close');
-  const submenu = navEl.querySelector<HTMLElement>('.has-sub');
-  const submenuToggle = submenu?.querySelector<HTMLButtonElement>('.consultations-toggle');
-  const setSubmenuOpen = (open: boolean) => {
-    submenu?.classList.toggle('open', open);
-    submenuToggle?.setAttribute('aria-expanded', String(open));
-  };
-  let openedByHover = false;
-  let scrollPosition = 0;
-  const focusables = () =>
-    Array.from(navEl.querySelectorAll<HTMLElement>('a, summary, button')).filter((el) =>
-      el.getClientRects().length > 0 && getComputedStyle(el).visibility !== 'hidden' && !el.hasAttribute('disabled')
-    );
-  const setOpen = (open: boolean) => {
-    toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    navEl.classList.toggle('open', open);
-    if (open) {
-      scrollPosition = window.scrollY;
-      document.body.style.setProperty('--nav-scroll-offset', `${-scrollPosition}px`);
-      document.body.style.setProperty('--nav-body-width', `${document.body.clientWidth}px`);
-      document.body.classList.add('nav-open');
-    } else {
-      document.body.classList.remove('nav-open');
-      document.body.style.removeProperty('--nav-scroll-offset');
-      document.body.style.removeProperty('--nav-body-width');
-      const scrollBehavior = document.documentElement.style.scrollBehavior;
-      document.documentElement.style.scrollBehavior = 'auto';
-      window.scrollTo(0, scrollPosition);
-      document.documentElement.style.scrollBehavior = scrollBehavior;
-    }
-    if (open) (closeButton ?? focusables()[0])?.focus();
-  };
-  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
-  submenuToggle?.addEventListener('click', () => {
-    const open = submenuToggle.getAttribute('aria-expanded') === 'true';
-    setSubmenuOpen(openedByHover || !open);
-    openedByHover = false;
-  });
-  let leaveTimer: number | undefined;
-  const clearLeaveTimer = () => {
-    if (leaveTimer !== undefined) {
-      window.clearTimeout(leaveTimer);
-      leaveTimer = undefined;
-    }
-  };
-  submenu?.addEventListener('pointerenter', () => {
-    clearLeaveTimer();
-    if (window.matchMedia('(min-width: 992px) and (hover: hover) and (pointer: fine)').matches) {
-      if (!submenu.classList.contains('open')) openedByHover = true;
-      setSubmenuOpen(true);
-    }
-  });
-  submenu?.addEventListener('pointerleave', () => {
-    if (!openedByHover) return;
-    clearLeaveTimer();
-    // Short delay so quick pointer movements never make the menu flicker.
-    leaveTimer = window.setTimeout(() => {
-      leaveTimer = undefined;
-      if (openedByHover && !submenu.contains(document.activeElement)) setSubmenuOpen(false);
-      openedByHover = false;
-    }, 150);
-  });
-  submenu?.addEventListener('focusout', (e) => {
-    if (!submenu.contains(e.relatedTarget as Node | null)) {
-      clearLeaveTimer();
-      setSubmenuOpen(false);
-      openedByHover = false;
-    }
-  });
-  closeButton?.addEventListener('click', () => {
-    setOpen(false);
-    toggle.focus({ preventScroll: true });
-  });
-  navEl.addEventListener('click', (e) => {
-    if ((e.target as HTMLElement).closest('a') && navEl.classList.contains('open')) setOpen(false);
-  });
-  document.addEventListener('click', (e) => {
-    if (submenu?.classList.contains('open') && !submenu.contains(e.target as Node)) setSubmenuOpen(false);
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && submenu?.classList.contains('open')) {
-      setSubmenuOpen(false);
-      submenuToggle?.focus({ preventScroll: true });
-      e.preventDefault();
-      return;
-    }
-    if (!navEl.classList.contains('open')) return;
-    if (e.key === 'Escape') {
-      setOpen(false);
-      toggle.focus({ preventScroll: true });
-    } else if (e.key === 'Tab') {
-      const items = focusables();
-      if (!items.length) return;
-      const first = items[0];
-      const last = items[items.length - 1];
-      if (!navEl.contains(document.activeElement)) {
-        e.preventDefault();
-        (e.shiftKey ? last : first).focus();
-      } else if (e.shiftKey && document.activeElement === first) {
-        e.preventDefault();
-        last.focus();
-      } else if (!e.shiftKey && document.activeElement === last) {
-        e.preventDefault();
-        first.focus();
-      }
-    }
-  });
-  const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
-  desktopBreakpoint.addEventListener('change', () => {
-    clearLeaveTimer();
-    setSubmenuOpen(false);
-    openedByHover = false;
-  });
-  window.addEventListener('resize', () => {
-    if (desktopBreakpoint.matches && navEl.classList.contains('open')) setOpen(false);
-  });
-  window.addEventListener('pageshow', (event) => {
-    if (!event.persisted) return;
-    const wasLocked = document.body.classList.contains('nav-open');
-    const restoreY = wasLocked ? scrollPosition : window.scrollY;
-    toggle.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-label', 'Open menu');
-    navEl.classList.remove('open');
-    setSubmenuOpen(false);
-    openedByHover = false;
-    document.body.classList.remove('nav-open');
-    document.body.style.removeProperty('--nav-scroll-offset');
-    document.body.style.removeProperty('--nav-body-width');
-    if (wasLocked) {
-      const scrollBehavior = document.documentElement.style.scrollBehavior;
-      document.documentElement.style.scrollBehavior = 'auto';
-      window.scrollTo(0, restoreY);
-      document.documentElement.style.scrollBehavior = scrollBehavior;
-    }
-  });
-}
-
-// ---------- Map facade: keep third-party map code off the initial load ----------
-document.querySelectorAll<HTMLElement>('.map-facade[data-map-src]').forEach((facade) => {
-  const frame = facade.querySelector<HTMLElement>('.map-frame');
-  const status = facade.querySelector<HTMLElement>('.map-status');
-  if (!frame || !status) return;
-
-  let started = false;
-  const loadMap = () => {
-    const src = facade.dataset.mapSrc;
-    if (started || !src) return;
-    started = true;
-    status.hidden = true;
-    status.textContent = '';
-    facade.classList.remove('map-error');
-
-    const iframe = document.createElement('iframe');
-    let settled = false;
-    const timeoutId = window.setTimeout(() => {
-      if (settled) return;
-      settled = true;
-      iframe.remove();
-      facade.classList.remove('map-loaded');
-      facade.classList.add('map-error');
-      status.textContent = 'The map could not be loaded. Use the Open in Google Maps link below.';
-      status.hidden = false;
-    }, 8000);
-    iframe.title = facade.dataset.mapTitle ?? '';
-    iframe.loading = 'lazy';
-    iframe.referrerPolicy = 'no-referrer-when-downgrade';
-    iframe.allowFullscreen = true;
-    iframe.addEventListener('load', () => {
-      if (settled) return;
-      settled = true;
-      window.clearTimeout(timeoutId);
-      facade.classList.add('map-loaded');
-    }, { once: true });
-    iframe.addEventListener('error', () => {
-      if (settled) return;
-      settled = true;
-      window.clearTimeout(timeoutId);
-      iframe.remove();
-      facade.classList.remove('map-loaded');
-      facade.classList.add('map-error');
-      status.textContent = 'The map could not be loaded. Use the Open in Google Maps link below.';
-      status.hidden = false;
-    }, { once: true });
-    iframe.src = src;
-    frame.append(iframe);
-  };
-
-  const IntersectionObserverConstructor = Reflect.get(window, 'IntersectionObserver') as
-    | typeof IntersectionObserver
-    | undefined;
-
-  if (typeof IntersectionObserverConstructor === 'function') {
-    const observer = new IntersectionObserverConstructor((entries) => {
-      if (entries.some((entry) => entry.isIntersecting)) {
-        observer.disconnect();
-        loadMap();
-      }
-    }, { rootMargin: '300px' });
-    observer.observe(frame);
-  } else if (document.readyState === 'complete') {
-    loadMap();
-  } else {
-    window.addEventListener('load', loadMap, { once: true });
-  }
-});
-
-// ---------- Consent + GA4 (spec Part 9) ----------
 declare global {
   interface Window {
     gtag: (...args: unknown[]) => void;
@@ -221,26 +8,57 @@ declare global {
     __nhcTurnstileSuccess?: (token: string) => void;
   }
 }
-const CONSENT_KEY = 'nhc_consent';
-const banner = document.querySelector<HTMLElement>('.cookie-banner');
-const isPolicyPage = ['/privacy-policy', '/cookie-policy', '/booking-terms'].includes(
-  window.location.pathname.replace(/\/+$/, '')
-);
-const readConsent = () => { try { return localStorage.getItem(CONSENT_KEY); } catch { return null; } };
-const writeConsent = (v: string) => { try { localStorage.setItem(CONSENT_KEY, v); } catch { /* private mode */ } };
 
+document.documentElement.classList.add('js');
+
+const CONSENT_KEY = 'nhc_consent';
+const BOOKING_MESSAGE_ORIGINS: string[] = [window.location.origin];
+const bookingValues = {
+  consultation_type: ['discovery', 'initial', 'follow_up'],
+  format: ['in_person', 'online', 'phone'],
+};
+const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
+
+let leaveTimer: number | undefined;
+let openedByHover = false;
+let scrollPosition = 0;
 let gaLoaded = false;
 let gaScheduled = false;
+let hasPageLoaded = false;
+let askAiStatusTimer: number | undefined;
+
+const readConsent = () => {
+  try {
+    return localStorage.getItem(CONSENT_KEY);
+  } catch {
+    return null;
+  }
+};
+
+const writeConsent = (value: string) => {
+  try {
+    localStorage.setItem(CONSENT_KEY, value);
+  } catch {
+    // Private browsing can disable local storage.
+  }
+};
+
+function isPolicyPage() {
+  return ['/privacy-policy', '/cookie-policy', '/booking-terms'].includes(
+    window.location.pathname.replace(/\/+$/, '')
+  );
+}
+
 function loadGa() {
   const id = window.__GA_ID;
-  if (isPolicyPage || !id || gaLoaded) return;
+  if (isPolicyPage() || !id || gaLoaded) return;
   if (typeof window.gtag !== 'function') return;
   gaLoaded = true;
   window.gtag('consent', 'update', { analytics_storage: 'granted' });
-  const s = document.createElement('script');
-  s.async = true;
-  s.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
-  document.head.appendChild(s);
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+  document.head.appendChild(script);
   window.gtag('js', new Date());
   window.gtag('config', id);
 }
@@ -257,121 +75,233 @@ function scheduleGa() {
 }
 
 function setBannerVisible(visible: boolean) {
+  const banner = document.querySelector<HTMLElement>('.cookie-banner');
   if (!banner) return;
   banner.hidden = !visible;
   document.body.classList.toggle('cookie-visible', visible);
 }
 
 function syncConsentBanner() {
+  const banner = document.querySelector<HTMLElement>('.cookie-banner');
   if (!banner) return;
   const consent = readConsent();
   setBannerVisible(!consent);
   if (consent === 'accept') scheduleGa();
 }
 
-if (banner) {
-  syncConsentBanner();
-  banner.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-consent]');
-    if (!btn) return;
-    writeConsent(btn.dataset.consent!);
-    setBannerVisible(false);
-    if (btn.dataset.consent === 'accept') scheduleGa();
-  });
+function setSubmenuOpen(open: boolean) {
+  const submenu = document.querySelector<HTMLElement>('.site-nav .has-sub');
+  const submenuToggle = submenu?.querySelector<HTMLButtonElement>('.consultations-toggle');
+  submenu?.classList.toggle('open', open);
+  submenuToggle?.setAttribute('aria-expanded', String(open));
 }
-document.querySelector('[data-cookie-settings]')?.addEventListener('click', () => {
-  if (banner) setBannerVisible(true);
-});
 
-window.addEventListener('pageshow', syncConsentBanner);
-
-let askAiStatusTimer: number | undefined;
-function showAskAiStatus(status: HTMLElement, message: string) {
-  if (askAiStatusTimer !== undefined) window.clearTimeout(askAiStatusTimer);
-  status.textContent = message;
-  askAiStatusTimer = window.setTimeout(() => {
-    status.textContent = '';
-    askAiStatusTimer = undefined;
-  }, 4000);
-}
-document.addEventListener('click', (e) => {
-  const target = e.target;
-  if (!(target instanceof Element)) return;
-  const link = target.closest<HTMLAnchorElement>('a[data-copy-prompt="true"]');
-  if (!link) return;
-
-  const widget = link.closest<HTMLElement>('.ask-ai[data-prompt]');
-  const status = widget?.querySelector<HTMLElement>('.ask-ai-status');
-  const prompt = widget?.dataset.prompt;
-  if (!status || !prompt) return;
-
-  void (async () => {
-    try {
-      await navigator.clipboard.writeText(prompt);
-      showAskAiStatus(status, 'Question copied. Paste it into Gemini.');
-    } catch {
-      showAskAiStatus(status, 'Unable to copy the question. Please copy it manually.');
-    }
-  })();
-});
-
-const BOOKING_MESSAGE_ORIGINS: string[] = [window.location.origin];
-const bookingValues = {
-  consultation_type: ['discovery', 'initial', 'follow_up'],
-  format: ['in_person', 'online', 'phone'],
-};
-function trackEvent(eventName: string, params: Record<string, string>) {
-  if (readConsent() !== 'accept' || typeof window.gtag !== 'function') return;
-  window.gtag('event', eventName, params);
-}
-window.addEventListener('message', (event: MessageEvent<unknown>) => {
-  if (!BOOKING_MESSAGE_ORIGINS.includes(event.origin)) return;
-  if (!event.data || typeof event.data !== 'object' || Array.isArray(event.data)) return;
-
-  const data = event.data as Record<string, unknown>;
-  if (data.type !== 'booking_complete') return;
-
-  const allowed = (value: unknown, options: string[]) =>
-    typeof value === 'string' && options.includes(value) ? value : 'unknown';
-  trackEvent('booking_complete', {
-    consultation_type: allowed(data.consultation_type, bookingValues.consultation_type),
-    format: allowed(data.format, bookingValues.format),
-  });
-
-  const frameWrap = document.getElementById('booking-frame-wrap');
-  if (frameWrap) {
-    const confirmation = document.createElement('p');
-    confirmation.className = 'booking-confirmation';
-    confirmation.textContent = 'Booking confirmed. Check your email.';
-    const homeLink = document.createElement('a');
-    homeLink.href = '/';
-    homeLink.textContent = 'Return to the home page';
-    frameWrap.replaceChildren(confirmation, homeLink);
+function clearLeaveTimer() {
+  if (leaveTimer !== undefined) {
+    window.clearTimeout(leaveTimer);
+    leaveTimer = undefined;
   }
-});
+}
 
-// ---------- Delegated click tracking on [data-track] (no personal data) ----------
-document.addEventListener('click', (e) => {
-  const el = (e.target as HTMLElement).closest<HTMLElement>('[data-track]');
-  if (!el) return;
-  trackEvent(el.dataset.track!, { link_location: el.dataset.loc ?? 'page' });
-});
+function unlockBodyScroll() {
+  document.body.classList.remove('nav-open');
+  document.body.style.removeProperty('--nav-scroll-offset');
+  document.body.style.removeProperty('--nav-body-width');
+}
 
-// ---------- Thank-you page: generate_lead with non-personal params only ----------
-const lead = document.querySelector<HTMLElement>('[data-lead-event]');
-const bookingReturnInFrame = new URLSearchParams(location.search).get('source') === 'booking' && window.top !== window.self;
-if (lead && !bookingReturnInFrame) {
-  const p = new URLSearchParams(location.search);
-  const allowed = (v: string | null, opts: string[]) => (v && opts.includes(v) ? v : 'unknown');
-  trackEvent('generate_lead', {
-    consultation_type: allowed(p.get('type'), ['discovery', 'initial', 'follow_up']),
-    format: allowed(p.get('format'), ['in_person', 'online', 'phone']),
+function setMenuOpen(open: boolean) {
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('site-nav');
+  if (!toggle || !nav) return;
+
+  const closeButton = nav.querySelector<HTMLButtonElement>('.nav-close');
+  const focusables = () =>
+    Array.from(nav.querySelectorAll<HTMLElement>('a, summary, button')).filter((element) =>
+      element.getClientRects().length > 0 &&
+      getComputedStyle(element).visibility !== 'hidden' &&
+      !element.hasAttribute('disabled')
+    );
+
+  toggle.setAttribute('aria-expanded', String(open));
+  toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+  nav.classList.toggle('open', open);
+  if (open) {
+    scrollPosition = window.scrollY;
+    document.body.style.setProperty('--nav-scroll-offset', `${-scrollPosition}px`);
+    document.body.style.setProperty('--nav-body-width', `${document.body.clientWidth}px`);
+    document.body.classList.add('nav-open');
+    (closeButton ?? focusables()[0])?.focus();
+    return;
+  }
+
+  unlockBodyScroll();
+  const scrollBehavior = document.documentElement.style.scrollBehavior;
+  document.documentElement.style.scrollBehavior = 'auto';
+  window.scrollTo(0, scrollPosition);
+  document.documentElement.style.scrollBehavior = scrollBehavior;
+}
+
+function closeMobileMenu() {
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('site-nav');
+  const wasOpen = Boolean(nav?.classList.contains('open') || document.body.classList.contains('nav-open'));
+  if (toggle) {
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.setAttribute('aria-label', 'Open menu');
+  }
+  nav?.classList.remove('open');
+  unlockBodyScroll();
+  if (wasOpen) {
+    const scrollBehavior = document.documentElement.style.scrollBehavior;
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, scrollPosition);
+    document.documentElement.style.scrollBehavior = scrollBehavior;
+  }
+  setSubmenuOpen(false);
+  openedByHover = false;
+  clearLeaveTimer();
+}
+
+function initMobileMenu() {
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  const nav = document.getElementById('site-nav');
+  if (!toggle || !nav) return;
+
+  const closeButton = nav.querySelector<HTMLButtonElement>('.nav-close');
+  toggle.addEventListener('click', () => {
+    setMenuOpen(toggle.getAttribute('aria-expanded') !== 'true');
+  });
+  closeButton?.addEventListener('click', () => {
+    setMenuOpen(false);
+    toggle.focus({ preventScroll: true });
   });
 }
 
-// ---------- Enquiry form: client-side hints (server re-validates everything) ----------
-const form = document.querySelector<HTMLFormElement>('form.enquiry-form');
-if (form) {
+function initSubmenu() {
+  const submenu = document.querySelector<HTMLElement>('.site-nav .has-sub');
+  const submenuToggle = submenu?.querySelector<HTMLButtonElement>('.consultations-toggle');
+  if (!submenu || !submenuToggle) return;
+
+  submenuToggle.addEventListener('click', () => {
+    const isOpen = submenuToggle.getAttribute('aria-expanded') === 'true';
+    setSubmenuOpen(openedByHover || !isOpen);
+    openedByHover = false;
+  });
+  submenu.addEventListener('pointerenter', () => {
+    clearLeaveTimer();
+    if (desktopBreakpoint.matches && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      if (!submenu.classList.contains('open')) openedByHover = true;
+      setSubmenuOpen(true);
+    }
+  });
+  submenu.addEventListener('pointerleave', () => {
+    if (!openedByHover) return;
+    clearLeaveTimer();
+    leaveTimer = window.setTimeout(() => {
+      leaveTimer = undefined;
+      if (openedByHover && !submenu.contains(document.activeElement)) setSubmenuOpen(false);
+      openedByHover = false;
+    }, 150);
+  });
+  submenu.addEventListener('focusout', (event) => {
+    if (!(event.relatedTarget instanceof Node) || !submenu.contains(event.relatedTarget)) {
+      clearLeaveTimer();
+      setSubmenuOpen(false);
+      openedByHover = false;
+    }
+  });
+}
+
+function initMapFacades() {
+  document.querySelectorAll<HTMLElement>('.map-facade[data-map-src]').forEach((facade) => {
+    const frame = facade.querySelector<HTMLElement>('.map-frame');
+    const status = facade.querySelector<HTMLElement>('.map-status');
+    if (!frame || !status) return;
+
+    let started = false;
+    const loadMap = () => {
+      const src = facade.dataset.mapSrc;
+      if (started || !src) return;
+      started = true;
+      status.hidden = true;
+      status.textContent = '';
+      facade.classList.remove('map-error');
+
+      const iframe = document.createElement('iframe');
+      let settled = false;
+      const timeoutId = window.setTimeout(() => {
+        if (settled) return;
+        settled = true;
+        iframe.remove();
+        facade.classList.remove('map-loaded');
+        facade.classList.add('map-error');
+        status.textContent = 'The map could not be loaded. Use the Open in Google Maps link below.';
+        status.hidden = false;
+      }, 8000);
+      iframe.title = facade.dataset.mapTitle ?? '';
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.allowFullscreen = true;
+      iframe.addEventListener('load', () => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeoutId);
+        facade.classList.add('map-loaded');
+      }, { once: true });
+      iframe.addEventListener('error', () => {
+        if (settled) return;
+        settled = true;
+        window.clearTimeout(timeoutId);
+        iframe.remove();
+        facade.classList.remove('map-loaded');
+        facade.classList.add('map-error');
+        status.textContent = 'The map could not be loaded. Use the Open in Google Maps link below.';
+        status.hidden = false;
+      }, { once: true });
+      iframe.src = src;
+      frame.append(iframe);
+    };
+
+    const IntersectionObserverConstructor = Reflect.get(window, 'IntersectionObserver') as
+      | typeof IntersectionObserver
+      | undefined;
+    if (typeof IntersectionObserverConstructor === 'function') {
+      const observer = new IntersectionObserverConstructor((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          observer.disconnect();
+          loadMap();
+        }
+      }, { rootMargin: '300px' });
+      observer.observe(frame);
+    } else {
+      loadMap();
+    }
+  });
+}
+
+function initConsentControls() {
+  const banner = document.querySelector<HTMLElement>('.cookie-banner');
+  banner?.addEventListener('click', (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+    const button = target.closest<HTMLButtonElement>('[data-consent]');
+    if (!button) return;
+    writeConsent(button.dataset.consent!);
+    setBannerVisible(false);
+    if (button.dataset.consent === 'accept') scheduleGa();
+  });
+  document.querySelector('[data-cookie-settings]')?.addEventListener('click', () => {
+    setBannerVisible(true);
+  });
+}
+
+function initEnquiryForm() {
+  const form = document.querySelector<HTMLFormElement>('form.enquiry-form');
+  if (!form) {
+    window.__nhcTurnstileSuccess = undefined;
+    return;
+  }
+
   const status = form.querySelector<HTMLElement>('[role="alert"]');
   const turnstile = form.querySelector<HTMLElement>('.cf-turnstile');
   let turnstileRequested = false;
@@ -380,17 +310,20 @@ if (form) {
   if (turnstile) {
     turnstile.dataset.callback = '__nhcTurnstileSuccess';
     window.__nhcTurnstileSuccess = (token) => {
-      let response = form.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
+      const currentForm = document.querySelector<HTMLFormElement>('form.enquiry-form');
+      const currentTurnstile = currentForm?.querySelector<HTMLElement>('.cf-turnstile');
+      if (!currentForm || !currentTurnstile) return;
+      let response = currentForm.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
       if (!response) {
         response = document.createElement('input');
         response.type = 'hidden';
         response.name = 'cf-turnstile-response';
-        turnstile.append(response);
+        currentTurnstile.append(response);
       }
       response.value = token;
       if (turnstileSubmitPending) {
         turnstileSubmitPending = false;
-        form.requestSubmit();
+        currentForm.requestSubmit();
       }
     };
     loadTurnstile = () => {
@@ -417,26 +350,201 @@ if (form) {
       date.setCustomValidity(day === 0 || day === 6 ? 'The clinic is open Monday to Friday. Please pick a weekday.' : '');
     });
   }
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', (event) => {
     if (!form.checkValidity()) {
-      e.preventDefault();
+      event.preventDefault();
       const firstBad = form.querySelector<HTMLElement>(':invalid');
       if (status) status.textContent = 'Please check the highlighted fields.';
-      form.querySelectorAll<HTMLInputElement>('input, select, textarea').forEach((f) => {
-        const err = document.getElementById(`${f.id}-error`);
-        if (err) err.textContent = f.validity.valid ? '' : f.validationMessage;
-        f.setAttribute('aria-invalid', String(!f.validity.valid));
+      form.querySelectorAll<HTMLInputElement>('input, select, textarea').forEach((field) => {
+        const error = document.getElementById(`${field.id}-error`);
+        if (error) error.textContent = field.validity.valid ? '' : field.validationMessage;
+        field.setAttribute('aria-invalid', String(!field.validity.valid));
       });
       firstBad?.focus();
       return;
     }
 
     if (turnstile && !form.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]')?.value) {
-      e.preventDefault();
+      event.preventDefault();
       turnstileSubmitPending = true;
       loadTurnstile?.();
     }
   });
 }
+
+function trackEvent(eventName: string, params: Record<string, string>) {
+  if (readConsent() !== 'accept' || typeof window.gtag !== 'function') return;
+  window.gtag('event', eventName, params);
+}
+
+function initLeadEvent() {
+  const lead = document.querySelector<HTMLElement>('[data-lead-event]');
+  const bookingReturnInFrame =
+    new URLSearchParams(location.search).get('source') === 'booking' && window.top !== window.self;
+  if (!lead || bookingReturnInFrame) return;
+  const params = new URLSearchParams(location.search);
+  const allowed = (value: string | null, options: string[]) =>
+    value && options.includes(value) ? value : 'unknown';
+  trackEvent('generate_lead', {
+    consultation_type: allowed(params.get('type'), ['discovery', 'initial', 'follow_up']),
+    format: allowed(params.get('format'), ['in_person', 'online', 'phone']),
+  });
+}
+
+function initPage() {
+  document.documentElement.classList.add('js');
+  document.querySelectorAll<HTMLAnchorElement>(
+    'a[href="/book-appointment/"], a[href^="/book-appointment/thank-you/"]'
+  ).forEach((link) => link.setAttribute('data-astro-reload', ''));
+  initMobileMenu();
+  initSubmenu();
+  initMapFacades();
+  initConsentControls();
+  initEnquiryForm();
+  initLeadEvent();
+  syncConsentBanner();
+
+  if (hasPageLoaded && readConsent() === 'accept' && gaLoaded && !isPolicyPage()) {
+    window.gtag('event', 'page_view');
+  }
+  hasPageLoaded = true;
+}
+
+function showAskAiStatus(status: HTMLElement, message: string) {
+  if (askAiStatusTimer !== undefined) window.clearTimeout(askAiStatusTimer);
+  status.textContent = message;
+  askAiStatusTimer = window.setTimeout(() => {
+    status.textContent = '';
+    askAiStatusTimer = undefined;
+  }, 4000);
+}
+
+document.addEventListener('astro:page-load', initPage);
+document.addEventListener('astro:before-preparation', closeMobileMenu);
+document.addEventListener('astro:before-swap', (event) => {
+  clearLeaveTimer();
+  const newDocument = (event as Event & { newDocument: Document }).newDocument;
+  newDocument.documentElement.classList.add('js');
+});
+
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+
+  const nav = document.getElementById('site-nav');
+  const link = target.closest<HTMLAnchorElement>('a');
+  if (link && nav?.contains(link) && nav.classList.contains('open')) closeMobileMenu();
+
+  const submenu = document.querySelector<HTMLElement>('.site-nav .has-sub');
+  if (submenu?.classList.contains('open') && !submenu.contains(target)) setSubmenuOpen(false);
+});
+
+document.addEventListener('keydown', (event) => {
+  const nav = document.getElementById('site-nav');
+  const toggle = document.querySelector<HTMLButtonElement>('.nav-toggle');
+  if (!nav || !toggle) return;
+  const submenu = nav.querySelector<HTMLElement>('.has-sub');
+  const submenuToggle = submenu?.querySelector<HTMLButtonElement>('.consultations-toggle');
+  if (event.key === 'Escape' && submenu?.classList.contains('open')) {
+    setSubmenuOpen(false);
+    submenuToggle?.focus({ preventScroll: true });
+    event.preventDefault();
+    return;
+  }
+  if (!nav.classList.contains('open')) return;
+  if (event.key === 'Escape') {
+    closeMobileMenu();
+    toggle.focus({ preventScroll: true });
+  } else if (event.key === 'Tab') {
+    const items = Array.from(nav.querySelectorAll<HTMLElement>('a, summary, button')).filter((element) =>
+      element.getClientRects().length > 0 &&
+      getComputedStyle(element).visibility !== 'hidden' &&
+      !element.hasAttribute('disabled')
+    );
+    if (!items.length) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (!nav.contains(document.activeElement)) {
+      event.preventDefault();
+      (event.shiftKey ? last : first).focus();
+    } else if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+});
+
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  const link = target.closest<HTMLAnchorElement>('a[data-copy-prompt="true"]');
+  if (!link) return;
+  const widget = link.closest<HTMLElement>('.ask-ai[data-prompt]');
+  const status = widget?.querySelector<HTMLElement>('.ask-ai-status');
+  const prompt = widget?.dataset.prompt;
+  if (!status || !prompt) return;
+
+  void (async () => {
+    try {
+      await navigator.clipboard.writeText(prompt);
+      showAskAiStatus(status, 'Question copied. Paste it into Gemini.');
+    } catch {
+      showAskAiStatus(status, 'Unable to copy the question. Please copy it manually.');
+    }
+  })();
+});
+
+window.addEventListener('message', (event: MessageEvent<unknown>) => {
+  if (!BOOKING_MESSAGE_ORIGINS.includes(event.origin)) return;
+  if (!event.data || typeof event.data !== 'object' || Array.isArray(event.data)) return;
+  const data = event.data as Record<string, unknown>;
+  if (data.type !== 'booking_complete') return;
+
+  const allowed = (value: unknown, options: string[]) =>
+    typeof value === 'string' && options.includes(value) ? value : 'unknown';
+  trackEvent('booking_complete', {
+    consultation_type: allowed(data.consultation_type, bookingValues.consultation_type),
+    format: allowed(data.format, bookingValues.format),
+  });
+  const frameWrap = document.getElementById('booking-frame-wrap');
+  if (frameWrap) {
+    const confirmation = document.createElement('p');
+    confirmation.className = 'booking-confirmation';
+    confirmation.textContent = 'Booking confirmed. Check your email.';
+    const homeLink = document.createElement('a');
+    homeLink.href = '/';
+    homeLink.textContent = 'Return to the home page';
+    frameWrap.replaceChildren(confirmation, homeLink);
+  }
+});
+
+document.addEventListener('click', (event) => {
+  const target = event.target;
+  if (!(target instanceof Element)) return;
+  const element = target.closest<HTMLElement>('[data-track]');
+  if (!element) return;
+  trackEvent(element.dataset.track!, { link_location: element.dataset.loc ?? 'page' });
+});
+
+desktopBreakpoint.addEventListener('change', () => {
+  clearLeaveTimer();
+  setSubmenuOpen(false);
+  openedByHover = false;
+  if (desktopBreakpoint.matches) closeMobileMenu();
+});
+
+window.addEventListener('resize', () => {
+  if (desktopBreakpoint.matches && document.getElementById('site-nav')?.classList.contains('open')) {
+    closeMobileMenu();
+  }
+});
+
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) closeMobileMenu();
+  syncConsentBanner();
+});
 
 export {};

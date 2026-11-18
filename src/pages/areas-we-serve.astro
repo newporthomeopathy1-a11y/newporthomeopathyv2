@@ -39,7 +39,7 @@ const areaCopy: Record<string, string> = {
         return (
           <Card as="li" title={area}>
             <p>{copy}</p>
-            <a slot="link" href="/book-appointment/" class="btn btn-outline ds-card-link">Book from {area}</a>
+            <a slot="link" href="/book-appointment/" data-astro-reload class="btn btn-outline ds-card-link">Book from {area}</a>
           </Card>
         );
       })}
