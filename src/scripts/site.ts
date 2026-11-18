@@ -221,6 +221,36 @@ document.querySelector('[data-cookie-settings]')?.addEventListener('click', () =
 
 window.addEventListener('pageshow', syncConsentBanner);
 
+let askAiStatusTimer: number | undefined;
+function showAskAiStatus(status: HTMLElement, message: string) {
+  if (askAiStatusTimer !== undefined) window.clearTimeout(askAiStatusTimer);
+  status.textContent = message;
+  askAiStatusTimer = window.setTimeout(() => {
+    status.textContent = '';
+    askAiStatusTimer = undefined;
+  }, 4000);
+}
+document.addEventListener('click', (e) => {
+  const target = e.target;
+  if (!(target instanceof Element)) return;
+  const link = target.closest<HTMLAnchorElement>('a[data-copy-prompt="true"]');
+  if (!link) return;
+
+  const widget = link.closest<HTMLElement>('.ask-ai[data-prompt]');
+  const status = widget?.querySelector<HTMLElement>('.ask-ai-status');
+  const prompt = widget?.dataset.prompt;
+  if (!status || !prompt) return;
+
+  void (async () => {
+    try {
+      await navigator.clipboard.writeText(prompt);
+      showAskAiStatus(status, 'Question copied. Paste it into Gemini.');
+    } catch {
+      showAskAiStatus(status, 'Unable to copy the question. Please copy it manually.');
+    }
+  })();
+});
+
 const BOOKING_MESSAGE_ORIGINS: string[] = [window.location.origin];
 const bookingValues = {
   consultation_type: ['discovery', 'initial', 'follow_up'],

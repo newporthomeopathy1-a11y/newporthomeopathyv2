@@ -5,55 +5,53 @@ import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
 import Section from '../components/ds/Section.astro';
 import Prose from '../components/ds/Prose.astro';
-import Grid from '../components/ds/Grid.astro';
-import Card from '../components/ds/Card.astro';
 import { clinic, fees, formatPageUpdated } from '../data/site';
 
 const lastReviewed = formatPageUpdated('/what-to-expect/');
 ---
 <Base
   title="What Happens at a Homeopathy Consultation? | Newport"
-  description={`How a first homeopathy consultation works in ${clinic.locality} or online: how to prepare, what ${clinic.practitioner.split(' ')[0]} asks, how long it takes, and how follow-ups are arranged.`}
+  description={`What to expect at a first homeopathy consultation in ${clinic.locality} or online: duration, preparation, follow-ups and seeing your GP.`}
   breadcrumbs={[{ name: 'What to expect', href: '/what-to-expect/' }]}
 >
   <PageIntro
     h1="What to Expect at Your First Homeopathy Consultation"
-    lead={`Your first appointment with ${clinic.practitioner} is a private, one-to-one conversation.`}
+    lead={`Your first appointment with ${clinic.practitioner} is a private, one-to-one conversation lasting ${fees.initial.duration}.`}
   />
   <Section>
     <Prose>
       <h2>How long is the first consultation?</h2>
-      <p>The first consultation lasts {fees.initial.duration}.</p>
+      <p>The first consultation lasts {fees.initial.duration}. This is a private, one-to-one appointment with {clinic.practitioner}. It gives time for a conversation about your health history, lifestyle and wellbeing, and for you to ask questions about how appointments are arranged.</p>
+      <p>Consultations are available in person in Newport or online by video across the UK. The fee is £{fees.initial.price} for an initial appointment in either format. See the <a href="/consultation-fees/">consultation fees and appointment lengths</a>.</p>
 
       <h2>What will Kavita ask about?</h2>
-      <p>Kavita asks about your health history, routine, sleep, diet and how you feel day to day, in general terms.</p>
+      <p>Kavita asks about your health history, routine, sleep, diet and how you feel day to day, in general terms. These subjects help provide a broad picture of your everyday life and wellbeing. You can also raise questions about the appointment and explain which details feel relevant to you.</p>
+      <p>The conversation is one-to-one. If you have a list of medicines or questions you want to remember, you can have them with you. For an in-person visit, see the <a href="/homeopathy-consultations/">in-person consultation details</a>; for a video appointment, read about <a href="/online-homeopathy-consultation/">online consultations</a>.</p>
 
       <h2>Do I need a GP referral?</h2>
-      <p>No, you do not need a GP referral to book.</p>
+      <p>No, you do not need a GP referral to enquire or book. You can contact the clinic directly through the <a href="/book-appointment/">booking page</a>, or use the phone and email details on the <a href="/contact/">contact page</a>. The clinic also offers a free discovery chat of {fees.discovery.duration} before you decide whether to book.</p>
 
       <h2>Can someone come with me?</h2>
-      <p>You are welcome to ask when booking if someone can come with you.</p>
+      <p>If you would like someone to accompany you, ask the clinic when booking so the arrangements can be confirmed. If your appointment is online, you can ask about joining arrangements when you make the enquiry. For in-person appointments, the clinic is at {clinic.street}, {clinic.locality}, {clinic.region} {clinic.postcode}.</p>
 
       <h2>What happens after the first appointment?</h2>
-      <p>You can take time after the appointment to consider whether you would like to book another consultation.</p>
+      <p>At the end of the conversation, you can discuss possible next steps with Kavita. You may take time to consider whether you would like to book another appointment. There is no need to decide about a follow-up during the first consultation.</p>
+      <p>If you do want to continue, follow-up appointments are available in person or online. Read the <a href="/booking-terms/">booking terms</a> for payment and cancellation information before arranging another appointment.</p>
 
       <h2>How do follow-ups work?</h2>
-      <p>Kavita suggests an interval, usually {fees.followUp.interval}, and you decide whether to book.</p>
+      <p>Follow-ups are usually {fees.followUp.interval}, and you decide whether and when to book. Each follow-up lasts {fees.followUp.duration} and costs £{fees.followUp.price}. The same fee applies in person and online. You can review the <a href="/consultation-fees/">full fees and payment information</a> at any time.</p>
 
       <h2>How does this fit with seeing my GP?</h2>
       <GpStatement />
 
       <h2>Preparing for your consultation</h2>
-    </Prose>
-    <Grid cols={2} as="ol" class="ds-steps">
-      <Card as="li" title="List any medicines or supplements you take." />
-      <Card as="li" title="Note any questions you would like to ask." />
-      <Card as="li" title="Bring your glasses if you use them." />
-      <Card as="li" title={`Allow time for the appointment: the first consultation lasts ${fees.initial.duration}.`} />
-    </Grid>
-
-    <Prose>
-      <p><a href="/homeopathy-consultations/">In person</a> · <a href="/online-homeopathy-consultation/">Online</a> · <a href="/consultation-fees/">Fees</a></p>
+      <p>A little preparation can help you remember the points you want to discuss. Before the appointment:</p>
+      <ol>
+        <li>Make a list of your current medicines.</li>
+        <li>Note any questions you would like to ask.</li>
+        <li>For an online appointment, choose a quiet, private space and check your video-call connection.</li>
+        <li>Allow time for the appointment: an initial consultation lasts {fees.initial.duration}.</li>
+      </ol>
       <p>Last reviewed: {lastReviewed}</p>
     </Prose>
   </Section>

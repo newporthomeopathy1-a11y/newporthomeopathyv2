@@ -3,10 +3,8 @@ import { Picture, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import GpStatement from '../components/GpStatement.astro';
-import FaqList from '../components/FaqList.astro';
 import MapFacade from '../components/MapFacade.astro';
 import CtaBlock from '../components/CtaBlock.astro';
-import Reviews from '../components/Reviews.astro';
 import Container from '../components/ds/Container.astro';
 import Section from '../components/ds/Section.astro';
 import SectionHeader from '../components/ds/SectionHeader.astro';
@@ -14,7 +12,7 @@ import Grid from '../components/ds/Grid.astro';
 import Card from '../components/ds/Card.astro';
 import heroBg from '../assets/hero-remedies.jpg';
 import kavitaPhoto from '../assets/kavita-about.jpg';
-import { clinic, fees, addressLine, areas, services, reviews, faqs } from '../data/site';
+import { clinic, fees, addressLine, areas, services } from '../data/site';
 
 // Hero photo is the largest contentful paint: preload the AVIF set so it starts downloading with the HTML.
 const HERO_WIDTHS = [640, 1024, 1440, 1672];
@@ -22,24 +20,13 @@ const heroAvif = await getImage({ src: heroBg, format: 'avif', widths: HERO_WIDT
 const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'image/avif' };
 const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-min');
 const discoveryChatButtonLabel = `Free ${fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-minute')} chat`;
-const homeFaqQuestions = [
-  'How much does a homeopathy consultation cost?',
-  'How do I book?',
-  'What happens at the first consultation?',
-  'Can I have a consultation online?',
-  'Should I keep seeing my GP?',
-];
-const homeFaqs = homeFaqQuestions.map((question) => {
-  const faq = faqs.find((item) => item.q === question);
-  if (!faq) throw new Error(`Missing home page FAQ "${question}" in src/data/site.ts.`);
-  return faq;
-});
 const featuredAreaNames = ['Newport', 'Telford', 'Stafford', 'Shrewsbury', 'Market Drayton'];
 const featuredAreas = featuredAreaNames.map((name) => {
   const area = areas.find((candidate) => candidate === name);
   if (!area) throw new Error(`Missing featured area "${name}" in src/data/site.ts.`);
   return area;
 });
+const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featuredAreas[featuredAreas.length - 1]}`;
 ---
 <Base
   title="Homeopath in Newport, Shropshire | Newport Homeopathy Clinic"
@@ -61,6 +48,7 @@ const featuredAreas = featuredAreaNames.map((name) => {
     />
     <Container class="ds-wide-container">
       <div class="ds-hero-card">
+        {/* TODO: Audit suggests 'Your Homeopath in Newport, Shropshire'. Client decision. */}
         <h1>Homeopathy Consultations in Newport, Shropshire</h1>
         <p class="ds-hero-lead">Private, one-to-one consultations with a {clinic.qualification}-qualified homeopath with over {clinic.years} years’ experience. In Newport or online across the UK.</p>
         <div class="ds-hero-actions">
@@ -87,11 +75,13 @@ const featuredAreas = featuredAreaNames.map((name) => {
   </section>
 
   <Section tone="soft" class="ds-home-about">
+    <p>{clinic.name} is a private homeopathy practice at {addressLine}. It is run by {clinic.practitioner}, who holds a {clinic.qualificationFull} degree and has over {clinic.years} years’ experience as a homeopath. Consultations are one-to-one, in person ({clinic.hoursShort}), or by video from anywhere in the UK. A first consultation lasts {fees.initial.duration} and costs £{fees.initial.price}; follow-ups cost £{fees.followUp.price}. A free chat of {fees.discovery.duration} is available before you book.</p>
     <Grid cols={2} class="ds-grid-861 ds-about-layout">
       <div class="ds-about-copy">
         <SectionHeader align="left" eyebrow="Newport Homeopathy Clinic" title="About the clinic" />
-        <p>At {addressLine}, {clinic.practitioner} offers one-to-one consultations in person or by video from anywhere in the UK. Find out <a href="/what-to-expect/">what to expect</a>.</p>
-        <p>Homeopathy is a system of complementary medicine developed by Samuel Hahnemann in the late 1700s. Please keep seeing your GP, and read more in our <a href="/frequently-asked-questions/">frequently asked questions</a>.</p>
+        <p>Find out <a href="/what-to-expect/">what to expect at a consultation</a>, or read about <a href="/homeopathy-consultations/">in-person appointments in Newport</a>.</p>
+        <h3>About homeopathy</h3>
+        <p>Homeopathy is a system of complementary medicine developed by Samuel Hahnemann in the late 1700s. In a consultation, Kavita asks about your health history, lifestyle and wellbeing, considering these parts of a person’s life together. A first appointment is one-to-one and lasts {fees.initial.duration}; follow-ups are usually {fees.followUp.interval}. Homeopathy is a complementary therapy, not a replacement for your GP. Please continue to see your GP about health concerns. Read our <a href="/frequently-asked-questions/">frequently asked questions</a> or explore the clinic’s <a href="/blog/">homeopathy guides</a>.</p>
       </div>
       <div class="ds-about-stats" aria-label="Clinic details">
         <Card class="ds-stat-card">
@@ -134,10 +124,10 @@ const featuredAreas = featuredAreaNames.map((name) => {
       </div>
       <div class="ds-meet-copy">
         <SectionHeader align="left" eyebrow="Meet Kavita" title={`Meet ${clinic.practitioner}`} />
-        <p>{clinic.practitioner} holds a five-year BHMS degree and has over {clinic.years} years’ experience as a homeopath.</p>
+        <p>{clinic.practitioner} holds a BHMS degree and has over {clinic.years} years’ experience as a homeopath.</p>
         <p>Consultations are one-to-one, in person in Newport or by video from anywhere in the UK.</p>
         <ul class="ds-fact-list">
-          <li>BHMS five-year degree</li>
+          <li>BHMS degree</li>
           <li>{clinic.years}+ years’ experience</li>
           <li>One-to-one consultations</li>
         </ul>
@@ -189,14 +179,6 @@ const featuredAreas = featuredAreaNames.map((name) => {
     <p class="ds-section-action"><a href="/what-to-expect/" class="link-arrow">What to expect</a></p>
   </Section>
 
-  {reviews.length > 0 && <div class="ds-home-reviews"><Reviews /></div>}
-
-  <Section tone="soft" class="ds-home-faq">
-    <SectionHeader eyebrow="Helpful answers" title="Common questions" lead="Quick answers about fees, booking, online appointments and seeing your GP." />
-    <FaqList items={homeFaqs} grouped={false} />
-    <p class="ds-section-action"><a href="/frequently-asked-questions/" class="btn btn-outline">See all questions</a></p>
-  </Section>
-
   <Section class="ds-home-location">
     <SectionHeader eyebrow="Find us in Newport" title="Location, hours and areas" />
     <Grid cols={2} class="ds-grid-861 ds-location-grid">
@@ -209,10 +191,7 @@ const featuredAreas = featuredAreaNames.map((name) => {
       <div class="ds-location-map"><MapFacade /></div>
     </Grid>
     <div class="ds-location-areas">
-      <ul class="ds-town-list">
-        {featuredAreas.map((area) => <li class="ds-town-chip">{area}</li>)}
-      </ul>
-      <p class="ds-section-action"><a href="/areas-we-serve/" class="link-arrow">See all areas we serve</a></p>
+      <p>Clients come from {featuredAreasText}, and online across the UK. <a href="/areas-we-serve/">Explore the areas we serve</a>.</p>
     </div>
   </Section>
 

@@ -8,13 +8,13 @@ import Grid from '../components/ds/Grid.astro';
 import Section from '../components/ds/Section.astro';
 import Prose from '../components/ds/Prose.astro';
 import { personSchema } from '../data/schema';
-import { clinic, formatPageUpdated, gpStatement } from '../data/site';
+import { clinic, fees, formatPageUpdated, gpStatement } from '../data/site';
 
 const lastReviewed = formatPageUpdated('/about-kavita-batchu/');
 ---
 <Base
   title="Kavita Batchu, BHMS – Homeopath in Newport, Shropshire"
-  description={`Meet ${clinic.practitioner}: ${clinic.qualification}-qualified homeopath with ${clinic.years} years’ experience. Her training, how she works, and how to book in ${clinic.locality}, ${clinic.region} or online.`}
+  description={`Meet ${clinic.practitioner}, BHMS-qualified homeopath with over ${clinic.years} years’ experience. Consultations in Newport and online by video across the UK.`}
   breadcrumbs={[{ name: 'About Kavita Batchu', href: '/about-kavita-batchu/' }]}
   schema={[personSchema()]}
 >
@@ -24,19 +24,26 @@ const lastReviewed = formatPageUpdated('/about-kavita-batchu/');
   />
   <Section>
     <Grid cols={2} class="ds-grid-861">
-      {/* CLINIC INPUT: Supply an approved clinic-room photo if one should be added to the page. */}
       <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 860px) 100vw, 560px" alt="Kavita Batchu, homeopath at Newport Homeopathy Clinic, Shropshire" loading="lazy" decoding="async" class="ds-about-photo" />
       <Prose>
-        <p>Kavita Batchu is a homeopath with a five-year {clinic.qualificationFull} degree from India and over {clinic.years} years’ experience. Her first consultation is a detailed conversation about health history, lifestyle and wellbeing.</p>
-        <h2>Training</h2>
-        <p>I hold a five-year {clinic.qualificationFull} degree from India and have over {clinic.years} years of experience as a homeopath.</p>
-        {/* CLINIC INPUT: Confirm why Kavita chose Newport before adding a reason. */}
-        <h2>How I work</h2>
-        <p>Your first consultation is a detailed conversation about your health history, lifestyle and wellbeing.</p>
-        <p><a href="/homeopathy-consultations/">In-person consultations</a> · <a href="/online-homeopathy-consultation/">Online consultations</a> · <a href="/consultation-fees/">Fees</a></p>
+        <p>Kavita Batchu is a homeopath with a {clinic.qualificationFull} degree and over {clinic.years} years’ experience. She offers private, one-to-one consultations in Newport and by video across the UK.</p>
+
+        <h2>Qualification</h2>
+        <p>Kavita holds a BHMS qualification. The full degree name is {clinic.qualificationFull}. Her work as a homeopath brings this qualification and more than {clinic.years} years’ experience into one-to-one appointments with clients.</p>
+        <p>Consultations are available in person at {clinic.street}, Newport, Shropshire, or online from anywhere in the UK. The format is your choice when you enquire or book.</p>
+
+        <h2>How Kavita works</h2>
+        <p>A first consultation is a private conversation about your health history, lifestyle and wellbeing. It lasts {fees.initial.duration}, giving time to talk through the subjects you wish to raise. Follow-up appointments usually take place {fees.followUp.interval} and last {fees.followUp.duration}.</p>
+        <p>Appointments are one-to-one. Kavita asks about health history and day-to-day lifestyle, and you can ask questions about the appointment. You decide whether to book a follow-up; there is no obligation to arrange another appointment.</p>
+
+        <h2>Appointments and fees</h2>
+        <p>An initial consultation costs £{fees.initial.price}; a follow-up costs £{fees.followUp.price}. The same fee applies in person and online. Payment is due at or before the appointment by {clinic.payment.toLowerCase()}.</p>
+        <p>For more detail, see the <a href="/consultation-fees/">consultation fees</a>, <a href="/homeopathy-consultations/">in-person appointments in Newport</a> and <a href="/online-homeopathy-consultation/">online consultations by video</a>. A free chat lasting {fees.discovery.duration} is available before booking.</p>
+
         <h2>Working alongside your GP</h2>
         <p>{gpStatement}</p>
         <p>Last reviewed: {lastReviewed}</p>
+        <p>For appointment details, visit the <a href="/book-appointment/">booking page</a> or <a href="/contact/">contact Newport Homeopathy Clinic</a>.</p>
       </Prose>
     </Grid>
   </Section>

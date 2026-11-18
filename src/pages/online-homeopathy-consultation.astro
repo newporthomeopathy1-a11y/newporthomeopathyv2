@@ -5,34 +5,37 @@ import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
 import Section from '../components/ds/Section.astro';
 import Prose from '../components/ds/Prose.astro';
-import Grid from '../components/ds/Grid.astro';
-import Card from '../components/ds/Card.astro';
-import { clinic, fees } from '../data/site';
+import { clinic, fees, formatPageUpdated } from '../data/site';
 import { serviceSchema } from '../data/schema';
-const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-minute');
+
+const lastReviewed = formatPageUpdated('/online-homeopathy-consultation/');
 ---
 <Base
-  title="Online Homeopathy Consultation by Video | UK-wide"
-  description={`Video homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, from anywhere in the UK. Same fees as in clinic: £${fees.initial.price} initial, £${fees.followUp.price} follow-up. Free ${discoveryChatDuration} chat.`}
+  title="Online Homeopathy Consultations by Video | UK"
+  description={`Online homeopathy consultations by video with ${clinic.practitioner}, available across the UK. £${fees.initial.price} initial, £${fees.followUp.price} follow-up; same fee as in person.`}
   breadcrumbs={[{ name: 'Online consultations', href: '/online-homeopathy-consultation/' }]}
   schema={[serviceSchema('online')]}
 >
   <PageIntro
     h1="Online Homeopathy Consultations Across the UK"
-    lead={`Private online consultations by video are available anywhere in the UK with ${clinic.practitioner}, ${clinic.qualification}.`}
+    lead={`Private one-to-one consultations by video with ${clinic.practitioner} are available anywhere in the UK.`}
   />
   <Section>
     <Prose>
-      <h2>How it works</h2>
-    </Prose>
-    <Grid cols={3} as="ol" class="ds-steps">
-      <Card as="li" title={'Book and choose "Online".'} />
-      {/* TODO(open item 6): confirm platform (WhatsApp video / Zoom / phone) */}
-      <Card as="li" title="You'll get the date, time and joining link." />
-      <Card as="li" title="Join from a quiet room on any phone, tablet or computer." />
-    </Grid>
-    <Prose>
-      <p>Have a list of any medicines you take before your first consultation. <a href="/consultation-fees/">Fees</a> · <a href="/what-to-expect/">What to expect</a></p>
+      <h2>Who might an online consultation suit?</h2>
+      <p>An online appointment is an option if you live outside Shropshire, have a busy schedule, or would like to speak with Kavita from home. The service is available across the UK, so you do not need to be near the Newport clinic to enquire. Saturday appointments are part of the clinic’s Monday–Saturday hours.</p>
+      <p>The first consultation is a private, one-to-one conversation and lasts {fees.initial.duration}. Follow-ups are usually {fees.followUp.interval} and last {fees.followUp.duration}. The same fees apply online and in person. Read <a href="/consultation-fees/">all consultation fees</a> before booking.</p>
+
+      <h2>Before your video call</h2>
+      <p>Choose a quiet, private space where you can talk without interruption. Check that your internet connection is stable and that your device is ready for a video call. Keep a list of your current medicines and any questions you would like to ask nearby.</p>
+      <p>When arranging your appointment, select the online option. The clinic will send the date, time and joining link. You can join by video using a phone, tablet or computer. Read the <a href="/booking-terms/">booking terms</a> for payment and cancellation details.</p>
+
+      <h2>Privacy online</h2>
+      <p>Take the call from a private room and choose a place where other people cannot overhear your conversation. The clinic’s <a href="/privacy-policy/">privacy policy</a> explains how personal information is handled. If you have a question about privacy before booking, contact the clinic using the details on the <a href="/contact/">contact page</a>.</p>
+
+      <h2>UK addresses only</h2>
+      <p>Online consultations are for UK addresses and are available by video anywhere in the UK. An initial consultation costs £{fees.initial.price}; a follow-up costs £{fees.followUp.price}. You can request an appointment through the <a href="/book-appointment/">online booking page</a>. A free discovery chat lasts {fees.discovery.duration} and is available before you book.</p>
+      <p>For more detail about the first appointment, read <a href="/what-to-expect/">what to expect at a consultation</a>. Last reviewed: {lastReviewed}</p>
       <GpStatement />
     </Prose>
   </Section>

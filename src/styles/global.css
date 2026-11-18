@@ -430,6 +430,13 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   .footer-grid > div:not(.footer-about) > ul > li > .link-button { height: 44px; min-height: 44px; }
   .footer-base { flex-direction: column; }
 }
+.ask-ai { margin-top: 22px; }
+.footer-grid .ask-ai-label { margin: 0 0 10px; font-size: .78rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--grey-600); }
+.ask-ai-list { list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; }
+.site-footer a.ask-ai-btn { display: inline-grid; place-items: center; width: 44px; height: 44px; padding: 0; border-radius: 50%; background: var(--blue-100); color: var(--blue-700); transition: background-color .15s, color .15s; }
+.site-footer a.ask-ai-btn:hover { background: var(--blue-600); color: var(--white); }
+.ask-ai-icon { width: 20px; height: 20px; background: currentColor; -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }
+.footer-grid .ask-ai-status { min-height: 1.4em; margin: 8px 0 0; font-size: .875rem; color: var(--grey-600); }
 
 /* Mobile sticky action bar (spec Part 4: below 768px, safe-area padding) */
 .mobile-actions { display: none; }

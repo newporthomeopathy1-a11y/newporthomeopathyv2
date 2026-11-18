@@ -1,5 +1,11 @@
 # Changelog
 
+## Version 3.1.1 (18 November 2026)
+
+- Expanded clinic, consultation, fee, contact and area information using existing clinic facts.
+- Removed unsupported qualification-duration and location claims, refreshed dates on edited pages, and refined profile structured data.
+- Removed stale clinic-input notes and retained only pending profile and location confirmations.
+
 ## Version 3.1.0
 
 - Added page-specific sitemap dates, crawler guidance, generated `llms.txt` and expanded structured data.

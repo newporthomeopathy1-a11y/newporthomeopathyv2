@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
+import GpStatement from '../components/GpStatement.astro';
 import Section from '../components/ds/Section.astro';
 import Prose from '../components/ds/Prose.astro';
 import { clinic, fees, formatPageUpdated } from '../data/site';
@@ -32,20 +33,23 @@ const pricesLastReviewed = formatPageUpdated('/consultation-fees/');
       </table>
       <p class="table-note">Same fee in person and online</p>
       <Prose>
-        <h2>What’s included in the fee</h2>
-        <p>The consultation is one-to-one with {clinic.practitioner}. An initial consultation lasts {fees.initial.duration}; a follow-up lasts {fees.followUp.duration}.</p>
-        {/* CLINIC INPUT: Are remedies included? */}
+        <h2>What is included in the fee?</h2>
+        <p>The fee covers consultation time only. An initial one-to-one appointment with {clinic.practitioner} lasts {fees.initial.duration}; a follow-up lasts {fees.followUp.duration}. The same fee applies in person and online. The free discovery chat lasts {fees.discovery.duration} and is available before booking.</p>
+        <p>For more detail about the first appointment, read <a href="/what-to-expect/">what to expect at a consultation</a>. Online appointments are available <a href="/online-homeopathy-consultation/">by video across the UK</a>.</p>
 
-        <h2>How and when to pay</h2>
-        <p>Payment is due at or before the appointment. Payment methods: {clinic.payment}.</p>
+        <h2>How and when do I pay?</h2>
+        <p>Payment is due at or before the appointment. The accepted payment methods are {clinic.payment}. If you have a question about a fee or payment, contact the clinic by phone, WhatsApp or email using the <a href="/contact/">contact page</a>.</p>
+        <p>You can request an appointment through the <a href="/book-appointment/">online booking page</a>, or contact the clinic directly. Enquiries receive a reply within one working day.</p>
 
-        <h2>Changing or cancelling</h2>
-        <p>Please give at least 24 hours’ notice to change or cancel by phone ({clinic.phoneDisplay}) or <a href={clinic.whatsapp} rel="noopener">WhatsApp</a>. See the <a href="/booking-terms/">booking terms</a>.</p>
+        <h2>How can I change or cancel?</h2>
+        <p>If you need to change or cancel an appointment, please give at least 24 hours’ notice by phone ({clinic.phoneDisplay}) or <a href={clinic.whatsapp} rel="noopener">WhatsApp</a>. Read the <a href="/booking-terms/">booking and cancellation terms</a> for the current arrangements.</p>
+        <p>If you are unsure how to proceed, contact the clinic before your appointment. The <a href="/contact/">contact and directions page</a> lists the phone number, WhatsApp link and email address.</p>
 
         <h2>How often are follow-ups?</h2>
-        <p>Kavita suggests an interval, usually {fees.followUp.interval}, and you decide whether to book.</p>
+        <p>Follow-ups are usually {fees.followUp.interval}. Kavita may suggest an interval, and you decide whether and when to book again. A follow-up lasts {fees.followUp.duration} and costs £{fees.followUp.price}; there is no requirement to arrange another appointment.</p>
 
         <p>Prices last reviewed: {pricesLastReviewed}</p>
+        <GpStatement />
       </Prose>
     </div>
   </Section>

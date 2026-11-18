@@ -88,7 +88,7 @@ export function personSchema() {
     mainEntity: {
       ...personNode,
       description: `Kavita Batchu is a BHMS-qualified homeopath with over ${clinic.years} years’ experience, offering private consultations in Newport, Shropshire and online across the UK.`,
-      knowsAbout: ['Homeopathy', 'Homoeopathy'],
+      knowsAbout: ['Homeopathy'],
       knowsLanguage: ['en'],
       hasCredential: {
         '@type': 'EducationalOccupationalCredential',
@@ -96,7 +96,7 @@ export function personSchema() {
         name: clinic.qualificationFull,
       },
     },
-    // CLINIC INPUT: Add sameAs only after profile URLs are confirmed.
+    // TODO: add sameAs only after Google Business Profile URLs are confirmed.
   };
 }
 

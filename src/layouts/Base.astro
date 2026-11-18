@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { SITE, clinic, nav, addressLine, gpStatementShort } from '../data/site';
+import { SITE, clinic, nav, addressLine, gpStatementShort, aiLinks, aiPrompt } from '../data/site';
 import { siteGraph, breadcrumbSchema } from '../data/schema';
 import BackLink from '../components/BackLink.astro';
 import Icon from '../components/Icon.astro';
@@ -180,6 +180,29 @@ const topbarEmail = clinic.email;
             <li class="footer-line"><Icon name="mail" /> <a href={`mailto:${clinic.email}`} data-track="click_email" data-loc="footer">{clinic.email}</a></li>
             <li class="footer-line"><Icon name="clock" /> <span>{clinic.hoursText}</span></li>
           </ul>
+          <div class="ask-ai" data-prompt={aiPrompt}>
+            <p class="ask-ai-label">Ask about Newport Homeopathy Clinic on:</p>
+            <ul class="ask-ai-list">
+              {aiLinks.map((l) => (
+                <li>
+                  <a
+                    class="ask-ai-btn"
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Ask ${l.label} about Newport Homeopathy Clinic`}
+                    title={`Ask ${l.label}`}
+                    data-track={`click_ai_${l.id}`}
+                    data-loc="footer"
+                    data-copy-prompt={l.copy ? 'true' : undefined}
+                  >
+                    <span class="ask-ai-icon" style={`--icon: url(/ai-icons/${l.id}.svg)`} aria-hidden="true"></span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <p class="ask-ai-status" role="status" aria-live="polite"></p>
+          </div>
         </div>
         <div>
           <p class="footer-heading">Services</p>

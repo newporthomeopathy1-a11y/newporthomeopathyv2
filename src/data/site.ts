@@ -4,16 +4,25 @@
 
 export const SITE = 'https://newporthomeopathy.com';
 
+export const aiPrompt = `I am considering a private homeopathy consultation and want to understand Newport Homeopathy Clinic (newporthomeopathy.com) in Newport, Shropshire. Summarise who runs the clinic and her qualification, where it is, whether consultations are in person or online, the fees, opening hours, and how to book.`;
+const q = encodeURIComponent(aiPrompt);
+export const aiLinks = [
+  { id: 'chatgpt', label: 'ChatGPT', href: `https://chatgpt.com/?q=${q}`, copy: false },
+  { id: 'claude', label: 'Claude', href: `https://claude.ai/new?q=${q}`, copy: false },
+  { id: 'gemini', label: 'Gemini', href: 'https://gemini.google.com/app', copy: true },
+  { id: 'perplexity', label: 'Perplexity', href: `https://www.perplexity.ai/search?q=${q}`, copy: false },
+];
+
 export const pageUpdated: Record<string, string> = {
-  '/': '2026-11-17',
-  '/homeopathy-consultations/': '2026-11-17',
-  '/online-homeopathy-consultation/': '2026-11-17',
-  '/consultation-fees/': '2026-11-17',
-  '/what-to-expect/': '2026-11-17',
-  '/about-kavita-batchu/': '2026-11-17',
-  '/areas-we-serve/': '2026-11-17',
-  '/frequently-asked-questions/': '2026-11-17',
-  '/contact/': '2026-11-17',
+  '/': '2026-11-18',
+  '/homeopathy-consultations/': '2026-11-18',
+  '/online-homeopathy-consultation/': '2026-11-18',
+  '/consultation-fees/': '2026-11-18',
+  '/what-to-expect/': '2026-11-18',
+  '/about-kavita-batchu/': '2026-11-18',
+  '/areas-we-serve/': '2026-11-18',
+  '/frequently-asked-questions/': '2026-11-18',
+  '/contact/': '2026-11-18',
   '/blog/': '2026-11-17',
   '/book-appointment/': '2026-11-17',
   '/booking-terms/': '2026-11-17',
@@ -53,13 +62,13 @@ export const clinic = {
   region: 'Shropshire',
   postcode: 'TF10 8BU',
   country: 'GB',
-  hasMap: '',
+  hasMap: '', // TODO: confirm the Google Business Profile map URL
   geo: { lat: 52.7782, lng: -2.3783 }, // TODO: confirm against the GBP pin
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Newport+Homeopathy+Clinic%2C+75+Forton+Road%2C+Newport+TF10+8BU',
-  hoursText: 'Monday–Saturday, 9:00–18:00', // TODO(open item 5)
+  hoursText: 'Monday–Saturday, 9:00–18:00',
   hoursShort: 'Mon–Sat, 9am–6pm',
-  payment: 'Cash or bank transfer', // TODO(open item 4)
-  // Leave empty until real URLs exist. Never publish placeholders (spec Part 7).
+  payment: 'Cash or bank transfer',
+  // TODO: add only confirmed Google Business Profile URLs; never publish placeholders.
   sameAs: [] as string[],
   social: { facebook: '', instagram: '' },
 };
@@ -68,7 +77,7 @@ export const addressLine = `${clinic.street}, ${clinic.locality}, ${clinic.regio
 
 export const fees = {
   // Both local competitors lead with a free short call; it lowers the barrier to a first enquiry.
-  discovery: { price: 0, label: 'Free discovery chat', duration: 'about 15 minutes' }, // TODO: clinic to confirm length
+  discovery: { price: 0, label: 'Free discovery chat', duration: 'about 15 minutes' },
   initial: { price: 50, label: 'Initial consultation', duration: '30–90 minutes' },
   followUp: { price: 30, label: 'Follow-up consultation', duration: 'up to 60 minutes', interval: 'every 4–8 weeks' },
 };
@@ -225,7 +234,7 @@ export const faqs: Faq[] = [
   },
   {
     q: 'What qualification does Kavita have?',
-    a: 'Kavita Batchu holds a BHMS qualification, short for Bachelor of Homoeopathic Medicine and Surgery. The course was five years and was completed in India. BHMS is the abbreviation used in the qualification name. See the about page for details of Kavita’s training.',
+    a: 'Kavita Batchu holds a BHMS qualification: Bachelor of Homoeopathic Medicine and Surgery. See the about page for details of her qualification and how she works.',
     group: 'About homeopathy and Kavita',
     link: { href: '/about-kavita-batchu/', label: 'About Kavita Batchu' },
   },

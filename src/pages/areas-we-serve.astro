@@ -2,32 +2,70 @@
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
+import GpStatement from '../components/GpStatement.astro';
 import Section from '../components/ds/Section.astro';
 import Prose from '../components/ds/Prose.astro';
-import Grid from '../components/ds/Grid.astro';
-import Card from '../components/ds/Card.astro';
-import { areas, clinic } from '../data/site';
+import { areas, addressLine, clinic, formatPageUpdated } from '../data/site';
+
+const lastReviewed = formatPageUpdated('/areas-we-serve/');
+const areaCopy: Record<string, { visit: string; online: string }> = {
+  Newport: {
+    visit: `${clinic.name} is at ${addressLine}, in Newport itself, and parking and step-free access are available.`,
+    online: 'The same one-to-one consultation is also offered online at the same fee;',
+  },
+  Telford: {
+    visit: `People in Telford can attend the clinic at ${addressLine}; parking and step-free access are available there.`,
+    online: 'Online booking is available for the same consultation at the same fee;',
+  },
+  Edgmond: {
+    visit: `For an in-person appointment from Edgmond, the clinic is at ${addressLine}, with parking and step-free access available.`,
+    online: 'By video, you can have that same consultation online at the same fee;',
+  },
+  Gnosall: {
+    visit: `Appointments for people in Gnosall take place at the Newport clinic, ${addressLine}; parking and step-free access are available.`,
+    online: 'There is also an online option for the same consultation at the same fee;',
+  },
+  'Market Drayton': {
+    visit: `Market Drayton clients can visit the clinic at ${addressLine}; parking and step-free access are available at the location.`,
+    online: 'The online option is the same consultation at the same fee;',
+  },
+  Stafford: {
+    visit: `For a visit from Stafford, the clinic address is ${addressLine}; parking and step-free access are available on site.`,
+    online: 'You may instead choose the same consultation online at the same fee;',
+  },
+  Shrewsbury: {
+    visit: `The Newport clinic welcomes appointments from Shrewsbury at ${addressLine}, with parking and step-free access available.`,
+    online: 'The same one-to-one service is offered online for the same fee as well;',
+  },
+};
 ---
 <Base
   title="Homeopath near Telford, Stafford & Shrewsbury | Newport"
-  description={`Homeopathy consultations in ${clinic.locality}, ${clinic.region}, ${areas.slice(1).join(', ')}. Or book online.`}
+  description={`In-person consultations at ${addressLine}, with online appointments available across the UK.`}
   breadcrumbs={[{ name: 'Areas we serve', href: '/areas-we-serve/' }]}
 >
   <PageIntro
     h1="A Homeopath for Telford, Stafford, Shrewsbury and Nearby"
-    lead="The Newport clinic serves nearby areas across east Shropshire and west Staffordshire."
+    lead={`In-person consultations take place at ${addressLine}. Parking and step-free access are available, and the same consultation can be booked online at the same fee.`}
   />
+  {areas.map((area) => {
+    const details = areaCopy[area];
+    if (!details) throw new Error(`Missing area copy for "${area}".`);
+    return (
+      <Section>
+        <Prose>
+          <h2>{area}</h2>
+          <p>{details.visit} {details.online} <a href="/book-appointment/">Book from {area} →</a>.</p>
+        </Prose>
+      </Section>
+    );
+  })}
   <Section>
     <Prose>
-      <h2>Nearby areas</h2>
-    </Prose>
-    {/* CLINIC INPUT: Confirm drive times before adding any travel estimates to the areas page. */}
-    <Grid cols={4} class="ds-town-cards">
-      {areas.map((area) => <Card title={area} />)}
-    </Grid>
-    <Prose>
-      <p>Online consultations are available anywhere in the UK.</p>
-      <p><a href="/online-homeopathy-consultation/">Online consultations</a> · <a href="/contact/">Directions</a> · <a href="/consultation-fees/">Fees</a></p>
+      <h2>Online consultations are available anywhere in the UK</h2>
+      <p>Find out about <a href="/online-homeopathy-consultation/">online homeopathy consultations by video</a>, or read the <a href="/consultation-fees/">consultation fees</a>.</p>
+      <p>For more information about the clinic, read the <a href="/contact/">contact and directions page</a>. Last reviewed: {lastReviewed}</p>
+      <GpStatement />
     </Prose>
   </Section>
   <CtaBlock text="" />
