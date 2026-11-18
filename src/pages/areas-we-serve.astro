@@ -8,35 +8,14 @@ import Prose from '../components/ds/Prose.astro';
 import { areas, addressLine, clinic, formatPageUpdated } from '../data/site';
 
 const lastReviewed = formatPageUpdated('/areas-we-serve/');
-const areaCopy: Record<string, { visit: string; online: string }> = {
-  Newport: {
-    visit: `${clinic.name} is at ${addressLine}, in Newport itself, and parking and step-free access are available.`,
-    online: 'The same one-to-one consultation is also offered online at the same fee;',
-  },
-  Telford: {
-    visit: `People in Telford can attend the clinic at ${addressLine}; parking and step-free access are available there.`,
-    online: 'Online booking is available for the same consultation at the same fee;',
-  },
-  Edgmond: {
-    visit: `For an in-person appointment from Edgmond, the clinic is at ${addressLine}, with parking and step-free access available.`,
-    online: 'By video, you can have that same consultation online at the same fee;',
-  },
-  Gnosall: {
-    visit: `Appointments for people in Gnosall take place at the Newport clinic, ${addressLine}; parking and step-free access are available.`,
-    online: 'There is also an online option for the same consultation at the same fee;',
-  },
-  'Market Drayton': {
-    visit: `Market Drayton clients can visit the clinic at ${addressLine}; parking and step-free access are available at the location.`,
-    online: 'The online option is the same consultation at the same fee;',
-  },
-  Stafford: {
-    visit: `For a visit from Stafford, the clinic address is ${addressLine}; parking and step-free access are available on site.`,
-    online: 'You may instead choose the same consultation online at the same fee;',
-  },
-  Shrewsbury: {
-    visit: `The Newport clinic welcomes appointments from Shrewsbury at ${addressLine}, with parking and step-free access available.`,
-    online: 'The same one-to-one service is offered online for the same fee as well;',
-  },
+const areaCopy: Record<string, string> = {
+  Newport: `${clinic.name} is in Newport itself. The same consultation is also available online at the same fee.`,
+  Telford: 'From Telford, people can come to the Newport clinic or choose the same consultation online at the same fee.',
+  Edgmond: 'People in Edgmond may attend the Newport clinic. Online, the same consultation is available at the same fee.',
+  Gnosall: 'The Newport clinic is an in-person option for people from Gnosall, with the same consultation available online at the same fee.',
+  'Market Drayton': 'For people in Market Drayton, there is a choice: visit the Newport clinic or have the same consultation online at the same fee.',
+  Stafford: 'People from Stafford are welcome at the Newport clinic, and can also choose the same consultation online for the same fee.',
+  Shrewsbury: 'If you are in Shrewsbury, you may book at the Newport clinic. The same consultation is also offered online at the same fee.',
 };
 ---
 <Base
@@ -46,16 +25,17 @@ const areaCopy: Record<string, { visit: string; online: string }> = {
 >
   <PageIntro
     h1="A Homeopath for Telford, Stafford, Shrewsbury and Nearby"
-    lead={`In-person consultations take place at ${addressLine}. Parking and step-free access are available, and the same consultation can be booked online at the same fee.`}
+    lead={`The clinic is at ${addressLine}, with parking and step-free access available for in-person appointments. The same consultation can also be booked online at the same fee.`}
   />
   {areas.map((area) => {
-    const details = areaCopy[area];
-    if (!details) throw new Error(`Missing area copy for "${area}".`);
+    const copy = areaCopy[area];
+    if (!copy) throw new Error(`Missing area copy for "${area}".`);
     return (
       <Section>
         <Prose>
           <h2>{area}</h2>
-          <p>{details.visit} {details.online} <a href="/book-appointment/">Book from {area} →</a>.</p>
+          <p>{copy}</p>
+          <p class="link-arrow-line"><a href="/book-appointment/" class="link-arrow">Book from {area}</a></p>
         </Prose>
       </Section>
     );
