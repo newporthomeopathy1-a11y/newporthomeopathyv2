@@ -4,6 +4,7 @@ import PageIntro from '../../components/PageIntro.astro';
 import CtaBlock from '../../components/CtaBlock.astro';
 import Section from '../../components/ds/Section.astro';
 import { clinic, fees } from '../../data/site';
+import { PHONE_INPUT_PATTERN } from '../../data/phone';
 
 // Server-rendered so errors returned by /api/enquiry show even without JavaScript (spec Part 4).
 export const prerender = false;
@@ -18,7 +19,7 @@ const errorCodes = (params.get('error') ?? '').split(',').filter(Boolean);
 const FIELD_MSG: Record<string, string> = {
   name: 'Please enter your full name (2–80 characters).',
   email: 'Please enter a valid email address.',
-  phone: 'Please enter a UK phone number, for example 07700 900123.',
+  phone: 'Enter a valid phone number. For international numbers start with + and the country code, for example +91 98765 43210.',
   type: 'Please choose a consultation type.',
   format: 'Please choose in person, online or phone.',
   date: 'Please choose a date from today, Monday to Friday.',
@@ -79,8 +80,8 @@ const durationLabel = (duration: string) => {
               </div>
               <div class="field">
                 <label for="booking-phone">Phone <span class="req">(required)</span></label>
-                <input id="booking-phone" type="tel" autocomplete="tel" pattern="^([+]44 ?|0)[0-9 ]{9,13}$" required aria-describedby="booking-phone-hint booking-phone-error" />
-                <p id="booking-phone-hint" class="hint">A UK number, for example 07700 900123.</p>
+                <input id="booking-phone" type="tel" autocomplete="tel" pattern={PHONE_INPUT_PATTERN} required aria-describedby="booking-phone-hint booking-phone-error" />
+                <p id="booking-phone-hint" class="hint">UK or international, for example 07700 900123 or +91 98765 43210.</p>
                 <p id="booking-phone-error" class="error" aria-live="polite"></p>
               </div>
               <fieldset class="field booking-type-fieldset" aria-describedby="booking-type-error">
@@ -266,7 +267,8 @@ const durationLabel = (duration: string) => {
                 }
                 embedUrl.searchParams.set('name', nameInput.value.trim());
                 embedUrl.searchParams.set('email', emailInput.value.trim());
-                embedUrl.searchParams.set('attendeePhoneNumber', phoneInput.value.trim());
+                const attendeePhoneNumber = phoneInput.value.trim().replace(/[\s()-]/g, '').replace(/^00/, '+');
+                embedUrl.searchParams.set('attendeePhoneNumber', attendeePhoneNumber);
 
                 const frame = bookingFrames[type];
                 const loader = bookingLoaders[type];
@@ -313,7 +315,7 @@ const durationLabel = (duration: string) => {
                 const nameValid = nameInput.value.trim().length >= 2;
                 flagInvalid(nameInput, 'booking-name-error', nameValid ? '' : 'Enter your full name (2–80 characters).');
                 flagInvalid(emailInput, 'booking-email-error', emailInput.checkValidity() ? '' : 'Enter a valid email address.');
-                flagInvalid(phoneInput, 'booking-phone-error', phoneInput.checkValidity() ? '' : 'Enter a valid UK phone number, for example 07700 900123.');
+                flagInvalid(phoneInput, 'booking-phone-error', phoneInput.checkValidity() ? '' : 'Enter a valid phone number. For international numbers start with + and the country code, for example +91 98765 43210.');
 
                 const selectedType = typeInputs.find((input) => input.checked);
                 const typeError = document.getElementById('booking-type-error');
@@ -376,8 +378,8 @@ const durationLabel = (duration: string) => {
             </div>
             <div class="field">
               <label for="phone">Phone <span class="req">(required)</span></label>
-              <input id="phone" name="phone" type="tel" autocomplete="tel" required pattern="^(\+44\s?|0)[0-9\s]{9,13}$" aria-describedby="phone-hint phone-error" />
-              <p id="phone-hint" class="hint">A UK number, for example 07700 900123.</p>
+              <input id="phone" name="phone" type="tel" autocomplete="tel" required pattern={PHONE_INPUT_PATTERN} aria-describedby="phone-hint phone-error" />
+              <p id="phone-hint" class="hint">UK or international, for example 07700 900123 or +91 98765 43210.</p>
               <p id="phone-error" class="error" aria-live="polite">{fieldErr('phone')}</p>
             </div>
             </div>

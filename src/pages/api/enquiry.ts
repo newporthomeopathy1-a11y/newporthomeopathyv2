@@ -7,6 +7,7 @@ import type { APIRoute } from 'astro';
 import { createHash } from 'node:crypto';
 import { Redis } from '@upstash/redis';
 import { clinic, fees, gpStatement } from '../../data/site';
+import { isValidPhoneNumber } from '../../data/phone';
 
 export const prerender = false;
 
@@ -45,7 +46,7 @@ function validate(f: FormData) {
   const format = oneLine(f.get('format'));
   if (name.length < 2 || name.length > 80) errors.push('name');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || email.length > 120) errors.push('email');
-  if (!/^(\+44\s?|0)[0-9\s]{9,13}$/.test(phone)) errors.push('phone');
+  if (!isValidPhoneNumber(phone)) errors.push('phone');
   if (!['discovery', 'initial', 'follow_up'].includes(type)) errors.push('type');
   if (!['in_person', 'online', 'phone'].includes(format)) errors.push('format');
   const rawTime = oneLine(f.get('time'));
