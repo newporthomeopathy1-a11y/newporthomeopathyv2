@@ -7,7 +7,7 @@ interface Props {
   eyebrow?: string;
 }
 
-const { title, lead, as: Heading = 'h2', align = 'center', eyebrow } = Astro.props;
+const { title, lead, as: Heading = 'h2', align = 'center', eyebrow }: Props = Astro.props;
 ---
 <header class:list={['ds-section-header', align === 'left' && 'ds-section-header-left']}>
   {eyebrow && <p class="ds-eyebrow">{eyebrow}</p>}

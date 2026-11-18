@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import PageIntro from '../../../components/PageIntro.astro';
 import CtaBlock from '../../../components/CtaBlock.astro';
 import Section from '../../../components/ds/Section.astro';
 import Prose from '../../../components/ds/Prose.astro';
@@ -11,14 +12,18 @@ import { clinic } from '../../../data/site';
   noindex
   breadcrumbs={[{ name: 'Book a consultation', href: '/book-appointment/' }, { name: 'Thank you', href: '/book-appointment/thank-you/' }]}
 >
-  <Section size="md" data-lead-event data-thank-you-content>
-    <Prose>
-      <h1>Thank You for Your Enquiry</h1>
-      <p class="lead">We've received your enquiry and will reply within one working day. If it's urgent, call {clinic.phoneDisplay}.</p>
+  <div data-lead-event data-thank-you-content>
+    <PageIntro
+      h1="Thank You for Your Enquiry"
+      lead={`We've received your enquiry and will reply within one working day. If it's urgent, call ${clinic.phoneDisplay}.`}
+    />
+    <Section size="md">
+      <Prose>
       <p>You'll also get a confirmation email. If you don't see it, please check your spam folder.</p>
       <p><a href="/what-to-expect/">What to expect at your consultation</a></p>
-    </Prose>
-  </Section>
+      </Prose>
+    </Section>
+  </div>
   <CtaBlock text="" />
   <Section size="md" data-booking-message hidden>
     <Prose>

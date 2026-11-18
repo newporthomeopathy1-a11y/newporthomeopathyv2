@@ -1,14 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import Section from '../components/ds/Section.astro';
 import Prose from '../components/ds/Prose.astro';
 ---
 <Base title="Cookie Policy | Newport Homeopathy Clinic" description="Which cookies this website uses and how to manage them." breadcrumbs={[{ name: 'Cookie policy', href: '/cookie-policy/' }]}>
+  <PageIntro h1="Cookie Policy" lead="This policy explains how this website uses consent, analytics and third-party cookies." />
   <Section>
     <Prose>
-      <h1>Cookie Policy</h1>
-      <p class="lead">This policy explains how this website uses consent, analytics and third-party cookies.</p>
       <h2>Strictly necessary</h2>
       <p>We store your choice in your browser’s local storage (<code>nhc_consent</code>) so we don't ask again.</p>
       <h2>Analytics (only if you accept)</h2>

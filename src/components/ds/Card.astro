@@ -13,7 +13,7 @@ interface Props {
   class?: string;
 }
 
-const { title, titleAs: TitleElement = 'h3', href, icon, as: Element = 'div', class: className } = Astro.props;
+const { title, titleAs: TitleElement = 'h3', href, icon, as: Element = 'div', class: className }: Props = Astro.props;
 ---
 <Element class:list={['ds-card', className]}>
   {icon && <span class="trust-icon ds-card-icon"><Icon name={icon} /></span>}

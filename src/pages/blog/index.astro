@@ -19,9 +19,9 @@ const fmt = (d: Date) => d.toLocaleDateString('en-GB', { day: 'numeric', month: 
 >
   <PageIntro h1="Guides and Articles" lead="Practical guides on booking, fees, online appointments and what happens at a homeopathy consultation, reviewed by Kavita Batchu, BHMS." />
   <Section>
-    <Grid cols={3} class={posts.length === 1 ? 'ds-blog-single' : 'ds-blog-grid'}>
+    <Grid cols={4} as="ul" class={posts.length === 1 ? 'ds-blog-single' : 'ds-blog-grid'}>
       {posts.map((p) => (
-        <Card title={p.data.title} titleAs="h2" href={`/blog/${p.id}/`} class="ds-blog-card">
+        <Card as="li" title={p.data.title} titleAs="h2" href={`/blog/${p.id}/`} class="ds-blog-card">
           <p class="post-meta"><time datetime={p.data.published.toISOString().slice(0, 10)}>{fmt(p.data.published)}</time></p>
           <p>{p.data.description}</p>
         </Card>

@@ -1,15 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import Section from '../components/ds/Section.astro';
 import Prose from '../components/ds/Prose.astro';
 import { clinic, fees } from '../data/site';
 ---
 <Base title="Booking and Cancellation Terms | Newport Homeopathy Clinic" description="Booking, payment and cancellation terms for consultations." breadcrumbs={[{ name: 'Booking terms', href: '/booking-terms/' }]}>
+  <PageIntro h1="Booking and Cancellation Terms" lead="These terms cover consultation fees, payment and cancellations." />
   <Section>
     <Prose>
-      <h1>Booking and Cancellation Terms</h1>
-      <p class="lead">These terms cover consultation fees, payment and cancellations.</p>
       <h2>Fees</h2>
       <p>Initial consultation £{fees.initial.price} ({fees.initial.duration}). Follow-up consultation £{fees.followUp.price}.</p>
       <h2>Payment</h2>

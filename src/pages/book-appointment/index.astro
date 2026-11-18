@@ -121,10 +121,10 @@ const durationLabel = (duration: string) => {
             <section class="booking-step booking-time-step" id="booking-time-step" aria-labelledby="booking-time-heading" hidden>
               <h2 id="booking-time-heading" tabindex="-1">Choose a time</h2>
               <div class="booking-type-tabs" role="tablist" aria-label="Consultation type">
-                <button type="button" class="booking-tab" id="booking-tab-initial" role="tab" aria-selected="true" aria-controls="booking-panel-initial" tabindex="0">
+                <button type="button" class="booking-tab btn" id="booking-tab-initial" role="tab" aria-selected="true" aria-controls="booking-panel-initial" tabindex="0">
                   {fees.initial.label} (£{fees.initial.price})
                 </button>
-                <button type="button" class="booking-tab" id="booking-tab-follow-up" role="tab" aria-selected="false" aria-controls="booking-panel-follow-up" tabindex="-1">
+                <button type="button" class="booking-tab btn" id="booking-tab-follow-up" role="tab" aria-selected="false" aria-controls="booking-panel-follow-up" tabindex="-1">
                   {fees.followUp.label} (£{fees.followUp.price})
                 </button>
               </div>

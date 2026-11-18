@@ -5,7 +5,7 @@ interface Props {
   class?: string;
 }
 
-const { cols, as: Element = 'div', class: className } = Astro.props;
+const { cols, as: Element = 'div', class: className }: Props = Astro.props;
 ---
 <Element class:list={['ds-grid', `ds-grid-cols-${cols}`, className]}>
   <slot />

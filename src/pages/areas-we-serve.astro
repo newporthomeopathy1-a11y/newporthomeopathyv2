@@ -4,6 +4,9 @@ import PageIntro from '../components/PageIntro.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import GpStatement from '../components/GpStatement.astro';
 import Section from '../components/ds/Section.astro';
+import SectionHeader from '../components/ds/SectionHeader.astro';
+import Grid from '../components/ds/Grid.astro';
+import Card from '../components/ds/Card.astro';
 import Prose from '../components/ds/Prose.astro';
 import { areas, addressLine, clinic, formatPageUpdated } from '../data/site';
 
@@ -27,19 +30,21 @@ const areaCopy: Record<string, string> = {
     h1="A Homeopath for Telford, Stafford, Shrewsbury and Nearby"
     lead={`The clinic is at ${addressLine}, with parking and step-free access available for in-person appointments. The same consultation can also be booked online at the same fee.`}
   />
-  {areas.map((area) => {
-    const copy = areaCopy[area];
-    if (!copy) throw new Error(`Missing area copy for "${area}".`);
-    return (
-      <Section>
-        <Prose>
-          <h2>{area}</h2>
-          <p>{copy}</p>
-          <p class="link-arrow-line"><a href="/book-appointment/" class="link-arrow">Book from {area}</a></p>
-        </Prose>
-      </Section>
-    );
-  })}
+  <Section>
+    <SectionHeader eyebrow="In-person appointments" title="Towns we serve" />
+    <Grid cols={4} as="ul" class="ds-town-cards">
+      {areas.map((area) => {
+        const copy = areaCopy[area];
+        if (!copy) throw new Error(`Missing area copy for "${area}".`);
+        return (
+          <Card as="li" title={area}>
+            <p>{copy}</p>
+            <a slot="link" href="/book-appointment/" class="btn btn-outline ds-card-link">Book from {area}</a>
+          </Card>
+        );
+      })}
+    </Grid>
+  </Section>
   <Section>
     <Prose>
       <h2>Online consultations are available anywhere in the UK</h2>

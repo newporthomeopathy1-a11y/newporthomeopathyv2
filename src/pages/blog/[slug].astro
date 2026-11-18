@@ -6,6 +6,7 @@ import { Image } from 'astro:assets';
 import portrait from '../../assets/kavita-portrait.jpg';
 import { clinic } from '../../data/site';
 import { blogPostingSchema } from '../../data/schema';
+import PageIntro from '../../components/PageIntro.astro';
 import Section from '../../components/ds/Section.astro';
 import Prose from '../../components/ds/Prose.astro';
 import Card from '../../components/ds/Card.astro';
@@ -28,10 +29,10 @@ const fmt = (x: Date) => x.toLocaleDateString('en-GB', { day: 'numeric', month: 
   breadcrumbs={[{ name: 'Guides and articles', href: '/blog/' }, { name: d.title, href: `/blog/${post.id}/` }]}
   schema={[blogPostingSchema({ title: d.title, description: d.description, slug: post.id, published: d.published, updated: d.updated })]}
 >
+  <PageIntro h1={d.title} lead={d.description} />
   <Section>
     <article>
       <Prose>
-        <h1>{d.title}</h1>
         {d.summary && (
           <Card title="In short" titleAs="h2">
             <p>{d.summary}</p>
