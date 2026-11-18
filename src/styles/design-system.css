@@ -1,0 +1,195 @@
+/* Newport Homeopathy Clinic: design system v2
+   Loaded AFTER global.css (see Base.astro). One place for the rules every page shares:
+   white sections, pill buttons, identical cards, centred section headings, calm spacing.
+   Brand blue stays the only accent colour. */
+
+:root {
+  --ds-card-radius: 16px;
+  --ds-card-border: var(--grey-200);
+  --ds-card-hover-shadow: 0 4px 14px rgb(17 20 24 / .07);
+  --ds-measure-read: 68ch;
+}
+
+/* 1. Plain white sections everywhere. Sections are separated by spacing and a hairline. */
+.ds-section-soft,
+.ds-home-reviews .ds-section { background: var(--white); }
+.ds-section + .ds-section > .ds-container,
+.ds-section + .ds-home-final-cta { border-top: 0; }
+.ds-section:not(.ds-home-about) + .ds-section:not(.ds-section-soft) { padding-top: var(--ds-section-md); }
+.ds-section + .ds-section > .ds-container { position: relative; }
+.ds-section + .ds-section > .ds-container::before {
+  content: "";
+  position: absolute;
+  top: calc(var(--ds-section-md) * -1);
+  left: var(--ds-page-x);
+  right: var(--ds-page-x);
+  height: 1px;
+  background: var(--grey-200);
+}
+.ds-section { padding-block: clamp(3rem, 6vw, 4.5rem); }
+.ds-section + .ds-section > .ds-container::before { top: calc(clamp(3rem, 6vw, 4.5rem) * -1); }
+
+/* 2. Buttons: pill shape, one size scale, same behaviour on every page. */
+.btn,
+.ds-card-link.ds-service-link,
+.ds-service-link {
+  border-radius: var(--pill);
+}
+.btn { min-height: 48px; padding: 12px 28px; }
+.btn-lg { min-height: 54px; padding: 12px 32px; }
+.btn-outline { background: var(--white); color: var(--blue-700); border: 1.5px solid var(--blue-600); }
+.btn-outline:hover { background: var(--blue-50); border-color: var(--blue-700); }
+
+/* 3. Section headings: always centred, eyebrow above, optional lead below. */
+.ds-section-header,
+.ds-section-header.ds-section-header-left {
+  max-width: 720px;
+  margin: 0 auto var(--ds-gap-header);
+  text-align: center;
+}
+.ds-section-header .ds-section-heading,
+.ds-section-header .ds-eyebrow,
+.ds-section-header .ds-section-lead { text-align: center; margin-inline: auto; }
+.ds-section-header .ds-section-lead { max-width: 60ch; }
+/* Meet Kavita keeps its copy beside the photo, so its header follows the copy */
+.ds-meet-copy .ds-section-header,
+.ds-meet-copy .ds-section-header .ds-section-heading,
+.ds-meet-copy .ds-section-header .ds-eyebrow { text-align: left; margin-inline: 0; }
+
+/* 4. Cards: one style. Equal height, no resting shadow, same hover on every card. */
+.ds-card,
+.card {
+  border: 1px solid var(--ds-card-border);
+  border-radius: var(--ds-card-radius);
+  background: var(--white);
+  box-shadow: none;
+  transform: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.ds-card:hover,
+.ds-card:focus-within,
+.card:hover {
+  border-color: var(--blue-200);
+  box-shadow: var(--ds-card-hover-shadow);
+  transform: none;
+}
+.ds-card-heading { font-size: 1.125rem; line-height: 1.3; }
+.ds-card-icon.trust-icon { margin-bottom: 14px; }
+
+/* 5. "Why people choose" cards: icon, title and text line up across the row. */
+.ds-choice-grid .ds-card { padding: var(--ds-card-pad); }
+.ds-choice-grid .ds-card-heading { margin-bottom: 8px; }
+
+/* 6. Consultation option cards.
+   Subgrid gives every card the same rows (title / price / duration / button),
+   so the prices and buttons sit on one line even when a title wraps. */
+.ds-service-grid { align-items: stretch; }
+.ds-service-grid .ds-card {
+  height: auto;
+  padding: var(--ds-card-pad);
+}
+.ds-service-card .ds-card-content { display: contents; }
+.ds-service-card .ds-price-pill {
+  display: block;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--blue-700);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+.ds-service-card-free { border-color: var(--ds-card-border); background: var(--white); }
+.ds-service-card-free .ds-price-pill { background: none; color: var(--blue-700); }
+.ds-service-card .ds-service-duration { margin: 4px 0 var(--space-2); color: var(--grey-600); }
+.ds-service-card .ds-card-link.ds-service-link {
+  display: flex;
+  align-self: stretch;
+  align-items: center;
+  justify-content: center;
+  margin-top: auto;
+  min-height: 48px;
+  padding: 10px 12px;
+  border: 1.5px solid var(--blue-600);
+  background: var(--white);
+  color: var(--blue-700);
+  font-size: .95rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.ds-service-card .ds-card-link.ds-service-link:hover { background: var(--blue-50); border-color: var(--blue-700); }
+
+@media (min-width: 1024px) {
+  @supports (grid-template-rows: subgrid) {
+    .ds-service-grid { grid-template-rows: auto; }
+    .ds-service-grid .ds-service-card {
+      display: grid;
+      grid-row: span 4;
+      grid-template-rows: subgrid;
+      row-gap: 0;
+    }
+    .ds-service-grid .ds-card-heading { margin-bottom: var(--ds-gap-heading); align-self: start; }
+    .ds-service-grid .ds-service-card .ds-service-link { align-self: end; margin-top: 0; }
+  }
+  /* Fallback for browsers without subgrid: reserve two lines for the title */
+  .ds-service-card .ds-card-heading { min-height: 2.6em; }
+}
+@media (min-width: 640px) and (max-width: 1023px) {
+  .ds-service-card .ds-card-heading { min-height: 0; }
+}
+
+/* 7. About the clinic: heading and copy share one left edge, links stay inline,
+   stat cards are one size. */
+.ds-about-layout { align-items: stretch; }
+.ds-about-copy { max-width: var(--ds-measure-read); }
+.ds-about-copy .ds-section-header,
+.ds-about-copy .ds-section-header .ds-section-heading,
+.ds-about-copy .ds-section-header .ds-eyebrow { text-align: left; margin-inline: 0; }
+.ds-about-copy .ds-section-header { margin-bottom: var(--ds-gap-grid); max-width: none; }
+.ds-about-copy p { display: block; }
+.ds-about-copy p a { display: inline; }
+@media (min-width: 861px) { .ds-about-copy p a { white-space: nowrap; } }
+.ds-about-copy h3 { margin-top: var(--space-4); }
+.ds-about-stats { align-content: stretch; grid-auto-rows: 1fr; gap: var(--ds-gap-grid); }
+.ds-stat-card { min-height: 0; justify-content: center; padding: 20px var(--ds-card-pad); }
+.ds-stat-value { font-size: 1.25rem; }
+.ds-home-about > .ds-container > p:first-child {
+  max-width: var(--ds-measure-read);
+  margin: 0 auto var(--space-5);
+  color: var(--grey-600);
+  text-align: center;
+}
+.ds-home-why { margin-top: var(--space-6); padding-top: var(--space-6); border-top: 1px solid var(--grey-200); }
+
+/* 8. Pages other than home: same header, same reading width, same list and table look. */
+.ds-page-header { max-width: 760px; }
+.ds-page-header h1 { margin-bottom: var(--ds-gap-heading); }
+.ds-page-header > .lead { color: var(--grey-600); font-size: 1.125rem; }
+.ds-prose { max-width: var(--ds-measure-read); }
+.ds-prose h2 { font-size: 1.5rem; margin-top: var(--space-5); }
+.ds-prose h3 { font-size: 1.125rem; }
+.ds-prose a { text-underline-offset: 3px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { padding: 12px 16px; border-bottom: 1px solid var(--grey-200); text-align: left; }
+th { background: var(--grey-50); font-weight: 600; }
+input, select, textarea { border-radius: 12px; }
+
+/* 9. Mobile: single column, full-width buttons, tighter rhythm. */
+@media (max-width: 639px) {
+  .ds-section { padding-block: 2.5rem; }
+  .ds-section + .ds-section > .ds-container::before { top: -2.5rem; }
+  .ds-section-header { margin-bottom: 24px; }
+  .ds-service-card .ds-card-heading { min-height: 0; }
+  .ds-home-why { margin-top: var(--space-5); padding-top: var(--space-5); }
+  .ds-home-about > .ds-container > p:first-child { text-align: left; }
+  .ds-service-card .ds-service-link,
+  .ds-section .btn,
+  .ds-hero-actions .btn { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-card, .card { transition: none; }
+}
