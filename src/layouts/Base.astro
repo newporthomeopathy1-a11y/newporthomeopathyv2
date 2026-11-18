@@ -100,7 +100,7 @@ const topbarEmail = clinic.email;
 
     <header class="site-header">
       <div class="container ds-container ds-wide-container header-inner">
-        <a href="/" class="logo" data-astro-prefetch="viewport">
+        <a href="/" class="logo" data-astro-prefetch="hover">
           <picture>
             <source type="image/avif" srcset="/assets/img/clinic-logo-224.avif 224w, /assets/img/clinic-logo-448.avif 448w, /assets/img/clinic-logo-672.avif 672w" sizes="(max-width: 991px) 200px, 224px" />
             <img src="/assets/img/clinic-logo-448.webp" srcset="/assets/img/clinic-logo-224.webp 224w, /assets/img/clinic-logo-448.webp 448w, /assets/img/clinic-logo-672.webp 672w" sizes="(max-width: 991px) 200px, 224px" alt="Newport Homeopathy Clinic" width="448" height="100" loading="eager" decoding="async" fetchpriority="high">
@@ -111,7 +111,7 @@ const topbarEmail = clinic.email;
         </button>
         <nav id="site-nav" class="site-nav" aria-label="Main">
           <div class="mobile-menu-top">
-            <a href="/" class="mobile-menu-logo" data-astro-prefetch="viewport">
+            <a href="/" class="mobile-menu-logo" data-astro-prefetch="hover">
               <picture>
                 <source type="image/avif" srcset="/assets/img/clinic-logo-224.avif 224w, /assets/img/clinic-logo-448.avif 448w, /assets/img/clinic-logo-672.avif 672w" sizes="150px" />
                 <img src="/assets/img/clinic-logo-448.webp" srcset="/assets/img/clinic-logo-224.webp 224w, /assets/img/clinic-logo-448.webp 448w, /assets/img/clinic-logo-672.webp 672w" sizes="150px" alt="Newport Homeopathy Clinic" width="448" height="100" loading="lazy" decoding="async">
@@ -125,7 +125,7 @@ const topbarEmail = clinic.email;
             {nav.map((item, index) =>
               item.children ? (
                 <li class="has-sub" style={`--menu-index: ${index};`}>
-                  <a class="consultations-fallback" href={item.children[0].href} data-astro-prefetch="viewport">
+                  <a class="consultations-fallback" href={item.children[0].href} data-astro-prefetch="hover">
                     {item.label}<Icon name="chevron" class="menu-chevron" />
                   </a>
                   <button
@@ -138,14 +138,14 @@ const topbarEmail = clinic.email;
                   </button>
                   <div class="consultations-panel" id={`consultations-panel-${index}`}>
                     {item.children.slice(0, 2).map((c, childIndex) => (
-                      <a class="consultation-option" href={c.href} data-astro-prefetch="viewport" aria-current={isActive(c.href) ? 'page' : undefined}>
+                      <a class="consultation-option" href={c.href} data-astro-prefetch="hover" aria-current={isActive(c.href) ? 'page' : undefined}>
                         <span class="consultation-option-title">{childIndex === 0 ? 'In person' : 'Online'}</span>
                       </a>
                     ))}
                   </div>
                 </li>
               ) : (
-                <li style={`--menu-index: ${index};`}><a href={item.href} data-astro-prefetch="viewport" aria-current={isActive(item.href!) ? 'page' : undefined}>{item.label}</a></li>
+                <li style={`--menu-index: ${index};`}><a href={item.href} data-astro-prefetch="hover" aria-current={isActive(item.href!) ? 'page' : undefined}>{item.label}</a></li>
               )
             )}
           </ul>
@@ -169,14 +169,14 @@ const topbarEmail = clinic.email;
     <footer class="site-footer">
       <div class="container ds-container footer-grid">
         <div class="footer-about">
-          <a href="/" class="footer-logo" data-astro-prefetch="viewport">
+          <a href="/" class="footer-logo">
             <picture>
               <source type="image/avif" srcset="/assets/img/clinic-logo-224.avif 224w, /assets/img/clinic-logo-448.avif 448w, /assets/img/clinic-logo-672.avif 672w" sizes="196px" />
               <img src="/assets/img/clinic-logo-448.webp" srcset="/assets/img/clinic-logo-224.webp 224w, /assets/img/clinic-logo-448.webp 448w, /assets/img/clinic-logo-672.webp 672w" sizes="196px" alt="Newport Homeopathy Clinic" width="448" height="100" loading="lazy" decoding="async">
             </picture>
           </a>
           <ul class="footer-contact-list">
-            <li class="footer-line"><Icon name="user" /> <a href="/about-kavita-batchu/" data-astro-prefetch="viewport">{footerPractitionerLabel}</a></li>
+            <li class="footer-line"><Icon name="user" /> <a href="/about-kavita-batchu/">{footerPractitionerLabel}</a></li>
             <li class="footer-line"><Icon name="pin" /> <a href={clinic.mapsUrl} rel="noopener" data-track="click_directions" data-loc="footer">{addressLine}</a></li>
             <li class="footer-line"><Icon name="phone" /> <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="footer">{clinic.phoneIntl}</a></li>
             <li class="footer-line"><Icon name="whatsapp" /> <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="footer">WhatsApp</a></li>
@@ -211,29 +211,29 @@ const topbarEmail = clinic.email;
         <div>
           <p class="footer-heading">Services</p>
           <ul>
-            <li><a href="/homeopathy-consultations/" data-astro-prefetch="viewport">In person in Newport</a></li>
-            <li><a href="/online-homeopathy-consultation/" data-astro-prefetch="viewport">Online across the UK</a></li>
-            <li><a href="/consultation-fees/" data-astro-prefetch="viewport">Fees</a></li>
-            <li><a href="/what-to-expect/" data-astro-prefetch="viewport">What to expect</a></li>
-            <li><a href="/areas-we-serve/" data-astro-prefetch="viewport">Areas we serve</a></li>
+            <li><a href="/homeopathy-consultations/">In person in Newport</a></li>
+            <li><a href="/online-homeopathy-consultation/">Online across the UK</a></li>
+            <li><a href="/consultation-fees/">Fees</a></li>
+            <li><a href="/what-to-expect/">What to expect</a></li>
+            <li><a href="/areas-we-serve/">Areas we serve</a></li>
             <li><a href="/book-appointment/" data-astro-prefetch="tap" data-astro-reload>Book a consultation</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-heading">Clinic</p>
           <ul>
-            <li><a href="/about-kavita-batchu/" data-astro-prefetch="viewport">About Kavita Batchu</a></li>
-            <li><a href="/frequently-asked-questions/" data-astro-prefetch="viewport">FAQs</a></li>
-            <li><a href="/blog/" data-astro-prefetch="viewport">Guides and articles</a></li>
-            <li><a href="/contact/" data-astro-prefetch="viewport">Contact and directions</a></li>
+            <li><a href="/about-kavita-batchu/">About Kavita Batchu</a></li>
+            <li><a href="/frequently-asked-questions/">FAQs</a></li>
+            <li><a href="/blog/">Guides and articles</a></li>
+            <li><a href="/contact/">Contact and directions</a></li>
           </ul>
         </div>
         <div>
           <p class="footer-heading">Policies</p>
           <ul>
-            <li><a href="/privacy-policy/" data-astro-prefetch="viewport">Privacy policy</a></li>
-            <li><a href="/cookie-policy/" data-astro-prefetch="viewport">Cookie policy</a></li>
-            <li><a href="/booking-terms/" data-astro-prefetch="viewport">Booking terms</a></li>
+            <li><a href="/privacy-policy/">Privacy policy</a></li>
+            <li><a href="/cookie-policy/">Cookie policy</a></li>
+            <li><a href="/booking-terms/">Booking terms</a></li>
             <li><button type="button" class="link-button" data-cookie-settings>Cookie settings</button></li>
           </ul>
           {clinic.social.facebook && <a href={clinic.social.facebook} rel="noopener" aria-label="Facebook">Facebook</a>}

@@ -129,7 +129,7 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
               slot="link"
               href={service.href}
               class="ds-card-link ds-service-link btn btn-outline"
-              data-astro-prefetch={isWhatsApp ? undefined : ''}
+              data-astro-prefetch={isWhatsApp ? undefined : 'hover'}
               data-track={isWhatsApp ? 'click_whatsapp' : undefined}
               data-loc={isWhatsApp ? 'service_card' : undefined}
             >

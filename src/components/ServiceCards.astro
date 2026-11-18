@@ -12,7 +12,7 @@ import { clinic, services } from '../data/site';
         <a
           href={s.href}
           class="link-arrow"
-          data-astro-prefetch={isWhatsApp ? undefined : true}
+          data-astro-prefetch={isWhatsApp ? undefined : 'hover'}
           data-astro-reload={s.href.startsWith('/book-appointment/') ? '' : undefined}
           data-track={isWhatsApp ? 'click_whatsapp' : undefined}
           data-loc={isWhatsApp ? 'service_card' : undefined}

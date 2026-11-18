@@ -19,7 +19,7 @@ const { title, titleAs: TitleElement = 'h3', href, icon, as: Element = 'div', cl
   {icon && <span class="trust-icon ds-card-icon"><Icon name={icon} /></span>}
   {title && (
     <TitleElement class="ds-card-heading">
-      {href ? <a href={href} data-astro-prefetch={href.startsWith('/') ? '' : undefined}>{title}</a> : title}
+      {href ? <a href={href} data-astro-prefetch={href.startsWith('/') ? 'hover' : undefined}>{title}</a> : title}
     </TitleElement>
   )}
   <div class="ds-card-content">
