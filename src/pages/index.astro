@@ -2,7 +2,6 @@
 import { Picture, getImage } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
-import GpStatement from '../components/GpStatement.astro';
 import MapFacade from '../components/MapFacade.astro';
 import CtaBlock from '../components/CtaBlock.astro';
 import Container from '../components/ds/Container.astro';
@@ -74,47 +73,71 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
     </Container>
   </section>
 
-  <Section tone="soft" class="ds-home-about">
-    <p>{clinic.name} is a private homeopathy practice at {addressLine}. It is run by {clinic.practitioner}, who holds a {clinic.qualificationFull} degree and has over {clinic.years} years’ experience as a homeopath. Consultations are one-to-one, in person ({clinic.hoursShort}), or by video from anywhere in the UK. A first consultation lasts {fees.initial.duration} and costs £{fees.initial.price}; follow-ups cost £{fees.followUp.price}. A free chat of {fees.discovery.duration} is available before you book.</p>
+  <Section class="ds-home-about">
     <Grid cols={2} class="ds-grid-861 ds-about-layout">
       <div class="ds-about-copy">
-        <SectionHeader align="left" eyebrow="Newport Homeopathy Clinic" title="About the clinic" />
-        <p>Find out <a href="/what-to-expect/">what to expect at a consultation</a>, or read about <a href="/homeopathy-consultations/">in-person appointments in Newport</a>.</p>
-        <h3>About homeopathy</h3>
-        <p>Homeopathy is a system of complementary medicine developed by Samuel Hahnemann in the late 1700s. In a consultation, Kavita asks about your health history, lifestyle and wellbeing, considering these parts of a person’s life together. A first appointment is one-to-one and lasts {fees.initial.duration}; follow-ups are usually {fees.followUp.interval}. Homeopathy is a complementary therapy, not a replacement for your GP. Please continue to see your GP about health concerns. Read our <a href="/frequently-asked-questions/">frequently asked questions</a> or explore the clinic’s <a href="/blog/">homeopathy guides</a>.</p>
+        <SectionHeader eyebrow="Newport Homeopathy Clinic" title="About the clinic" />
+        <p>{clinic.name} is a private practice in Newport, run by {clinic.practitioner}, a {clinic.qualification}-qualified homeopath with over {clinic.years} years’ experience. Appointments are one-to-one, in person or online across the UK. Find out <a href="/what-to-expect/">what to expect at a consultation</a> or about <a href="/homeopathy-consultations/">in-person appointments in Newport</a>.</p>
       </div>
-      <div class="ds-about-stats" aria-label="Clinic details">
-        <Card class="ds-stat-card">
+      <ul class="ds-about-stats" aria-label="Clinic details">
+        <Card as="li" class="ds-stat-card">
           <strong class="ds-stat-value">{fees.initial.duration}</strong>
           <span>First consultation</span>
         </Card>
-        <Card class="ds-stat-card">
+        <Card as="li" class="ds-stat-card">
           <strong class="ds-stat-value">In person + online</strong>
           <span>Consultation options</span>
         </Card>
-        <Card class="ds-stat-card">
+        <Card as="li" class="ds-stat-card">
           <strong class="ds-stat-value">{clinic.hoursShort}</strong>
           <span>Clinic hours</span>
         </Card>
-      </div>
+      </ul>
     </Grid>
     <section class="ds-home-why" aria-label="Why people choose the clinic">
       <SectionHeader eyebrow="A considered approach" title="Why people choose the clinic" />
-      <Grid cols={4} class="ds-choice-grid">
-        <Card title="Time to talk" icon="clock">
+      <Grid cols={4} as="ul" class="ds-choice-grid">
+        <Card as="li" title="Time to talk" icon="clock">
           <p>A first consultation lasts {fees.initial.duration}.</p>
         </Card>
-        <Card title="Same fee online" icon="video">
+        <Card as="li" title="Same fee online" icon="video">
           <p>The same consultation fee applies online and in person.</p>
         </Card>
-        <Card title="Saturday appointments" icon="clock">
+        <Card as="li" title="Saturday appointments" icon="clock">
           <p>Appointments are available on Saturdays ({clinic.hoursShort}).</p>
         </Card>
-        <Card title="Chat before booking" icon="whatsapp">
+        <Card as="li" title="Chat before booking" icon="whatsapp">
           <p>A discovery chat is available before booking.</p>
         </Card>
       </Grid>
     </section>
+  </Section>
+
+  <Section class="ds-home-consultations">
+    <SectionHeader eyebrow="Ways to meet" title="Consultation options" />
+    <Grid cols={4} as="ul" class="ds-service-grid">
+      {services.map((service) => {
+        const isWhatsApp = service.href === clinic.whatsapp;
+        const isFree = service.price === 'Free';
+        return (
+          <Card as="li" title={service.title} class={`ds-service-card${isFree ? ' ds-service-card-free' : ''}`}>
+            <span class="ds-service-price">{service.price}</span>
+            <p class="ds-service-duration">{service.meta}</p>
+            <a
+              slot="link"
+              href={service.href}
+              class="ds-card-link ds-service-link btn btn-outline"
+              data-astro-prefetch={isWhatsApp ? undefined : ''}
+              data-track={isWhatsApp ? 'click_whatsapp' : undefined}
+              data-loc={isWhatsApp ? 'service_card' : undefined}
+            >
+              Find out more<span class="visually-hidden"> about {service.title.toLowerCase()}</span>
+            </a>
+          </Card>
+        );
+      })}
+    </Grid>
+    <p class="ds-section-action"><a href="/consultation-fees/" class="link-arrow">See full fees</a></p>
   </Section>
 
   <Section class="ds-home-meet">
@@ -134,33 +157,6 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
         <a href="/about-kavita-batchu/" class="link-arrow">About Kavita</a>
       </div>
     </Grid>
-  </Section>
-
-  <Section tone="soft">
-    <SectionHeader eyebrow="Ways to meet" title="Consultation options" />
-    <Grid cols={4} class="ds-service-grid">
-      {services.map((service) => {
-        const isWhatsApp = service.href === clinic.whatsapp;
-        const isFree = service.price === 'Free';
-        return (
-          <Card title={service.title} class={`ds-service-card${isFree ? ' ds-service-card-free' : ''}`}>
-            <span class="ds-price-pill">{service.price}</span>
-            <p class="ds-service-duration">{service.meta}</p>
-            <a
-              slot="link"
-              href={service.href}
-              class="ds-card-link ds-service-link"
-              data-astro-prefetch={isWhatsApp ? undefined : ''}
-              data-track={isWhatsApp ? 'click_whatsapp' : undefined}
-              data-loc={isWhatsApp ? 'service_card' : undefined}
-            >
-              {isWhatsApp ? 'Message on WhatsApp' : <>Find out more<span class="visually-hidden"> about {service.title.toLowerCase()}</span></>}
-            </a>
-          </Card>
-        );
-      })}
-    </Grid>
-    <p class="ds-section-action"><a href="/consultation-fees/" class="link-arrow">See full fees</a></p>
   </Section>
 
   <Section>
@@ -200,7 +196,7 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
   </div>
   <div class="ds-home-gp">
     <Container>
-    <GpStatement />
+      <p class="ds-home-disclaimer">Homeopathy is a complementary therapy and is not a substitute for medical advice from your GP.</p>
     </Container>
   </div>
 </Base>
