@@ -62,14 +62,13 @@ export const clinic = {
   region: 'Shropshire',
   postcode: 'TF10 8BU',
   country: 'GB',
-  hasMap: '', // TODO: confirm the Google Business Profile map URL
+  hasMap: 'https://share.google/ZBsjGrgLulH3o9U6t',
   geo: { lat: 52.7782, lng: -2.3783 }, // TODO: confirm against the GBP pin
   mapsUrl: 'https://www.google.com/maps/search/?api=1&query=Newport+Homeopathy+Clinic%2C+75+Forton+Road%2C+Newport+TF10+8BU',
   hoursText: 'Monday–Friday, 9:00–18:00',
   hoursShort: 'Mon–Fri, 9am–6pm',
   payment: 'Cash or bank transfer',
-  // TODO: add only confirmed Google Business Profile URLs; never publish placeholders.
-  sameAs: [] as string[],
+  sameAs: ['https://share.google/ZBsjGrgLulH3o9U6t'],
   social: { facebook: '', instagram: '' },
 };
 
@@ -129,8 +128,7 @@ export const nav = [
 // No conditions or results. The home page section stays hidden while this list is empty.
 export const reviews: { quote: string; name: string; source?: string }[] = [];
 
-// Link for "Leave us a Google review" once the Google Business Profile is connected (TODO open item 10).
-export const googleReviewUrl = '';
+export const googleReviewUrl = 'https://g.page/r/CWWqShscCa0VEBM/review';
 
 export const areas = [
   'Newport',

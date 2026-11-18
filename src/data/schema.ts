@@ -59,8 +59,9 @@ export function siteGraph() {
       sameAs: 'https://en.wikipedia.org/wiki/Homeopathy',
     }],
   };
-  if (clinic.sameAs.length) business.sameAs = clinic.sameAs;
-  if (clinic.hasMap) business.hasMap = clinic.hasMap;
+  const sameAs = clinic.sameAs.filter((url) => url.trim().length > 0);
+  if (sameAs.length) business.sameAs = sameAs;
+  if (clinic.hasMap.trim()) business.hasMap = clinic.hasMap;
 
   return {
     '@context': 'https://schema.org',
@@ -96,7 +97,6 @@ export function personSchema() {
         name: clinic.qualificationFull,
       },
     },
-    // TODO: add sameAs only after Google Business Profile URLs are confirmed.
   };
 }
 
