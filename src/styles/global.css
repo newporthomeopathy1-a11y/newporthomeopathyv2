@@ -137,8 +137,18 @@ html.js .has-sub > .consultations-fallback { display: none; }
 html.js .has-sub > .consultations-toggle { display: flex; }
 .menu-chevron { display: block; width: 16px; height: 16px; margin-left: 8px; transition: transform .2s ease-out; }
 .has-sub.open .menu-chevron { transform: rotate(180deg); }
-.consultations-panel { position: absolute; top: calc(100% + var(--space-1)); left: -14px; z-index: 80; width: min(220px, calc(100vw - 32px)); padding: 6px; border: 1px solid var(--grey-200); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
-html.js .has-sub:not(.open) .consultations-panel { display: none; }
+.consultations-panel { position: absolute; top: 100%; margin-top: 6px; left: -14px; z-index: 80; width: min(220px, calc(100vw - 32px)); padding: 6px; border: 1px solid var(--grey-200); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); }
+/* Hover bridge: keeps the menu open while the pointer crosses the gap below the button. */
+.consultations-panel::before { content: ""; position: absolute; left: 0; right: 0; top: -10px; height: 10px; }
+@media (min-width: 992px) {
+  html.js .has-sub .consultations-panel { display: block; opacity: 0; visibility: hidden; transform: translateY(-6px); pointer-events: none; transition: opacity .15s ease, transform .15s ease, visibility 0s linear .15s; }
+  html.js .has-sub.open .consultations-panel { opacity: 1; visibility: visible; transform: none; pointer-events: auto; transition-delay: 0s; }
+}
+@media (max-width: 991px) {
+  html.js .has-sub:not(.open) .consultations-panel { display: none; }
+  .consultations-panel { margin-top: 0; }
+  .consultations-panel::before { content: none; }
+}
 .consultation-option { display: flex; align-items: center; min-height: 44px; padding: 6px 10px; border-radius: 10px; }
 .consultation-option:hover { background: var(--blue-50); }
 .consultation-option-title { font-weight: 600; }

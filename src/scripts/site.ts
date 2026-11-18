@@ -44,18 +44,33 @@ if (toggle && navEl) {
     setSubmenuOpen(openedByHover || !open);
     openedByHover = false;
   });
+  let leaveTimer: number | undefined;
+  const clearLeaveTimer = () => {
+    if (leaveTimer !== undefined) {
+      window.clearTimeout(leaveTimer);
+      leaveTimer = undefined;
+    }
+  };
   submenu?.addEventListener('pointerenter', () => {
+    clearLeaveTimer();
     if (window.matchMedia('(min-width: 992px) and (hover: hover) and (pointer: fine)').matches) {
-      openedByHover = !submenu.classList.contains('open');
+      if (!submenu.classList.contains('open')) openedByHover = true;
       setSubmenuOpen(true);
     }
   });
   submenu?.addEventListener('pointerleave', () => {
-    if (openedByHover && !submenu.contains(document.activeElement)) setSubmenuOpen(false);
-    openedByHover = false;
+    if (!openedByHover) return;
+    clearLeaveTimer();
+    // Short delay so quick pointer movements never make the menu flicker.
+    leaveTimer = window.setTimeout(() => {
+      leaveTimer = undefined;
+      if (openedByHover && !submenu.contains(document.activeElement)) setSubmenuOpen(false);
+      openedByHover = false;
+    }, 150);
   });
   submenu?.addEventListener('focusout', (e) => {
     if (!submenu.contains(e.relatedTarget as Node | null)) {
+      clearLeaveTimer();
       setSubmenuOpen(false);
       openedByHover = false;
     }
@@ -100,6 +115,7 @@ if (toggle && navEl) {
   });
   const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
   desktopBreakpoint.addEventListener('change', () => {
+    clearLeaveTimer();
     setSubmenuOpen(false);
     openedByHover = false;
   });
