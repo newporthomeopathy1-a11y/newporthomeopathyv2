@@ -38,16 +38,6 @@ const followUpBookingUrl = import.meta.env.PUBLIC_BOOKING_FOLLOWUP_URL
   || import.meta.env.PUBLIC_BOOKING_EMBED_URL_FOLLOWUP
   || legacyBookingUrl;
 const bookingFlowEnabled = Boolean(initialBookingUrl && followUpBookingUrl);
-const bookingPreconnects = bookingFlowEnabled
-  ? [...new Set([initialBookingUrl, followUpBookingUrl].flatMap((value) => {
-    try {
-      const url = new URL(value);
-      return url.protocol === 'https:' ? [url.origin] : [];
-    } catch {
-      return [];
-    }
-  }))]
-  : [];
 const durationLabel = (duration: string) => {
   const values = duration.match(/\d+/g);
   return values ? `${values[values.length - 1]} min` : duration;
@@ -57,7 +47,6 @@ const durationLabel = (duration: string) => {
   title="Book a Homeopathy Consultation | Newport Homeopathy Clinic"
   description={`Book an in-person consultation in ${clinic.locality}, ${clinic.region} or online. Initial consultation £${fees.initial.price}. Call, WhatsApp or book online.`}
   breadcrumbs={[{ name: 'Book a consultation', href: '/book-appointment/' }]}
-  preconnects={bookingPreconnects}
 >
   <PageIntro
     h1="Book a Consultation with Kavita Batchu, BHMS – Homeopath"
@@ -116,7 +105,7 @@ const durationLabel = (duration: string) => {
                 <p id="booking-consent-error" class="error" aria-live="polite"></p>
               </div>
               <button type="button" class="btn btn-primary btn-lg booking-continue" id="booking-continue">Continue to choose a time</button>
-            </Section>
+            </section>
 
             <section class="booking-step booking-time-step" id="booking-time-step" aria-labelledby="booking-time-heading" hidden>
               <h2 id="booking-time-heading" tabindex="-1">Choose a time</h2>
@@ -149,11 +138,11 @@ const durationLabel = (duration: string) => {
             <div class="booking-noscript">
               <section class="booking-event">
                 <h2>{fees.initial.label}</h2>
-                <iframe src={initialBookingUrl} title="Book an initial consultation with Kavita Batchu, BHMS – Homeopath via Cal.com" class="booking-embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <a href={initialBookingUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline booking-embed-link">Open the booking calendar</a>
               </section>
               <section class="booking-event">
                 <h2>{fees.followUp.label}</h2>
-                <iframe src={followUpBookingUrl} title="Book a follow-up consultation with Kavita Batchu, BHMS – Homeopath via Cal.com" class="booking-embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <a href={followUpBookingUrl} target="_blank" rel="noopener noreferrer" class="btn btn-outline booking-embed-link">Open the booking calendar</a>
               </section>
               <p class="booking-medical-note">Please don't include medical details here.</p>
               <div class="cta-actions">
@@ -398,8 +387,8 @@ const durationLabel = (duration: string) => {
       </form>
         </>
       )}
-      <p class="hint">We reply within one working day, {replyDays}.</p>
+      <p class="hint ds-booking-reply">We reply within one working day, {replyDays}.</p>
     </div>
-  </section>
+  </Section>
   <CtaBlock text="" />
 </Base>

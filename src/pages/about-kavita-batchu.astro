@@ -26,7 +26,9 @@ const lastReviewed = formatPageUpdated('/about-kavita-batchu/');
   <Section>
     <Grid cols={2} class="ds-about-profile-layout">
       <div class="ds-about-profile">
-        <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200, 1448]} sizes="(max-width: 991px) 420px, 360px" alt="Kavita Batchu, homeopath at Newport Homeopathy Clinic, Shropshire" loading="lazy" decoding="async" class="ds-about-photo" />
+        <div class="ds-meet-media ds-about-media">
+          <Picture src={kavitaPhoto} width={1448} height={1086} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 991px) 420px, 360px" alt="Kavita Batchu, homeopath at Newport Homeopathy Clinic, Shropshire" loading="eager" fetchpriority="high" decoding="async" quality={80} />
+        </div>
         <Card title="At a glance" titleAs="h2" class="ds-about-glance">
           <dl class="ds-about-facts">
             <div><dt>Qualification</dt><dd>{clinic.qualification}</dd></div>

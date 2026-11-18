@@ -131,20 +131,51 @@ if (toggle && navEl) {
 document.querySelectorAll<HTMLElement>('.map-facade[data-map-src]').forEach((facade) => {
   const button = facade.querySelector<HTMLButtonElement>('.map-load');
   const frame = facade.querySelector<HTMLElement>('.map-frame');
-  if (!button || !frame) return;
+  const status = facade.querySelector<HTMLElement>('.map-status');
+  if (!button || !frame || !status) return;
 
   let started = false;
   const loadMap = () => {
     const src = facade.dataset.mapSrc;
     if (started || !src) return;
     started = true;
+    status.hidden = true;
+    status.textContent = '';
+    facade.classList.remove('map-error');
 
     const iframe = document.createElement('iframe');
+    let settled = false;
+    const timeoutId = window.setTimeout(() => {
+      if (settled) return;
+      settled = true;
+      iframe.remove();
+      facade.classList.remove('map-loaded');
+      facade.classList.add('map-error');
+      status.textContent = 'The map did not load. Please try again or open Google Maps.';
+      status.hidden = false;
+      started = false;
+    }, 8000);
     iframe.title = facade.dataset.mapTitle ?? '';
-    iframe.loading = 'lazy';
+    iframe.loading = 'eager';
     iframe.referrerPolicy = 'no-referrer-when-downgrade';
     iframe.allowFullscreen = true;
-    iframe.addEventListener('load', () => facade.classList.add('map-loaded'), { once: true });
+    iframe.addEventListener('load', () => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeoutId);
+      facade.classList.add('map-loaded');
+    }, { once: true });
+    iframe.addEventListener('error', () => {
+      if (settled) return;
+      settled = true;
+      window.clearTimeout(timeoutId);
+      iframe.remove();
+      facade.classList.remove('map-loaded');
+      facade.classList.add('map-error');
+      status.textContent = 'The map could not be loaded. Please try again or open Google Maps.';
+      status.hidden = false;
+      started = false;
+    }, { once: true });
     iframe.src = src;
     frame.append(iframe);
   };
@@ -154,10 +185,18 @@ document.querySelectorAll<HTMLElement>('.map-facade[data-map-src]').forEach((fac
 
 // ---------- Consent + GA4 (spec Part 9) ----------
 declare global {
-  interface Window { gtag: (...args: unknown[]) => void; dataLayer: unknown[]; __GA_ID: string }
+  interface Window {
+    gtag: (...args: unknown[]) => void;
+    dataLayer: unknown[];
+    __GA_ID: string;
+    __nhcTurnstileSuccess?: (token: string) => void;
+  }
 }
 const CONSENT_KEY = 'nhc_consent';
 const banner = document.querySelector<HTMLElement>('.cookie-banner');
+const isPolicyPage = ['/privacy-policy', '/cookie-policy', '/booking-terms'].includes(
+  window.location.pathname.replace(/\/+$/, '')
+);
 const readConsent = () => { try { return localStorage.getItem(CONSENT_KEY); } catch { return null; } };
 const writeConsent = (v: string) => { try { localStorage.setItem(CONSENT_KEY, v); } catch { /* private mode */ } };
 
@@ -165,7 +204,7 @@ let gaLoaded = false;
 let gaScheduled = false;
 function loadGa() {
   const id = window.__GA_ID;
-  if (!id || gaLoaded) return;
+  if (isPolicyPage || !id || gaLoaded) return;
   if (typeof window.gtag !== 'function') return;
   gaLoaded = true;
   window.gtag('consent', 'update', { analytics_storage: 'granted' });
@@ -308,28 +347,41 @@ if (lead && !bookingReturnInFrame) {
 // ---------- Enquiry form: client-side hints (server re-validates everything) ----------
 const form = document.querySelector<HTMLFormElement>('form.enquiry-form');
 if (form) {
+  const status = form.querySelector<HTMLElement>('[role="alert"]');
   const turnstile = form.querySelector<HTMLElement>('.cf-turnstile');
+  let turnstileRequested = false;
+  let turnstileSubmitPending = false;
+  let loadTurnstile: (() => void) | undefined;
   if (turnstile) {
-    let turnstileRequested = false;
-    let turnstileObserver: IntersectionObserver | undefined;
-    const loadTurnstile = () => {
+    turnstile.dataset.callback = '__nhcTurnstileSuccess';
+    window.__nhcTurnstileSuccess = (token) => {
+      let response = form.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]');
+      if (!response) {
+        response = document.createElement('input');
+        response.type = 'hidden';
+        response.name = 'cf-turnstile-response';
+        turnstile.append(response);
+      }
+      response.value = token;
+      if (turnstileSubmitPending) {
+        turnstileSubmitPending = false;
+        form.requestSubmit();
+      }
+    };
+    loadTurnstile = () => {
       if (turnstileRequested) return;
       turnstileRequested = true;
-      turnstileObserver?.disconnect();
       const script = document.createElement('script');
       script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
       script.async = true;
       script.defer = true;
+      script.addEventListener('error', () => {
+        turnstileRequested = false;
+        turnstileSubmitPending = false;
+        if (status) status.textContent = 'The spam check could not load. Please try again.';
+      }, { once: true });
       document.head.append(script);
     };
-
-    form.addEventListener('focusin', loadTurnstile, { once: true });
-    if ('IntersectionObserver' in window) {
-      turnstileObserver = new IntersectionObserver((entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) loadTurnstile();
-      }, { rootMargin: '200px' });
-      turnstileObserver.observe(turnstile);
-    }
   }
 
   const date = form.querySelector<HTMLInputElement>('input[type="date"]');
@@ -340,7 +392,6 @@ if (form) {
       date.setCustomValidity(day === 0 ? 'The clinic is closed on Sundays. Please pick Monday to Saturday.' : '');
     });
   }
-  const status = form.querySelector<HTMLElement>('[role="alert"]');
   form.addEventListener('submit', (e) => {
     if (!form.checkValidity()) {
       e.preventDefault();
@@ -352,6 +403,13 @@ if (form) {
         f.setAttribute('aria-invalid', String(!f.validity.valid));
       });
       firstBad?.focus();
+      return;
+    }
+
+    if (turnstile && !form.querySelector<HTMLInputElement>('input[name="cf-turnstile-response"]')?.value) {
+      e.preventDefault();
+      turnstileSubmitPending = true;
+      loadTurnstile?.();
     }
   });
 }

@@ -15,7 +15,7 @@ import { clinic, fees, addressLine, areas, services } from '../data/site';
 
 // Hero photo is the largest contentful paint: preload the AVIF set so it starts downloading with the HTML.
 const HERO_WIDTHS = [640, 1024, 1440, 1672];
-const heroAvif = await getImage({ src: heroBg, format: 'avif', widths: HERO_WIDTHS, quality: 90 });
+const heroAvif = await getImage({ src: heroBg, format: 'avif', widths: HERO_WIDTHS, quality: 75 });
 const lcpImage = { srcset: heroAvif.srcSet.attribute, sizes: '100vw', type: 'image/avif' };
 const discoveryChatDuration = fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-min');
 const discoveryChatButtonLabel = `Free ${fees.discovery.duration.replace(/^about /, '').replace(/ minutes?$/, '-minute')} chat`;
@@ -36,6 +36,8 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
   <section class="ds-hero">
     <Picture
       src={heroBg}
+      width={1672}
+      height={941}
       formats={['avif', 'webp']}
       widths={HERO_WIDTHS}
       sizes="100vw"
@@ -43,7 +45,7 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
       class="ds-hero-image"
       loading="eager"
       fetchpriority="high"
-      quality={90}
+      quality={75}
     />
     <Container class="ds-wide-container">
       <div class="ds-hero-card">
@@ -143,7 +145,7 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
   <Section class="ds-home-meet">
     <Grid cols={2} class="ds-grid-861 ds-meet-grid">
       <div class="ds-meet-media">
-        <Picture src={kavitaPhoto} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Kavita Batchu, BHMS" loading="lazy" decoding="async" />
+        <Picture src={kavitaPhoto} width={1448} height={1086} formats={['avif', 'webp']} widths={[480, 800, 1200]} sizes="(max-width: 860px) 100vw, 540px" alt="Kavita Batchu, BHMS" loading="lazy" decoding="async" quality={80} />
       </div>
       <div class="ds-meet-copy">
         <SectionHeader align="left" eyebrow="Meet Kavita" title={`Meet ${clinic.practitioner}`} />

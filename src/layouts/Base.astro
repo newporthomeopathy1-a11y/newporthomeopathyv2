@@ -101,7 +101,7 @@ const topbarEmail = clinic.email;
         <a href="/" class="logo">
           <picture>
             <source type="image/avif" srcset="/assets/img/clinic-logo-224.avif 224w, /assets/img/clinic-logo-448.avif 448w, /assets/img/clinic-logo-672.avif 672w" sizes="(max-width: 991px) 200px, 224px" />
-            <img src="/assets/img/clinic-logo-448.webp" srcset="/assets/img/clinic-logo-224.webp 224w, /assets/img/clinic-logo-448.webp 448w, /assets/img/clinic-logo-672.webp 672w" sizes="(max-width: 991px) 200px, 224px" alt="Newport Homeopathy Clinic" width="448" height="100" loading="eager" decoding="async">
+            <img src="/assets/img/clinic-logo-448.webp" srcset="/assets/img/clinic-logo-224.webp 224w, /assets/img/clinic-logo-448.webp 448w, /assets/img/clinic-logo-672.webp 672w" sizes="(max-width: 991px) 200px, 224px" alt="Newport Homeopathy Clinic" width="448" height="100" loading="lazy" decoding="async">
           </picture>
         </a>
         <button type="button" class="nav-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="site-nav">
@@ -204,6 +204,7 @@ const topbarEmail = clinic.email;
             </ul>
             <p class="ask-ai-status" role="status" aria-live="polite"></p>
           </div>
+          <p class="footer-disclaimer">{gpStatementShort}</p>
         </div>
         <div>
           <p class="footer-heading">Services</p>
@@ -238,7 +239,6 @@ const topbarEmail = clinic.email;
         </div>
       </div>
       <div class="container ds-container footer-base">
-        <p>{gpStatementShort}</p>
         <p>© {year} {clinic.name} · Designed &amp; Developed by Articog Tech LLP</p>
       </div>
     </footer>
