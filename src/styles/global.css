@@ -516,6 +516,21 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .footer-base p:first-child { max-width: 560px; }
 .footer-base p:last-child { white-space: nowrap; }
 .footer-base a { display: inline-flex; align-items: center; min-height: 44px; }
+.site-footer .credit-link,
+.site-footer .credit-link:visited,
+.credit-link,
+.credit-link:visited {
+  color: #0b5fc4;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.site-footer a.credit-link:hover,
+.site-footer a.credit-link:focus-visible,
+.credit-link:hover,
+.credit-link:focus-visible {
+  color: #084a9a;
+  text-decoration-thickness: 2px;
+}
 @media (min-width: 600px) and (max-width: 991px) {
   .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; row-gap: 36px; }
   .footer-about { grid-column: 1 / -1; }
