@@ -14,8 +14,6 @@ import { clinic, services } from '../data/site';
           class="link-arrow"
           data-astro-prefetch={isWhatsApp ? undefined : 'hover'}
           data-astro-reload={s.href.startsWith('/book-appointment/') ? '' : undefined}
-          data-track={isWhatsApp ? 'click_whatsapp' : undefined}
-          data-loc={isWhatsApp ? 'service_card' : undefined}
         >
           {s.title === 'Free discovery chat' ? 'Message on WhatsApp' : <>Find out more<span class="visually-hidden"> about {s.title.toLowerCase()}</span></>}
         </a>

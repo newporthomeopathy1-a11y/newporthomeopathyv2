@@ -8,7 +8,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 |---|---|
 | All Medilab/Uthra/Lorem leftovers, hidden sections, broken forms, preloader, unused vendor files | ✅ Rebuilt from scratch; none carried over. `npm run build` greps for leftovers |
 | `lang="en-GB"`, unique titles/descriptions, no meta keywords | ✅ |
-| Favicon set from the leaf mark (ico, svg, 180, 192, 512, manifest) | ✅ `scripts/make-icons.mjs` · 🟡 replace with SVG logo when supplied (open item 13) |
+| Favicon set from the leaf mark (multi-size ico, 48, 96, 192, 180, 512, manifest) | ✅ `scripts/make-icons.mjs` · 🟡 replace with SVG logo when supplied (open item 13) |
 | One font family, ≤3 weights, self-hosted woff2, `font-display: swap` | ✅ Open Sans (variable, latin, 48 KB), weights 400/600/700, preloaded, metric-matched fallback |
 | Only needed CSS/JS | ✅ No Bootstrap, no icon font, one small deferred script |
 | `tel:`, `mailto:`, WhatsApp links | ✅ Email: info@newporthomeopathy.com (clinic's choice; also receives form enquiries) |
@@ -18,7 +18,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 | H1 on every page, semantic headings, 16–18px body text | ✅ (checked: exactly one H1 per page) |
 | Map iframe title / static map facade | ✅ Click-to-load map, plain link without JS |
 | `<address>` identical on every page | ✅ From one data file |
-| Copyright year automatic | ✅ Credit line: "Designed & Developed by Articog Tech LLP" (plain text, no link) |
+| Copyright year automatic | ✅ Credit line links "Designed & Developed by Articog Tech LLP" to articog.com |
 | `bootstrap.bundle.min.js` 404 | ✅ Gone |
 
 ## Part 3: Content and compliance
@@ -44,7 +44,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 | Rate limit 5/IP/hour | ✅ Best effort per instance · ⬜ use Upstash/Vercel KV for a hard limit |
 | Send via Resend from noreply@, Reply-To patient, acknowledgement email | ✅ · ⬜ create the Resend account, verify the domain, set `RESEND_API_KEY`, `CLINIC_INBOX` |
 | Redirect to `/book-appointment/thank-you/` (noindex) | ✅ |
-| No form contents in logs or analytics | ✅ |
+| No form contents in logs | ✅ |
 | SPF, DKIM, DMARC | ⬜ DNS at launch |
 | Privacy policy, cookie policy, booking terms | ✅ Drafts · 🟡 controller details, ICO fee, cancellation policy (open items 4, 16) |
 
@@ -97,10 +97,7 @@ Legend: ✅ done in code · 🟡 needs clinic input (placeholder marked `TODO(op
 ## Part 9: Analytics
 | Item | Status |
 |---|---|
-| GA4 behind Consent Mode v2 banner, Accept/Reject equal | ✅ Set `PUBLIC_GA_ID` to enable |
-| Events: click_call, click_whatsapp, click_email, click_book, click_directions, generate_lead | ✅ Delegated `[data-track]` listener; no personal data |
-| booking_complete | ✅ Wired through the same-origin Cal.com redirect; add the redirect URL to both event types |
-| Key events, internal traffic filter, AI-assistants channel group, UTM links for GBP/social | ⬜ GA4 admin settings at launch |
+| Analytics and tracking cookies | ✅ Not used |
 
 ## Needs clinic input
 

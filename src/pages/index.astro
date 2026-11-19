@@ -53,12 +53,12 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
         <h1>Homeopathy Consultations in Newport, Shropshire</h1>
         <p class="ds-hero-lead">Private, one-to-one consultations with a {clinic.qualification}-qualified homeopath with over {clinic.years} years’ experience. In Newport or online across the UK.</p>
         <div class="ds-hero-actions">
-          <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-astro-reload data-track="click_book" data-loc="hero">Book a consultation</a>
-          <a href={clinic.whatsapp} class="btn btn-outline btn-lg" rel="noopener" data-track="click_whatsapp" data-loc="hero">{discoveryChatButtonLabel}</a>
+          <a href="/book-appointment/" class="btn btn-primary btn-lg" data-astro-prefetch="tap" data-astro-reload>Book a consultation</a>
+          <a href={clinic.whatsapp} class="btn btn-outline btn-lg" rel="noopener">{discoveryChatButtonLabel}</a>
         </div>
         <div class="ds-hero-contact" role="group" aria-label="Contact the clinic">
-          <a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="hero"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
-          <a href={clinic.whatsapp} rel="noopener" data-track="click_whatsapp" data-loc="hero"><Icon name="whatsapp" /> WhatsApp</a>
+          <a href={`tel:${clinic.phoneTel}`}><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
+          <a href={clinic.whatsapp} rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
         </div>
       </div>
     </Container>
@@ -130,8 +130,6 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
               href={service.href}
               class="ds-card-link ds-service-link btn btn-outline"
               data-astro-prefetch={isWhatsApp ? undefined : 'hover'}
-              data-track={isWhatsApp ? 'click_whatsapp' : undefined}
-              data-loc={isWhatsApp ? 'service_card' : undefined}
             >
               Find out more<span class="visually-hidden"> about {service.title.toLowerCase()}</span>
             </a>
@@ -183,7 +181,7 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
       <Card title="Visit the clinic" icon="pin" class="ds-location-card">
         <p class="ds-contact-line"><Icon name="pin" /><span>{addressLine}</span></p>
         <p class="ds-contact-line"><Icon name="clock" /><span>{clinic.hoursText}</span></p>
-        <p class="ds-contact-line"><a href={`tel:${clinic.phoneTel}`} data-track="click_call" data-loc="location"><Icon name="phone" /> Call {clinic.phoneDisplay}</a></p>
+        <p class="ds-contact-line"><a href={`tel:${clinic.phoneTel}`}><Icon name="phone" /> Call {clinic.phoneDisplay}</a></p>
         <a class="btn btn-primary ds-directions-link" href={clinic.mapsUrl} target="_blank" rel="noopener noreferrer">Get directions</a>
       </Card>
       <div class="ds-location-map"><MapFacade /></div>

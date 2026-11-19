@@ -2,92 +2,19 @@
 
 declare global {
   interface Window {
-    gtag: (...args: unknown[]) => void;
-    dataLayer: unknown[];
-    __GA_ID: string;
     __nhcTurnstileSuccess?: (token: string) => void;
   }
 }
 
 document.documentElement.classList.add('js');
 
-const CONSENT_KEY = 'nhc_consent';
 const BOOKING_MESSAGE_ORIGINS: string[] = [window.location.origin];
-const bookingValues = {
-  consultation_type: ['discovery', 'initial', 'follow_up'],
-  format: ['in_person', 'online', 'phone'],
-};
 const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
 
 let leaveTimer: number | undefined;
 let openedByHover = false;
 let scrollPosition = 0;
-let gaLoaded = false;
-let gaScheduled = false;
-let hasPageLoaded = false;
 let askAiStatusTimer: number | undefined;
-
-const readConsent = () => {
-  try {
-    return localStorage.getItem(CONSENT_KEY);
-  } catch {
-    return null;
-  }
-};
-
-const writeConsent = (value: string) => {
-  try {
-    localStorage.setItem(CONSENT_KEY, value);
-  } catch {
-    // Private browsing can disable local storage.
-  }
-};
-
-function isPolicyPage() {
-  return ['/privacy-policy', '/cookie-policy', '/booking-terms'].includes(
-    window.location.pathname.replace(/\/+$/, '')
-  );
-}
-
-function loadGa() {
-  const id = window.__GA_ID;
-  if (isPolicyPage() || !id || gaLoaded) return;
-  if (typeof window.gtag !== 'function') return;
-  gaLoaded = true;
-  window.gtag('consent', 'update', { analytics_storage: 'granted' });
-  const script = document.createElement('script');
-  script.async = true;
-  script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
-  document.head.appendChild(script);
-  window.gtag('js', new Date());
-  window.gtag('config', id);
-}
-
-function scheduleGa() {
-  if (!window.__GA_ID || gaLoaded || gaScheduled) return;
-  gaScheduled = true;
-  const run = () => {
-    gaScheduled = false;
-    if (document.visibilityState === 'visible') loadGa();
-  };
-  if ('requestIdleCallback' in window) window.requestIdleCallback(run, { timeout: 2000 });
-  else globalThis.setTimeout(run, 1000);
-}
-
-function setBannerVisible(visible: boolean) {
-  const banner = document.querySelector<HTMLElement>('.cookie-banner');
-  if (!banner) return;
-  banner.hidden = !visible;
-  document.body.classList.toggle('cookie-visible', visible);
-}
-
-function syncConsentBanner() {
-  const banner = document.querySelector<HTMLElement>('.cookie-banner');
-  if (!banner) return;
-  const consent = readConsent();
-  setBannerVisible(!consent);
-  if (consent === 'accept') scheduleGa();
-}
 
 function setSubmenuOpen(open: boolean) {
   const submenu = document.querySelector<HTMLElement>('.site-nav .has-sub');
@@ -279,22 +206,6 @@ function initMapFacades() {
   });
 }
 
-function initConsentControls() {
-  const banner = document.querySelector<HTMLElement>('.cookie-banner');
-  banner?.addEventListener('click', (event) => {
-    const target = event.target;
-    if (!(target instanceof Element)) return;
-    const button = target.closest<HTMLButtonElement>('[data-consent]');
-    if (!button) return;
-    writeConsent(button.dataset.consent!);
-    setBannerVisible(false);
-    if (button.dataset.consent === 'accept') scheduleGa();
-  });
-  document.querySelector('[data-cookie-settings]')?.addEventListener('click', () => {
-    setBannerVisible(true);
-  });
-}
-
 function initEnquiryForm() {
   const form = document.querySelector<HTMLFormElement>('form.enquiry-form');
   if (!form) {
@@ -372,25 +283,6 @@ function initEnquiryForm() {
   });
 }
 
-function trackEvent(eventName: string, params: Record<string, string>) {
-  if (readConsent() !== 'accept' || typeof window.gtag !== 'function') return;
-  window.gtag('event', eventName, params);
-}
-
-function initLeadEvent() {
-  const lead = document.querySelector<HTMLElement>('[data-lead-event]');
-  const bookingReturnInFrame =
-    new URLSearchParams(location.search).get('source') === 'booking' && window.top !== window.self;
-  if (!lead || bookingReturnInFrame) return;
-  const params = new URLSearchParams(location.search);
-  const allowed = (value: string | null, options: string[]) =>
-    value && options.includes(value) ? value : 'unknown';
-  trackEvent('generate_lead', {
-    consultation_type: allowed(params.get('type'), ['discovery', 'initial', 'follow_up']),
-    format: allowed(params.get('format'), ['in_person', 'online', 'phone']),
-  });
-}
-
 function initPage() {
   document.documentElement.classList.add('js');
   document.querySelectorAll<HTMLAnchorElement>(
@@ -399,15 +291,7 @@ function initPage() {
   initMobileMenu();
   initSubmenu();
   initMapFacades();
-  initConsentControls();
   initEnquiryForm();
-  initLeadEvent();
-  syncConsentBanner();
-
-  if (hasPageLoaded && readConsent() === 'accept' && gaLoaded && !isPolicyPage()) {
-    window.gtag('event', 'page_view');
-  }
-  hasPageLoaded = true;
 }
 
 function showAskAiStatus(status: HTMLElement, message: string) {
@@ -503,12 +387,6 @@ window.addEventListener('message', (event: MessageEvent<unknown>) => {
   const data = event.data as Record<string, unknown>;
   if (data.type !== 'booking_complete') return;
 
-  const allowed = (value: unknown, options: string[]) =>
-    typeof value === 'string' && options.includes(value) ? value : 'unknown';
-  trackEvent('booking_complete', {
-    consultation_type: allowed(data.consultation_type, bookingValues.consultation_type),
-    format: allowed(data.format, bookingValues.format),
-  });
   const frameWrap = document.getElementById('booking-frame-wrap');
   if (frameWrap) {
     const confirmation = document.createElement('p');
@@ -519,14 +397,6 @@ window.addEventListener('message', (event: MessageEvent<unknown>) => {
     homeLink.textContent = 'Return to the home page';
     frameWrap.replaceChildren(confirmation, homeLink);
   }
-});
-
-document.addEventListener('click', (event) => {
-  const target = event.target;
-  if (!(target instanceof Element)) return;
-  const element = target.closest<HTMLElement>('[data-track]');
-  if (!element) return;
-  trackEvent(element.dataset.track!, { link_location: element.dataset.loc ?? 'page' });
 });
 
 desktopBreakpoint.addEventListener('change', () => {
@@ -544,7 +414,6 @@ window.addEventListener('resize', () => {
 
 window.addEventListener('pageshow', (event) => {
   if (event.persisted) closeMobileMenu();
-  syncConsentBanner();
 });
 
 export {};

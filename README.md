@@ -47,7 +47,7 @@ To preview the production build locally, serve the static output: `python3 -m ht
 ├── public/                 Served as-is
 │   ├── fonts/              open-sans-latin.woff2
 │   ├── assets/img/         logo.png, kavita-batchu.jpg (referenced by structured data)
-│   ├── favicon.ico, icon.svg, icon-192/512.png, apple-touch-icon.png, site.webmanifest
+│   ├── favicon.ico, favicon-48/96/192x192.png, icon-192/512.png, apple-touch-icon.png, site.webmanifest
 │   ├── og-image.jpg        1200×630 social preview
 │   ├── robots.txt, llms.txt
 ├── scripts/
@@ -120,7 +120,7 @@ How:
 - CSS and the small script are inlined (no render-blocking requests).
 - The font is preloaded. The hero image (LCP) is preloaded as AVIF with `fetchpriority="high"`.
 - Every image is resized at build time to AVIF and WebP in several widths. Below-the-fold images lazy-load.
-- Google Maps loads only when clicked, and analytics loads only after cookie consent.
+- Google Maps loads only when needed; this site does not use analytics or tracking cookies.
 - Hashed assets are cached for a year, and the font is cached long-term (`vercel.json`).
 
 `npm run dev` is slower than the live site because images are processed on demand. Always judge speed on a production build.

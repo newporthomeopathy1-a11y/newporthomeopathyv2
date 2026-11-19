@@ -1,9 +1,10 @@
 // One-off: build favicon set (leaf mark only) + 1200x630 OG image. Re-run when the logo/photos change.
 import sharp from 'sharp';
-const logo = 'src/assets/logo.png';
+import fs from 'node:fs/promises';
+const logo = 'public/assets/img/logo.png';
 const meta = await sharp(logo).metadata();
 // Leaf mark sits in the left ~25% of the wordmark.
-const markRaw = await sharp(logo).extract({ left: 0, top: 0, width: Math.round(meta.height * 1.1), height: meta.height }).toBuffer();
+const markRaw = await sharp(logo).extract({ left: 0, top: 0, width: Math.round(meta.width * 0.25), height: meta.height }).toBuffer();
 const mark = await sharp(markRaw).trim().toBuffer();
 const square = async (size, pad = 0.1) => {
   const inner = Math.round(size * (1 - pad * 2));
@@ -13,16 +14,34 @@ const square = async (size, pad = 0.1) => {
 await (await square(180)).toFile('public/apple-touch-icon.png');
 await (await square(192)).toFile('public/icon-192.png');
 await (await square(512)).toFile('public/icon-512.png');
+for (const size of [48, 96, 192]) {
+  await (await square(size)).toFile(`public/favicon-${size}x${size}.png`);
+}
 // SVG icon wraps the 512 PNG (no vector source supplied yet — TODO open item 13).
 const b64 = (await (await square(128, 0.04)).toBuffer()).toString('base64');
-await import('node:fs/promises').then((fs) => fs.writeFile('public/icon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><image href="data:image/png;base64,${b64}" width="128" height="128"/></svg>`));
-// favicon.ico: single 32px PNG-in-ICO.
-const png32 = await (await square(32, 0.04)).toBuffer();
-const header = Buffer.alloc(22);
-header.writeUInt16LE(0, 0); header.writeUInt16LE(1, 2); header.writeUInt16LE(1, 4);
-header.writeUInt8(32, 6); header.writeUInt8(32, 7); header.writeUInt8(0, 8); header.writeUInt8(0, 9);
-header.writeUInt16LE(1, 10); header.writeUInt16LE(32, 12); header.writeUInt32LE(png32.length, 14); header.writeUInt32LE(22, 18);
-await import('node:fs/promises').then((fs) => fs.writeFile('public/favicon.ico', Buffer.concat([header, png32])));
+await fs.writeFile('public/icon.svg', `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><image href="data:image/png;base64,${b64}" width="128" height="128"/></svg>`);
+const icoImages = await Promise.all([32, 48].map(async (size) => ({
+  size,
+  data: await (await square(size, 0.04)).toBuffer(),
+})));
+const directory = Buffer.alloc(6 + icoImages.length * 16);
+directory.writeUInt16LE(0, 0);
+directory.writeUInt16LE(1, 2);
+directory.writeUInt16LE(icoImages.length, 4);
+let imageOffset = directory.length;
+for (const [index, image] of icoImages.entries()) {
+  const entryOffset = 6 + index * 16;
+  directory.writeUInt8(image.size, entryOffset);
+  directory.writeUInt8(image.size, entryOffset + 1);
+  directory.writeUInt8(0, entryOffset + 2);
+  directory.writeUInt8(0, entryOffset + 3);
+  directory.writeUInt16LE(1, entryOffset + 4);
+  directory.writeUInt16LE(32, entryOffset + 6);
+  directory.writeUInt32LE(image.data.length, entryOffset + 8);
+  directory.writeUInt32LE(imageOffset, entryOffset + 12);
+  imageOffset += image.data.length;
+}
+await fs.writeFile('public/favicon.ico', Buffer.concat([directory, ...icoImages.map(({ data }) => data)]));
 // OG image (1200x630): white card, logo, clinic name/location, practitioner portrait. No stock photography.
 const portrait = await sharp('src/assets/kavita-portrait.jpg').resize(380, 520, { fit: 'cover', position: 'top' }).toBuffer();
 const logoImg = await sharp(logo).resize(420).toBuffer();

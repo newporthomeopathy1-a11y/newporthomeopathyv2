@@ -11,9 +11,9 @@ const { heading = 'Book a consultation', text = 'Book online, call or WhatsApp. 
   <div class="ds-cta-block">
     <SectionHeader title={heading} lead={text || undefined} />
     <div class="ds-cta-actions">
-      <a href="/book-appointment/" class="btn btn-primary" data-astro-prefetch="tap" data-astro-reload data-track="click_book" data-loc="page"><Icon name="calendar" /> Book a consultation</a>
-      <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline" data-track="click_call" data-loc="page"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
-      <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener" data-track="click_whatsapp" data-loc="page"><Icon name="whatsapp" /> WhatsApp</a>
+      <a href="/book-appointment/" class="btn btn-primary" data-astro-prefetch="tap" data-astro-reload><Icon name="calendar" /> Book a consultation</a>
+      <a href={`tel:${clinic.phoneTel}`} class="btn btn-outline"><Icon name="phone" /> Call {clinic.phoneDisplay}</a>
+      <a href={clinic.whatsapp} class="btn btn-outline" rel="noopener"><Icon name="whatsapp" /> WhatsApp</a>
     </div>
     <div class="ds-cta-slot"><slot /></div>
   </div>

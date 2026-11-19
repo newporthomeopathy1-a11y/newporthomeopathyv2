@@ -10,7 +10,7 @@
 
 `vercel.json` also sets:
 - **Redirects:** `/index.html` and `/inner-page.html` go to `/`; trailing slashes are added. The sitemap is served directly from `/sitemap.xml`.
-- **Security headers:** HSTS, nosniff, Referrer-Policy, Permissions-Policy and a Content-Security-Policy (allows Google Analytics, Cloudflare Turnstile, Google Maps and the Setmore, Calendly, Cliniko and Cal.com booking embeds).
+- **Security headers:** HSTS, nosniff, Referrer-Policy, Permissions-Policy and a Content-Security-Policy (allows Cloudflare Turnstile, Google Maps and the Setmore, Calendly, Cliniko and Cal.com booking embeds).
 - **Caching:** `/_astro/*` and `/fonts/*` cache for 1 year (immutable). Icons and the OG image cache for 1 week.
 
 The booking embed frame policy allows Setmore, Calendly, Cliniko and Cal.com. Remove unused provider origins after the booking tool is chosen.
@@ -25,7 +25,6 @@ The old PHP files (`ajax.php`, `assets/forms/*.php`) don't exist in this build, 
 | `CLINIC_INBOX` | No | Where enquiries go. Defaults to the clinic email in `site.ts` (info@newporthomeopathy.com). |
 | `TURNSTILE_SECRET_KEY` + `PUBLIC_TURNSTILE_SITE_KEY` | Required in production | Cloudflare Turnstile spam check on the form. Local development allows the secret key to be absent. |
 | `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` | Required in production | Upstash Redis REST credentials for the five-per-hour enquiry limit per IP. Local development allows submissions when these are absent. |
-| `PUBLIC_GA_ID` | Optional | GA4 measurement ID. The cookie banner appears only when this is set, and GA loads only after Accept. |
 | `PUBLIC_BOOKING_INITIAL_URL` | Optional | Cal.com initial-consultation event URL, e.g. `https://cal.com/newport-homeopathy/initial-consultation`. Set this and the follow-up URL to enable booking tabs. |
 | `PUBLIC_BOOKING_FOLLOWUP_URL` | Optional | Cal.com follow-up event URL, e.g. `https://cal.com/newport-homeopathy/follow-up-consultation`. |
 | `PUBLIC_BOOKING_EMBED_URL` | Legacy fallback | When the new event URLs are unset, this URL is used for both booking tabs. |
@@ -60,7 +59,6 @@ Existing deployments can continue to use `PUBLIC_BOOKING_EMBED_URL_INITIAL` and 
 - **Google Search Console:** verify the domain by DNS TXT record, submit `https://newporthomeopathy.com/sitemap.xml`, and request indexing of the home page.
 - **Bing Webmaster Tools:** import the property from Search Console.
 - **Google Business Profile:** the name, address and phone must match the site exactly. Website link: `https://newporthomeopathy.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp`.
-- **GA4:** mark `click_call`, `click_whatsapp`, `click_email`, `generate_lead` and `click_book` as key events. Exclude internal traffic. Add an "AI assistants" channel group matching `chatgpt\.com|chat\.openai\.com|perplexity\.ai|copilot\.microsoft\.com|gemini\.google\.com|claude\.ai`.
 - **Validate:** run the Schema Markup Validator and the Rich Results Test on the live URLs. Run Lighthouse on mobile for Home, a consultation page, Book and a blog post. Aim for 90+ in all categories.
 
 Full status of every requirement: [LAUNCH-CHECKLIST.md](LAUNCH-CHECKLIST.md).

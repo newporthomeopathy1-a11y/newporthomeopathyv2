@@ -515,6 +515,7 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
 .footer-base p { margin: 0; }
 .footer-base p:first-child { max-width: 560px; }
 .footer-base p:last-child { white-space: nowrap; }
+.footer-base a { display: inline-flex; align-items: center; min-height: 44px; }
 @media (min-width: 600px) and (max-width: 991px) {
   .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 32px; row-gap: 36px; }
   .footer-about { grid-column: 1 / -1; }
@@ -548,18 +549,6 @@ fieldset.field { border: 0; padding: 0; margin: 0; }
   .mobile-actions a:active { transform: scale(.98); }
   body { padding-bottom: calc(56px + env(safe-area-inset-bottom)); }
   body.nav-open .mobile-actions { display: none; }
-}
-
-/* Cookie banner */
-.cookie-banner { position: fixed; z-index: 70; left: 16px; right: 16px; bottom: 16px; max-width: 520px; background: var(--white); border: 1px solid var(--grey-300); border-radius: var(--radius); padding: 16px 18px; box-shadow: var(--shadow); }
-.cookie-banner[hidden] { display: none; }
-.cookie-banner p > a { display: inline-flex; align-items: center; min-width: 44px; min-height: 44px; vertical-align: middle; }
-.cookie-actions { display: flex; gap: var(--space-1); }
-.cookie-actions .btn { flex: 1; }
-@media (max-width: 767px) { .cookie-banner { bottom: calc(72px + env(safe-area-inset-bottom)); } }
-.cookie-visible { padding-bottom: calc(276px + env(safe-area-inset-bottom)); }
-@media (max-width: 767px) {
-  body.cookie-visible { padding-bottom: calc(332px + env(safe-area-inset-bottom)); }
 }
 
 @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }

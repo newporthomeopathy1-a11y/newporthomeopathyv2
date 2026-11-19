@@ -21,7 +21,7 @@ export function siteGraph() {
     name: clinic.name,
     alternateName: clinic.alternateNames,
     url: `${SITE}/`,
-    logo: `${SITE}/assets/img/logo.png`,
+    logo: 'https://www.newporthomeopathy.com/assets/img/logo.png',
     image: `${SITE}/og-image.jpg`,
     description: `Private one-to-one homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, at ${clinic.street}, ${clinic.locality}, ${clinic.region} ${clinic.postcode}, and online by video across the UK.`,
     telephone: clinic.phoneIntl,
