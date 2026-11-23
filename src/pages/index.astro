@@ -30,6 +30,25 @@ const featuredAreasText = `${featuredAreas.slice(0, -1).join(', ')} and ${featur
 <Base
   title="Homeopath in Newport, Shropshire | Newport Homeopathy Clinic"
   description={`Homeopathy consultations with ${clinic.practitioner}, ${clinic.qualification}, at ${clinic.street}, ${clinic.locality} ${clinic.postcode.split(' ')[0]}, or online UK-wide. £${fees.initial.price} initial, £${fees.followUp.price} follow-up. Free ${discoveryChatDuration} chat.`}
+  schema={[{
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Newport Homeopathy Clinic',
+    url: 'https://www.newporthomeopathy.com',
+    logo: 'https://www.newporthomeopathy.com/favicon.png',
+    image: 'https://www.newporthomeopathy.com/favicon.png',
+    telephone: '+447904622856',
+    email: 'info@newporthomeopathy.com',
+    openingHours: 'Mo-Fr 09:00-18:00',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: '75 Forton Road',
+      addressLocality: 'Newport',
+      addressRegion: 'Shropshire',
+      postalCode: 'TF10 8BU',
+      addressCountry: 'GB',
+    },
+  }]}
   lcpImage={lcpImage}
   footerPractitionerLabel={clinic.practitioner}
 >
