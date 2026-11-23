@@ -6,7 +6,7 @@ It's a fast, static [Astro](https://astro.build) site with one server route for 
 | | |
 |---|---|
 | Version | **3.0.0**. See [CHANGELOG.md](CHANGELOG.md) |
-| Live domain | https://newporthomeopathy.com |
+| Live domain | https://www.newporthomeopathy.com |
 | Framework | Astro 5 (static pages + one serverless route) |
 | Hosting | Vercel (`@astrojs/vercel` adapter) |
 | Font | Open Sans, self-hosted (variable woff2, latin subset) |

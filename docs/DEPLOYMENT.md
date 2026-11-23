@@ -5,7 +5,7 @@
 1. Push this repository to GitHub and import it in Vercel. The framework preset is detected as **Astro**.
 2. Build command `npm run build`. Output is handled by the `@astrojs/vercel` adapter.
 3. Add the environment variables below (Project → Settings → Environment Variables).
-4. Add both domains, `newporthomeopathy.com` and `www.newporthomeopathy.com`. `vercel.json` redirects noncanonical host, protocol and page-path requests to the HTTPS apex URL in one 301.
+4. Add both domains, `newporthomeopathy.com` and `www.newporthomeopathy.com`. `vercel.json` redirects noncanonical host, protocol and page-path requests to the HTTPS www URL in one 301.
 5. Keep `/book-appointment/` server-rendered so enquiry errors and the no-JavaScript form fallback continue to work. In Project Settings → Functions → Function Region, select London (`lhr1`) to reduce latency for UK visitors.
 
 `vercel.json` also sets:
@@ -43,8 +43,8 @@ A template is in `.env.example`. Copy it to `.env` for local development (`.env`
 
 For each event, set **Event type > Advanced > Redirect on booking** to the same-origin thank-you page:
 
-- Initial event: `https://newporthomeopathy.com/book-appointment/thank-you/?source=booking&type=initial`
-- Follow-up event: `https://newporthomeopathy.com/book-appointment/thank-you/?source=booking&type=follow_up`
+- Initial event: `https://www.newporthomeopathy.com/book-appointment/thank-you/?source=booking&type=initial`
+- Follow-up event: `https://www.newporthomeopathy.com/book-appointment/thank-you/?source=booking&type=follow_up`
 
 Existing deployments can continue to use `PUBLIC_BOOKING_EMBED_URL_INITIAL` and `PUBLIC_BOOKING_EMBED_URL_FOLLOWUP`. The legacy `PUBLIC_BOOKING_EMBED_URL` is used as the fallback URL for both tabs.
 
@@ -56,21 +56,21 @@ Existing deployments can continue to use `PUBLIC_BOOKING_EMBED_URL_INITIAL` and 
 
 ## After launch
 
-- **Google Search Console:** verify the domain by DNS TXT record, submit `https://newporthomeopathy.com/sitemap.xml`, and request indexing of the home page.
+- **Google Search Console:** verify the domain by DNS TXT record, submit `https://www.newporthomeopathy.com/sitemap.xml`, and request indexing of the home page.
 - **Bing Webmaster Tools:** import the property from Search Console.
-- **Google Business Profile:** the name, address and phone must match the site exactly. Website link: `https://newporthomeopathy.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp`.
+- **Google Business Profile:** the name, address and phone must match the site exactly. Website link: `https://www.newporthomeopathy.com/?utm_source=google&utm_medium=organic&utm_campaign=gbp`.
 - **Validate:** run the Schema Markup Validator and the Rich Results Test on the live URLs. Run Lighthouse on mobile for Home, a consultation page, Book and a blog post. Aim for 90+ in all categories.
 
 Full status of every requirement: [LAUNCH-CHECKLIST.md](LAUNCH-CHECKLIST.md).
 
 ## Redirect and sitemap verification
 
-After deployment, each noncanonical URL below should return one 301 to the HTTPS apex URL with a trailing slash. The `--max-redirs 1` command fails if the request needs more than one redirect. The canonical URL and sitemap should return 200 without redirecting.
+After deployment, each noncanonical URL below should return one 301 to the HTTPS www URL with a trailing slash. The `--max-redirs 1` command fails if the request needs more than one redirect. The canonical URL and sitemap should return 200 without redirecting.
 
 ```sh
 curl -I http://newporthomeopathy.com/about-kavita-batchu
 curl -I https://www.newporthomeopathy.com/about-kavita-batchu
-curl -I -L --max-redirs 1 http://www.newporthomeopathy.com/about-kavita-batchu
-curl -I https://newporthomeopathy.com/about-kavita-batchu/
-curl -I https://newporthomeopathy.com/sitemap.xml
+curl -I -L --max-redirs 1 http://newporthomeopathy.com/about-kavita-batchu
+curl -I https://www.newporthomeopathy.com/about-kavita-batchu/
+curl -I https://www.newporthomeopathy.com/sitemap.xml
 ```

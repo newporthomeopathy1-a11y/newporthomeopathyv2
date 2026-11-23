@@ -2,7 +2,7 @@
 // JSON-LD read from here, so they can never drift apart (spec Part 10).
 // Values marked TODO are waiting on the clinic (spec "Open items").
 
-export const SITE = 'https://newporthomeopathy.com';
+export const SITE = 'https://www.newporthomeopathy.com';
 
 export const aiPrompt = `I am considering a private homeopathy consultation and want to understand Newport Homeopathy Clinic (newporthomeopathy.com) in Newport, Shropshire. Summarise who runs the clinic and her qualification, where it is, whether consultations are in person or online, the fees, opening hours, and how to book.`;
 const q = encodeURIComponent(aiPrompt);

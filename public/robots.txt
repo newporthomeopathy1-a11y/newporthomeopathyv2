@@ -13,4 +13,4 @@ Allow: /
 Disallow: /book-appointment/thank-you/
 Disallow: /api/
 
-Sitemap: https://newporthomeopathy.com/sitemap.xml
+Sitemap: https://www.newporthomeopathy.com/sitemap.xml
